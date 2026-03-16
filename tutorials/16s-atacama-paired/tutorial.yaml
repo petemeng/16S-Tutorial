@@ -1,0 +1,602 @@
+id: sixteen-s-atacama-paired
+slug: sixteen-s-atacama-paired
+title: Atacama soils 双端 16S 微生物组最佳实践教程
+problem_statement: >
+  用 QIIME2 官方 Atacama soils paired-end 数据集，演示从 EMP 双端原始 FASTQ、
+  解复用、DADA2 去噪、Silva 物种注释、系统发育树构建到 alpha/beta 多样性分析的
+  一条可执行 16S 扩增子主线，并把 GitHub/WeChat 发布输出固定到同一份教程契约里。
+audience:
+  level: 科研初中级
+  summary: >
+    适合已经知道 16S 可以回答“样本里有哪些微生物”，但还没有把 paired-end EMP 数据、
+    QIIME2 artifact、DADA2 参数选择和多样性统计整成一条稳定流程的读者。
+language:
+  primary: zh-CN
+  terminology: en
+covers:
+  - 下载并校验 Atacama soils 双端 16S 元数据、barcode FASTQ 和 forward/reverse FASTQ
+  - 用 QIIME2 导入 EMPPairedEndSequences、解复用并过滤低深度样本
+  - 用 DADA2 对 54 个样本做 paired-end 去噪并输出 ASV 表与代表序列
+  - 用 Silva 138 分类器做物种注释、构建系统发育树并过滤非目标/极低丰度 ASV
+  - 在抽平深度 500 下完成 alpha/beta 多样性和 PERMANOVA 检验
+prerequisites:
+  - 能在 Linux shell 中执行命令并理解相对路径
+  - 理解 FASTQ、metadata、feature table、taxonomy annotation 等基础概念
+  - 服务器已安装 Conda，并已创建 `qiime2-amplicon-2024.5` 环境
+  - 机器至少具备 8 CPU threads、32 GB RAM 和足够磁盘空间存放原始 reads 与 QIIME2 产物
+workflow_overview:
+  - 下载官方 metadata、paired-end FASTQ 和预训练 Silva 分类器
+  - 导入 EMPPairedEndSequences，按 barcode 解复用并用 30% subsample 快速检查质量
+  - 按 `trim-left=13` 和 `trunc-len=150` 跑 DADA2 paired-end 去噪
+  - 生成 taxonomy、taxa barplot、rooted tree，并完成氯oplast/线粒体及 singleton 过滤
+  - 计算 alpha rarefaction、core metrics、alpha group significance 和 PERMANOVA
+results_check:
+  - 元数据样本总数应为 75，transect-name 分布应为 Yungay 43、Baquedano 32
+  - 过滤后进入 DADA2 的样本数应为 54，初始 ASV 数应为 1080
+  - 线粒体/叶绿体和 singleton 过滤后应保留 1078 个 ASV
+  - sampling depth 500 时应保留 48 个样本，并可生成 Bray-Curtis PCoA 与 Shannon group significance
+troubleshooting:
+  - 如果 `qiime demux emp-paired` 报 barcode 错误，先确认 metadata 中 `barcode-sequence` 列和 `--p-rev-comp-mapping-barcodes` 参数是否匹配建库方案
+  - 如果 DADA2 merged reads 暴跌，先检查 `trim-left`/`trunc-len` 是否让 V4 区重叠长度不足
+  - 如果 `core-metrics-phylogenetic` 太慢，先确认过滤后的 ASV 数量和 sampling depth 是否合理，再考虑减少线程争用
+reproducibility:
+  strategy:
+    - 所有关键中间产物都保留为 `.qza` 或 `.qzv`，依赖 QIIME2 provenance 记录上游参数
+    - paired-end DADA2、taxonomy、tree 和 diversity 结果均可从同一份 metadata 与 FASTQ 重新生成
+  rerun_key:
+    - 数据版本固定为 Atacama soils 2024.5 paired-end tutorial assets
+    - QIIME2 环境固定为 `qiime2-amplicon-2024.5`
+    - 双端去噪参数固定为 `trim-left-f/r=13`、`trunc-len-f/r=150`
+  provenance:
+    - "`data/demux.qza`、`results/table.qza`、`results/taxonomy.qza`、`results/tree/rooted-tree.qza` 都带完整 QIIME2 provenance"
+    - GitHub 站点与 WeChat 草稿都从 `ref/16s/[1-5].md` 同步渲染
+data_sources:
+  dataset_version: atacama-soils-paired-2024.5-v1
+  items:
+    - id: atacama-metadata
+      url: https://data.qiime2.org/2024.5/tutorials/atacama-soils/sample_metadata.tsv
+      whitelist_id: qiime2-public-data
+      checksum: sha256:7cff810ad86a621ebc78a16b690255d839ea58e2622ad45a11a838d0f8c5b3bd
+      license: Public Archive
+      target_path: downloads/sample-metadata.tsv
+    - id: atacama-forward
+      url: https://data.qiime2.org/2024.5/tutorials/atacama-soils/10p/forward.fastq.gz
+      whitelist_id: qiime2-public-data
+      checksum: sha256:e7155d7341c68e3004a3d84bd2aed8d5b9611e1038e9662dde53041ecc6d8a2e
+      license: Public Archive
+      target_path: downloads/raw/emp-paired-end-sequences/forward.fastq.gz
+    - id: atacama-reverse
+      url: https://data.qiime2.org/2024.5/tutorials/atacama-soils/10p/reverse.fastq.gz
+      whitelist_id: qiime2-public-data
+      checksum: sha256:66cfc4bd9661b0a2179a60ac7ae4ba02bcfe58a007ee7249720641deece933cb
+      license: Public Archive
+      target_path: downloads/raw/emp-paired-end-sequences/reverse.fastq.gz
+    - id: atacama-barcodes
+      url: https://data.qiime2.org/2024.5/tutorials/atacama-soils/10p/barcodes.fastq.gz
+      whitelist_id: qiime2-public-data
+      checksum: sha256:3ad25947662e2b2640ed719d70e2c3c448d2b1be45cc56a46ca123030ce8a798
+      license: Public Archive
+      target_path: downloads/raw/emp-paired-end-sequences/barcodes.fastq.gz
+    - id: silva-v4-classifier
+      url: https://data.qiime2.org/classifiers/sklearn-1.4.2/silva/silva-138-99-nb-classifier.qza
+      whitelist_id: qiime2-public-data
+      checksum: sha256:c08a1aa4d56b449b511f7215543a43249ae9c54b57491428a7e5548a62613616
+      license: QIIME2 Public Data
+      target_path: downloads/ref/silva-138-99-nb-classifier.qza
+environment:
+  runtime: host
+  pipeline_version: 0.1.0
+  setup:
+    - 运行前激活 `qiime2-amplicon-2024.5`，并记录 `qiime --version`
+    - 所有命令都在同一运行目录执行，避免 artifact 相对路径漂移
+    - 关键 stdout/stderr 保存在 `logs/`，便于把真实输出回填到文章正文
+  tools:
+    - name: qiime
+      version_command: qiime --version
+    - name: biom
+      version_command: biom --version
+    - name: Rscript
+      version_command: Rscript --version
+literature_review:
+  summary: >
+    这套教程不只停在 feature table 和 barplot，而是按社区共识把 DADA2、Silva、
+    UniFrac、PERMANOVA 这些 16S paired-end 主线方法固定下来，并把后续差异丰度、
+    功能预测和网络分析方向提前钉进同一份 manifest。
+  papers:
+    - title: Reproducible, interactive, scalable and extensible microbiome data science using QIIME 2
+      journal: Nature Biotechnology
+      year: 2019
+      relevance: >
+        QIIME2 是当前主线平台，负责 artifact、provenance 和 diversity/taxonomy 这套标准化流程。
+      citation: Bolyen E, et al. Nature Biotechnology. 2019.
+    - title: "DADA2: High-resolution sample inference from Illumina amplicon data"
+      journal: Nature Methods
+      year: 2016
+      relevance: >
+        paired-end 去噪、错误模型学习、拼接和嵌合体去除都基于 DADA2，是当前 ASV 路线的核心方法论文。
+      citation: Callahan BJ, et al. Nature Methods. 2016.
+    - title: The SILVA ribosomal RNA gene database project
+      journal: Nucleic Acids Research
+      year: 2013
+      relevance: >
+        物种注释使用 Silva 138 分类器，需要用该数据库作为 taxonomy 基础来源。
+      citation: Quast C, et al. Nucleic Acids Research. 2013.
+    - title: "UniFrac: a new phylogenetic method for comparing microbial communities"
+      journal: Applied and Environmental Microbiology
+      year: 2005
+      relevance: >
+        Faith's PD、weighted/unweighted UniFrac 这类系统发育多样性指标依赖树结构和 UniFrac 思路。
+      citation: Lozupone C, Knight R. Applied and Environmental Microbiology. 2005.
+    - title: A new method for non-parametric multivariate analysis of variance
+      journal: Austral Ecology
+      year: 2001
+      relevance: >
+        PERMANOVA 是 beta 多样性显著性检验的统计基础，决定第 5 篇对 transect 差异的解释边界。
+      citation: Anderson MJ. Austral Ecology. 2001.
+  advanced_directions:
+    - title: 差异丰度分析
+      rationale: >
+        多样性只能回答“整体不同”，要定位具体哪些门、属发生变化，需要在后续章节引入 ANCOM-BC 和 LEfSe。
+      references:
+        - title: Analysis of compositions of microbiomes with bias correction
+          type: method-paper
+          citation: Lin H, Peddada SD. Nature Communications. 2020.
+    - title: PICRUSt2 功能预测
+      rationale: >
+        16S 本身没有直接测功能基因，但 paired-end ASV + rep-seqs 可以继续延展到功能潜力预测。
+      references:
+        - title: PICRUSt2 for prediction of metagenome functions
+          type: method-paper
+          citation: Douglas GM, et al. Nature Biotechnology. 2020.
+    - title: 共现网络与可解释 biomarker
+      rationale: >
+        Atacama 这种环境梯度数据适合继续走共现网络和随机森林 biomarker，形成更完整的下游分析链。
+      references:
+        - title: Sparse and Compositionally Robust Inference of Microbial Ecological Networks
+          type: method-paper
+          citation: Kurtz ZD, et al. PLoS Computational Biology. 2015.
+steps:
+  - id: import-and-demultiplex
+    title: 导入 paired-end FASTQ 并解复用
+    goal: 把官方 paired-end EMP FASTQ 导入为 QIIME2 artifact，并得到过滤低深度样本后的 `demux.qza`
+    rationale: >
+      paired-end 16S 的第一步不是直接上 DADA2，而是先确认 metadata、barcode 和 subsample 质量图是否一致，
+      否则后面的 trim/trunc 参数没有可靠依据。
+    inputs:
+      - downloads/sample-metadata.tsv
+      - downloads/raw/emp-paired-end-sequences/forward.fastq.gz
+      - downloads/raw/emp-paired-end-sequences/reverse.fastq.gz
+      - downloads/raw/emp-paired-end-sequences/barcodes.fastq.gz
+    command: |
+      set -euo pipefail
+      source "$(conda info --base)/etc/profile.d/conda.sh"
+      conda activate qiime2-amplicon-2024.5
+      mkdir -p data/raw/emp-paired-end-sequences results logs
+      cp downloads/sample-metadata.tsv data/sample-metadata.tsv
+      cp downloads/raw/emp-paired-end-sequences/*.fastq.gz data/raw/emp-paired-end-sequences/
+
+      echo "=== Tool Versions ===" > logs/versions.log
+      echo "QIIME2: $(qiime --version)" >> logs/versions.log
+      echo "Date: $(date)" >> logs/versions.log
+
+      qiime tools import \
+        --type EMPPairedEndSequences \
+        --input-path data/raw/emp-paired-end-sequences \
+        --output-path data/emp-paired-end-sequences.qza
+
+      qiime demux emp-paired \
+        --i-seqs data/emp-paired-end-sequences.qza \
+        --m-barcodes-file data/sample-metadata.tsv \
+        --m-barcodes-column barcode-sequence \
+        --p-rev-comp-mapping-barcodes \
+        --o-per-sample-sequences data/demux-full.qza \
+        --o-error-correction-details data/demux-details.qza
+
+      qiime demux subsample-paired \
+        --i-sequences data/demux-full.qza \
+        --p-fraction 0.3 \
+        --o-subsampled-sequences data/demux-subsample.qza
+
+      qiime demux summarize \
+        --i-data data/demux-subsample.qza \
+        --o-visualization results/demux-subsample.qzv
+
+      qiime tools export \
+        --input-path results/demux-subsample.qzv \
+        --output-path demux-subsample
+
+      qiime demux filter-samples \
+        --i-demux data/demux-subsample.qza \
+        --m-metadata-file demux-subsample/per-sample-fastq-counts.tsv \
+        --p-where 'CAST([forward sequence count] AS INT) > 100' \
+        --o-filtered-demux data/demux.qza
+
+      qiime demux summarize \
+        --i-data data/demux.qza \
+        --o-visualization results/demux-summary.qzv
+    expected_outputs:
+      - data/emp-paired-end-sequences.qza
+      - data/demux-full.qza
+      - data/demux-subsample.qza
+      - data/demux.qza
+      - results/demux-subsample.qzv
+      - results/demux-summary.qzv
+    acceptance_checks:
+      - metadata 样本数为 75
+      - "`forward sequence count > 100` 过滤后样本数为 54"
+      - subsample 质量图能用于后续 paired-end trim/trunc 选择
+    common_failures:
+      - metadata 第二行没有 `#q2:types`
+      - barcode 方向和 `--p-rev-comp-mapping-barcodes` 不匹配
+      - subsample 导出目录缺失导致 `filter-samples` 的 `per-sample-fastq-counts.tsv` 找不到
+    outputs:
+      - path: results/demux-summary.qzv
+        summary: 过滤后的 paired-end demux 质量报告
+      - path: demux-subsample/per-sample-fastq-counts.tsv
+        summary: subsample 后的每样本 reads 计数
+    method_basis:
+      type: community-consensus
+      summary: paired-end EMP 数据先解复用再做 DADA2 是 QIIME2 官方教程与社区标准路径。
+    references:
+      - title: Reproducible, interactive, scalable and extensible microbiome data science using QIIME 2
+        type: method-paper
+        citation: Bolyen E, et al. Nature Biotechnology. 2019.
+    assertions:
+      - id: demux-qza-exists
+        type: file_exists
+        path: data/demux.qza
+      - id: demux-forward-filter
+        type: text_match
+        path: demux-subsample/per-sample-fastq-counts.tsv
+        pattern: 'BAQ2420\.1\.1'
+
+  - id: dada2-denoise
+    title: DADA2 paired-end 去噪
+    goal: 生成 ASV table、代表序列和 denoising stats
+    rationale: >
+      DADA2 是 paired-end 16S 主线里最关键的误差校正与拼接步骤，参数稳定后才能谈 taxonomy 和 diversity。
+    inputs:
+      - data/demux.qza
+      - data/sample-metadata.tsv
+    command: |
+      set -euo pipefail
+      source "$(conda info --base)/etc/profile.d/conda.sh"
+      conda activate qiime2-amplicon-2024.5
+
+      qiime dada2 denoise-paired \
+        --i-demultiplexed-seqs data/demux.qza \
+        --p-trunc-len-f 150 \
+        --p-trunc-len-r 150 \
+        --p-trim-left-f 13 \
+        --p-trim-left-r 13 \
+        --o-table results/table.qza \
+        --o-representative-sequences results/rep-seqs.qza \
+        --o-denoising-stats results/denoising-stats.qza \
+        --verbose
+
+      qiime metadata tabulate \
+        --m-input-file results/denoising-stats.qza \
+        --o-visualization results/denoising-stats.qzv
+
+      qiime tools export \
+        --input-path results/denoising-stats.qza \
+        --output-path results/denoising-stats-export
+
+      qiime feature-table summarize \
+        --i-table results/table.qza \
+        --m-sample-metadata-file data/sample-metadata.tsv \
+        --o-visualization results/table.qzv
+
+      qiime tools export \
+        --input-path results/table.qza \
+        --output-path results/table-export
+
+      biom convert \
+        -i results/table-export/feature-table.biom \
+        -o results/table-export/feature-table.tsv \
+        --to-tsv
+
+      qiime feature-table tabulate-seqs \
+        --i-data results/rep-seqs.qza \
+        --o-visualization results/rep-seqs.qzv
+
+      qiime tools export \
+        --input-path results/rep-seqs.qza \
+        --output-path results/rep-seqs-export
+    expected_outputs:
+      - results/table.qza
+      - results/rep-seqs.qza
+      - results/denoising-stats.qza
+      - results/table.qzv
+      - results/rep-seqs.qzv
+      - results/denoising-stats-export/stats.tsv
+    acceptance_checks:
+      - 样本数应为 54
+      - 初始 ASV 数应为 1080
+      - non-chimeric reads 总数应约为 63491，平均保留率约 45%
+    common_failures:
+      - trim/trunc 太激进导致 merged reads 暴跌
+      - paired-end overlap 不足导致无法拼接
+      - 线程过多时宿主机资源争用严重
+    outputs:
+      - path: results/denoising-stats-export/stats.tsv
+        summary: 每个样本 input/filter/merged/non-chimeric 统计表
+      - path: results/table-export/feature-table.tsv
+        summary: ASV × sample 计数矩阵
+    method_basis:
+      type: community-consensus
+      summary: DADA2 ASV 路线已成为 Illumina amplicon paired-end 数据的社区主流处理方案。
+    references:
+      - title: "DADA2: High-resolution sample inference from Illumina amplicon data"
+        type: method-paper
+        citation: Callahan BJ, et al. Nature Methods. 2016.
+    assertions:
+      - id: dada2-table-exists
+        type: file_exists
+        path: results/table.qza
+      - id: dada2-stats-row
+        type: text_match
+        path: results/denoising-stats-export/stats.tsv
+        pattern: 'BAQ2420\.1\.1\t2255\t2009'
+
+  - id: taxonomy-tree-filter
+    title: 物种注释、建树与 feature 过滤
+    goal: 生成 taxonomy、taxa barplot、rooted tree 和过滤后的 ASV 表
+    rationale: >
+      diversity 分析既依赖 taxonomy 解释，也依赖 rooted tree 计算 Faith's PD 和 UniFrac，因此上游必须在同一步闭环。
+    inputs:
+      - results/table.qza
+      - results/rep-seqs.qza
+      - downloads/ref/silva-138-99-nb-classifier.qza
+      - data/sample-metadata.tsv
+    command: |
+      set -euo pipefail
+      source "$(conda info --base)/etc/profile.d/conda.sh"
+      conda activate qiime2-amplicon-2024.5
+      mkdir -p data/ref results/tree
+      cp downloads/ref/silva-138-99-nb-classifier.qza data/ref/
+
+      qiime feature-classifier classify-sklearn \
+        --i-classifier data/ref/silva-138-99-nb-classifier.qza \
+        --i-reads results/rep-seqs.qza \
+        --o-classification results/taxonomy.qza
+
+      qiime metadata tabulate \
+        --m-input-file results/taxonomy.qza \
+        --o-visualization results/taxonomy.qzv
+
+      qiime tools export \
+        --input-path results/taxonomy.qza \
+        --output-path results/taxonomy-export
+
+      qiime taxa barplot \
+        --i-table results/table.qza \
+        --i-taxonomy results/taxonomy.qza \
+        --m-metadata-file data/sample-metadata.tsv \
+        --o-visualization results/taxa-barplot.qzv
+
+      qiime phylogeny align-to-tree-mafft-fasttree \
+        --i-sequences results/rep-seqs.qza \
+        --o-alignment results/tree/aligned-rep-seqs.qza \
+        --o-masked-alignment results/tree/masked-aligned-rep-seqs.qza \
+        --o-tree results/tree/unrooted-tree.qza \
+        --o-rooted-tree results/tree/rooted-tree.qza
+
+      qiime taxa filter-table \
+        --i-table results/table.qza \
+        --i-taxonomy results/taxonomy.qza \
+        --p-exclude "mitochondria,chloroplast" \
+        --o-filtered-table results/table-no-mitochondria-no-chloroplast.qza
+
+      qiime taxa filter-seqs \
+        --i-sequences results/rep-seqs.qza \
+        --i-taxonomy results/taxonomy.qza \
+        --p-exclude "mitochondria,chloroplast" \
+        --o-filtered-sequences results/rep-seqs-no-mitochondria-no-chloroplast.qza
+
+      qiime feature-table summarize \
+        --i-table results/table-no-mitochondria-no-chloroplast.qza \
+        --o-visualization results/table-no-mitochondria-no-chloroplast.qzv
+
+      qiime feature-table filter-features \
+        --i-table results/table-no-mitochondria-no-chloroplast.qza \
+        --p-min-frequency 2 \
+        --o-filtered-table results/table-filtered.qza
+
+      qiime tools export \
+        --input-path results/table-filtered.qza \
+        --output-path results/table-filtered-export
+    expected_outputs:
+      - results/taxonomy.qza
+      - results/taxonomy-export/taxonomy.tsv
+      - results/taxa-barplot.qzv
+      - results/tree/rooted-tree.qza
+      - results/table-filtered.qza
+    acceptance_checks:
+      - genus 级注释比例约为 78.2%
+      - rooted tree 必须成功生成
+      - 过滤后 ASV 数为 1078
+    common_failures:
+      - 分类器路径错误或下载不完整
+      - taxonomy/filter 之后只过滤 table 没过滤 rep-seqs，导致后续下游输入不一致
+      - barplot 输出文件名和正文引用不一致
+    outputs:
+      - path: results/taxonomy-export/taxonomy.tsv
+        summary: ASV taxonomy 注释表
+      - path: results/tree/rooted-tree.qza
+        summary: Faith's PD 与 UniFrac 所需的 rooted tree
+    method_basis:
+      type: community-consensus
+      summary: Silva 分类器 + rooted tree 是 QIIME2 16S 主线下最常见的 taxonomy 与 phylogeny 组合。
+    references:
+      - title: The SILVA ribosomal RNA gene database project
+        type: method-paper
+        citation: Quast C, et al. Nucleic Acids Research. 2013.
+      - title: Reproducible, interactive, scalable and extensible microbiome data science using QIIME 2
+        type: method-paper
+        citation: Bolyen E, et al. Nature Biotechnology. 2019.
+    assertions:
+      - id: taxonomy-table-exists
+        type: file_exists
+        path: results/taxonomy-export/taxonomy.tsv
+      - id: taxonomy-singulisphaera
+        type: text_match
+        path: results/taxonomy-export/taxonomy.tsv
+        pattern: 'Singulisphaera'
+
+  - id: diversity-analysis
+    title: Alpha/Beta 多样性与统计检验
+    goal: 生成 rarefaction、core metrics、alpha significance、Bray-Curtis PCoA 和 PERMANOVA 结果
+    rationale: >
+      第 5 篇的核心不是再解释 feature table，而是把 sampling depth、Shannon/Faith's PD、Bray-Curtis 和 PERMANOVA 连成一条可重复的统计主线。
+    inputs:
+      - results/table-filtered.qza
+      - results/tree/rooted-tree.qza
+      - data/sample-metadata.tsv
+    command: |
+      set -euo pipefail
+      source "$(conda info --base)/etc/profile.d/conda.sh"
+      conda activate qiime2-amplicon-2024.5
+
+      qiime diversity alpha-rarefaction \
+        --i-table results/table-filtered.qza \
+        --i-phylogeny results/tree/rooted-tree.qza \
+        --p-max-depth 2000 \
+        --m-metadata-file data/sample-metadata.tsv \
+        --o-visualization results/alpha-rarefaction.qzv
+
+      rm -rf results/core-metrics
+      qiime diversity core-metrics-phylogenetic \
+        --i-phylogeny results/tree/rooted-tree.qza \
+        --i-table results/table-filtered.qza \
+        --p-sampling-depth 500 \
+        --m-metadata-file data/sample-metadata.tsv \
+        --output-dir results/core-metrics
+
+      qiime diversity alpha-group-significance \
+        --i-alpha-diversity results/core-metrics/shannon_vector.qza \
+        --m-metadata-file data/sample-metadata.tsv \
+        --o-visualization results/core-metrics/shannon-group-significance.qzv
+
+      qiime diversity alpha-group-significance \
+        --i-alpha-diversity results/core-metrics/faith_pd_vector.qza \
+        --m-metadata-file data/sample-metadata.tsv \
+        --o-visualization results/core-metrics/faith-pd-group-significance.qzv
+
+      rm -rf results/alpha-export results/beta-export results/tmp-export
+      mkdir -p results/alpha-export
+
+      qiime tools export \
+        --input-path results/core-metrics/shannon_vector.qza \
+        --output-path results/alpha-export
+      mv results/alpha-export/alpha-diversity.tsv results/alpha-export/shannon.tsv
+
+      qiime tools export \
+        --input-path results/core-metrics/faith_pd_vector.qza \
+        --output-path results/tmp-export
+      mv results/tmp-export/alpha-diversity.tsv results/alpha-export/faith_pd.tsv
+      rm -rf results/tmp-export
+
+      qiime tools export \
+        --input-path results/core-metrics/bray_curtis_pcoa_results.qza \
+        --output-path results/beta-export
+
+      qiime diversity beta-group-significance \
+        --i-distance-matrix results/core-metrics/bray_curtis_distance_matrix.qza \
+        --m-metadata-file data/sample-metadata.tsv \
+        --m-metadata-column transect-name \
+        --p-method permanova \
+        --p-pairwise \
+        --o-visualization results/core-metrics/bray-curtis-transect-significance.qzv
+    expected_outputs:
+      - results/alpha-rarefaction.qzv
+      - results/core-metrics/shannon_vector.qza
+      - results/core-metrics/faith-pd-group-significance.qzv
+      - results/core-metrics/bray-curtis-transect-significance.qzv
+      - results/alpha-export/shannon.tsv
+      - results/beta-export/ordination.txt
+    acceptance_checks:
+      - sampling depth 500 下保留样本数应为 48
+      - Shannon 对 transect-name 的差异应显著，Faith's PD 不显著
+      - Bray-Curtis PERMANOVA 对 transect-name 的 p 值应为 0.001
+    common_failures:
+      - sampling depth 设得过高导致样本丢失过多
+      - metadata 分组列名写错，`transect-name` 找不到
+      - "`ordination.txt` 导出后直接读全表，没过滤掉非 sample 行"
+    outputs:
+      - path: results/core-metrics/bray-curtis-transect-significance.qzv
+        summary: transect 的 PERMANOVA 检验结果
+      - path: results/alpha-export/shannon.tsv
+        summary: Shannon alpha diversity 导出表
+    method_basis:
+      type: community-consensus
+      summary: rarefaction + core metrics + PERMANOVA 是 paired-end 16S diversity 分析里最常见、也最容易复核的社区做法。
+    references:
+      - title: "UniFrac: a new phylogenetic method for comparing microbial communities"
+        type: method-paper
+        citation: Lozupone C, Knight R. Applied and Environmental Microbiology. 2005.
+      - title: A new method for non-parametric multivariate analysis of variance
+        type: method-paper
+        citation: Anderson MJ. Austral Ecology. 2001.
+    assertions:
+      - id: shannon-export-exists
+        type: file_exists
+        path: results/alpha-export/shannon.tsv
+      - id: permanova-result-exists
+        type: file_exists
+        path: results/core-metrics/bray-curtis-transect-significance.qzv
+
+assertions:
+  - id: filtered-table-exists
+    type: file_exists
+    path: results/table-filtered.qza
+  - id: rooted-tree-exists
+    type: file_exists
+    path: results/tree/rooted-tree.qza
+  - id: shannon-group-significance-exists
+    type: file_exists
+    path: results/core-metrics/shannon-group-significance.qzv
+  - id: denoising-retention-row
+    type: text_match
+    path: results/denoising-stats-export/stats.tsv
+    pattern: 'BAQ2687\.2\t2109\t1808\t85\.73\t1680\t1225\t58\.08\t1225\t58\.08'
+references:
+  - title: Reproducible, interactive, scalable and extensible microbiome data science using QIIME 2
+    type: method-paper
+    citation: Bolyen E, et al. Nature Biotechnology. 2019.
+  - title: "DADA2: High-resolution sample inference from Illumina amplicon data"
+    type: method-paper
+    citation: Callahan BJ, et al. Nature Methods. 2016.
+  - title: The SILVA ribosomal RNA gene database project
+    type: method-paper
+    citation: Quast C, et al. Nucleic Acids Research. 2013.
+  - title: "UniFrac: a new phylogenetic method for comparing microbial communities"
+    type: method-paper
+    citation: Lozupone C, Knight R. Applied and Environmental Microbiology. 2005.
+  - title: A new method for non-parametric multivariate analysis of variance
+    type: method-paper
+    citation: Anderson MJ. Austral Ecology. 2001.
+publication:
+  repo:
+    mode: bundle
+    target_dir: rendered/github_bundle
+    include_paths:
+      - ../../ref/16s
+    public_url: https://github.com/petemeng/16S-Tutorial
+  wechat:
+    mode: filesystem
+    draft_dir: rendered/wechat_bundle
+    tags:
+      - 16S
+      - 微生物组
+      - paired-end
+    summary: >
+      QIIME2 Atacama soils 双端 16S 实战教程，覆盖从 EMP paired-end 原始数据到 alpha/beta 多样性分析。
+  series:
+    profile: 16s
+    source_glob: ../../ref/16s/[1-5].md
+    github:
+      bundle_root: ../../site_builds/16s-tutorial
+    wechat:
+      output_dir: ../../drafts/16s-series/wechat_drafts_local_v1
+      author: Songlab
