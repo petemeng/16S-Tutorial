@@ -743,46 +743,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        为什么用随机森林
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="为什么用随机森林">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        随机森林简介
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        过拟合警告
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        准备工作
+        为什么这里要强调交叉验证
       
     </span>
   </a>
@@ -793,7 +754,7 @@
   <a href="#step-1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1：构建特征矩阵
+        Step 1：准备分类矩阵
       
     </span>
   </a>
@@ -801,10 +762,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-2" class="md-nav__link">
+  <a href="#step-2loocv" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2：交叉验证
+        Step 2：LOOCV 评估模型性能
       
     </span>
   </a>
@@ -815,35 +776,18 @@
   <a href="#step-3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3：特征重要性
+        Step 3：看特征重要性
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Step 3：特征重要性">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        重要性条形图
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-4" class="md-nav__link">
+  <a href="#step-4rfe" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 4：最小特征集——最少需要多少物种
+        Step 4：RFE 看最优特征数
       
     </span>
   </a>
@@ -854,35 +798,7 @@
   <a href="#step-5shap" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 5：模型解释——SHAP 值
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Step 5：模型解释——SHAP 值">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#shap-beeswarm-plot" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        SHAP Beeswarm Plot
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        与差异分析结果交叉验证
+        Step 5：SHAP 看方向性贡献
       
     </span>
   </a>
@@ -890,10 +806,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#step-6" class="md-nav__link">
     <span class="md-ellipsis">
       
-        保存结果
+        Step 6：和差异分析取交集
       
     </span>
   </a>
@@ -901,7 +817,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         本篇小结
@@ -912,7 +828,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         下一篇预告
@@ -923,7 +839,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         本系列导航
@@ -1101,46 +1017,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        为什么用随机森林
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="为什么用随机森林">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        随机森林简介
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        过拟合警告
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        准备工作
+        为什么这里要强调交叉验证
       
     </span>
   </a>
@@ -1151,7 +1028,7 @@
   <a href="#step-1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1：构建特征矩阵
+        Step 1：准备分类矩阵
       
     </span>
   </a>
@@ -1159,10 +1036,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-2" class="md-nav__link">
+  <a href="#step-2loocv" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2：交叉验证
+        Step 2：LOOCV 评估模型性能
       
     </span>
   </a>
@@ -1173,35 +1050,18 @@
   <a href="#step-3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3：特征重要性
+        Step 3：看特征重要性
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Step 3：特征重要性">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        重要性条形图
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-4" class="md-nav__link">
+  <a href="#step-4rfe" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 4：最小特征集——最少需要多少物种
+        Step 4：RFE 看最优特征数
       
     </span>
   </a>
@@ -1212,35 +1072,7 @@
   <a href="#step-5shap" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 5：模型解释——SHAP 值
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Step 5：模型解释——SHAP 值">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#shap-beeswarm-plot" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        SHAP Beeswarm Plot
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        与差异分析结果交叉验证
+        Step 5：SHAP 看方向性贡献
       
     </span>
   </a>
@@ -1248,10 +1080,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#step-6" class="md-nav__link">
     <span class="md-ellipsis">
       
-        保存结果
+        Step 6：和差异分析取交集
       
     </span>
   </a>
@@ -1259,7 +1091,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         本篇小结
@@ -1270,7 +1102,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         下一篇预告
@@ -1281,7 +1113,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         本系列导航
@@ -1314,532 +1146,425 @@
 <h1 id="16s-biomarker">16S 微生物组最佳实践系列（十）：随机森林 Biomarker 筛选——谁最能代表这个群落</h1>
 <blockquote>
 <p>📋 教程信息
-- GitHub：[songlab-cal/16s-best-practices]（完整代码与环境文件）
-- 数据来源：Moving Pictures 数据集（34 个样本，670 个 ASV）
+- GitHub：<a href="https://github.com/petemeng/16S-Tutorial">petemeng/16S-Tutorial</a>（完整代码与环境文件）
+- 数据来源：Atacama soils 双端数据集（54 个样本，71 个过滤后 genus 特征）
 - 预计阅读：40 分钟 | 实操：25 分钟
 - 难度：⭐⭐⭐⭐（5 星制）
-- 前置知识：完成本系列第 6 篇，results/ 下有 phyloseq_object.rds</p>
+- 前置知识：完成本系列第 6-7 篇，<code>results/</code> 下有 <code>phyloseq_object.rds</code> 和差异分析结果</p>
 </blockquote>
 <hr />
 <h2 id="_1">本篇目标</h2>
-<p>第 7 篇的差异分析告诉我们"谁变了"，但差异分析的逻辑是"逐个检验每个物种"——它把每个物种孤立地看。如果我们换一个视角：<strong>能不能用一组物种的组合来预测样本来自哪个组？</strong> 而且不只是找到差异物种，还要排出<strong>优先级</strong>——哪些物种对分类贡献最大？</p>
-<p>这就是机器学习 biomarker 筛选的任务。随机森林（Random Forest）是微生物组领域最常用的分类器——它不需要数据满足正态分布假设，天然能处理高维数据（物种数远多于样本数），而且自带一个"特征重要性"排名。</p>
+<p>第 7 篇的 LEfSe 和 ANCOM-BC 告诉我们“谁变了”，但它们本质上都是<strong>逐个 genus 检验</strong>。</p>
+<p>现在换一个问题：<strong>如果把多个 genus 组合起来，能不能直接预测一个样本来自 Baquedano 还是 Yungay？</strong></p>
+<p>这就是机器学习 biomarker 筛选的视角。这里我们用最常见也最容易解释的模型之一：<strong>随机森林（Random Forest）</strong>。</p>
 <p>读完这一篇，你会：</p>
 <ol>
-<li>理解随机森林在微生物组分析中的工作原理</li>
-<li>用交叉验证评估分类器性能，避免过拟合陷阱</li>
-<li>提取特征重要性（feature importance），识别 top biomarker</li>
-<li>用 SHAP 值解释模型预测——不只是排名，还能知道方向</li>
-<li>理解小样本下机器学习的局限和注意事项</li>
+<li>用 genus 水平 CLR 矩阵构建分类任务</li>
+<li>用 <strong>LOOCV</strong> 评估小样本下的泛化性能</li>
+<li>看懂 <strong>Mean Decrease Accuracy</strong> 重要性排序</li>
+<li>用 <strong>RFE</strong> 看最优特征数</li>
+<li>用 <strong>SHAP</strong> 判断重要特征对 Yungay 预测概率的方向性贡献</li>
 </ol>
 <hr />
-<h2 id="_2">为什么用随机森林</h2>
-<h3 id="_3">随机森林简介</h3>
-<p>随机森林本质上是一群决策树的"集体投票"。每棵树看到的数据略有不同（通过 bootstrap 抽样），在每个分裂节点考虑的特征也略有不同（随机选择一部分物种）。最终分类结果由所有树投票决定——多数票获胜。</p>
-<p><strong>为什么它特别适合微生物组数据？</strong> 三个理由：</p>
+<h2 id="_2">为什么这里要强调交叉验证</h2>
+<p>随机森林很强，但也很容易“看起来很强”。</p>
+<p>在样本数不大的环境微生物组数据里，如果你只看训练集准确率，几乎一定会高估模型能力。真正该看的，是<strong>交叉验证后的表现</strong>。</p>
+<p>这套 Atacama 数据里，我们直接用：</p>
 <ol>
-<li><strong>不需要正态分布假设。</strong> 微生物组丰度数据是高度右偏的（大量 0，少量高丰度），不满足 logistic regression 的线性假设。随机森林不在乎。</li>
-<li><strong>能处理高维度。</strong> 我们有 670 个 ASV 但只有 34 个样本——特征数远多于样本数。随机森林通过"只看一部分特征"的策略天然地做了降维。</li>
-<li><strong>自带特征重要性排名。</strong> 不需要额外的统计检验就能知道哪些物种对分类贡献最大。</li>
+<li><strong>LOOCV（留一法交叉验证）</strong> 做主评估</li>
+<li><strong>RFE（递归特征消除）</strong> 判断需要多少 genus 才够</li>
+<li><strong>SHAP</strong> 做可解释性补充</li>
 </ol>
-<h3 id="_4">过拟合警告</h3>
-<p><strong>34 个样本训练机器学习模型是非常危险的。</strong> 随机森林很容易把训练数据"背下来"而不是学到泛化规律。我们必须用<strong>严格的交叉验证</strong>来评估性能，并且对结果保持审慎。</p>
+<p>这样比单纯贴一张特征重要性条形图更完整。</p>
 <hr />
-<h2 id="_5">准备工作</h2>
+<h2 id="step-1">Step 1：准备分类矩阵</h2>
+<p>和网络分析一样，我们先把 ASV 合并到 genus 水平，再做 prevalence 和平均丰度过滤，之后对 count 做 CLR 变换。</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
 <span class="c1"># 文件：analysis/10_random_forest.R</span>
-<span class="c1"># 功能：随机森林 biomarker 筛选</span>
+<span class="c1"># 功能：Atacama transect 分类与 biomarker 筛选</span>
 <span class="c1"># ============================================================</span>
 
-<span class="nf">library</span><span class="p">(</span><span class="n">phyloseq</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">randomForest</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">caret</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">pROC</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">vip</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">readr</span><span class="p">)</span>
+<span class="nf">source</span><span class="p">(</span><span class="s">&quot;/media/desk16/tly9658/16s-atacama-tutorial/analysis/common_16s.R&quot;</span><span class="p">)</span>
 
-<span class="c1"># 加载数据</span>
-<span class="n">ps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;results/phyloseq_object.rds&quot;</span><span class="p">)</span>
+<span class="nf">suppressPackageStartupMessages</span><span class="p">({</span>
+<span class="w">  </span><span class="nf">library</span><span class="p">(</span><span class="n">caret</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">library</span><span class="p">(</span><span class="n">fastshap</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">library</span><span class="p">(</span><span class="n">randomForest</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span>
+<span class="p">})</span>
 
-<span class="c1"># 用 gut vs tongue 作为二分类任务</span>
-<span class="n">ps_gt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">subset_samples</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">body.site</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;gut&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="p">))</span>
-<span class="n">ps_gt</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">prune_taxa</span><span class="p">(</span><span class="nf">taxa_sums</span><span class="p">(</span><span class="n">ps_gt</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">ps_gt</span><span class="p">)</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
+<span class="nf">ensure_dir</span><span class="p">(</span><span class="nf">file.path</span><span class="p">(</span><span class="n">ATACAMA_ROOT</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;figures&quot;</span><span class="p">))</span>
 
-<span class="c1"># 合并到属水平（减少特征数，提高信噪比）</span>
-<span class="n">ps_genus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tax_glom</span><span class="p">(</span><span class="n">ps_gt</span><span class="p">,</span><span class="w"> </span><span class="n">taxrank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Genus&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">NArm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="n">ps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">readRDS</span><span class="p">(</span><span class="nf">file.path</span><span class="p">(</span><span class="n">ATACAMA_ROOT</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;phyloseq_object.rds&quot;</span><span class="p">))</span>
+<span class="n">ps_transect</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">subset_samples</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">transect_name</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Baquedano&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Yungay&quot;</span><span class="p">))</span>
+<span class="n">ps_transect</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">prune_taxa</span><span class="p">(</span><span class="nf">taxa_sums</span><span class="p">(</span><span class="n">ps_transect</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">ps_transect</span><span class="p">)</span>
+<span class="n">ps_genus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tax_glom</span><span class="p">(</span><span class="n">ps_transect</span><span class="p">,</span><span class="w"> </span><span class="n">taxrank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Genus&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">NArm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
 
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;分类任务：\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;数据概况：\n&quot;</span><span class="p">)</span>
 <span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  样本数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nsamples</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
 <span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  属数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">ntaxa</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-<span class="nf">table</span><span class="p">(</span><span class="nf">sample_data</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">)</span><span class="o">$</span><span class="n">body.site</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>📊 输出：
-分类任务：
-  样本数: 16
-  属数: 89
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  分组:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">paste</span><span class="p">(</span><span class="nf">levels</span><span class="p">(</span><span class="nf">factor</span><span class="p">(</span><span class="nf">sample_data</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">)</span><span class="o">$</span><span class="n">transect_name</span><span class="p">)),</span><span class="w"> </span><span class="n">collapse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
 
-   gut tongue
-    11      5
-</code></pre></div>
-<p>16 个样本（11 肠道 + 5 舌头），89 个属。样本量非常小——这是我们需要反复提醒自己的事实。</p>
-<p>💡 <strong>经验之谈：样本量和特征数的比例</strong></p>
-<blockquote>
-<p>机器学习的经验法则是"样本数至少是特征数的 5-10 倍"。我们有 16 个样本和 89 个特征——比例不到 1:5。在这种情况下，模型的分类准确率可能很高（因为肠道和口腔差异极大），但<strong>特征重要性排名的可靠性有限</strong>。</p>
-<p>在真实项目中，如果你的样本数 &lt; 50，请把随机森林的结果定位为"探索性分析"，不要作为唯一的 biomarker 筛选依据。最好和 LEfSe/ANCOM-BC（第 7 篇）的结果做交叉验证。</p>
-</blockquote>
-<hr />
-<h2 id="step-1">Step 1：构建特征矩阵</h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
-<span class="c1"># 构建特征矩阵</span>
-<span class="c1"># 使用 CLR（中心对数比）变换处理组成性数据</span>
-<span class="c1"># ============================================================</span>
-
-<span class="c1"># 提取 OTU 矩阵</span>
 <span class="n">otu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as</span><span class="p">(</span><span class="nf">otu_table</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;matrix&quot;</span><span class="p">)</span>
-<span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nf">taxa_are_rows</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">))</span><span class="w"> </span><span class="n">otu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">t</span><span class="p">(</span><span class="n">otu</span><span class="p">)</span>
+<span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nf">taxa_are_rows</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">otu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">t</span><span class="p">(</span><span class="n">otu</span><span class="p">)</span>
+<span class="p">}</span>
 
-<span class="c1"># CLR 变换（组成性数据的标准预处理）</span>
-<span class="c1"># 加伪计数 0.5 避免 log(0)</span>
-<span class="n">otu_clr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">otu</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nf">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-<span class="p">})</span>
-<span class="n">otu_clr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">t</span><span class="p">(</span><span class="n">otu_clr</span><span class="p">)</span>
+<span class="n">tax_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tax_table</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">rownames_to_column</span><span class="p">(</span><span class="s">&quot;FeatureID&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">Family</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Family</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Family_unclassified&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Family</span><span class="p">),</span>
+<span class="w">    </span><span class="n">GenusLabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Genus</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;Unclassified_&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Family</span><span class="p">),</span><span class="w"> </span><span class="n">Genus</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
 
-<span class="c1"># 用属名替换 ASV ID（可读性更好）</span>
-<span class="n">tax</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="nf">tax_table</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">))</span>
-<span class="nf">colnames</span><span class="p">(</span><span class="n">otu_clr</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">make.unique</span><span class="p">(</span>
-<span class="w">    </span><span class="nf">as.character</span><span class="p">(</span><span class="n">tax</span><span class="p">[</span><span class="nf">colnames</span><span class="p">(</span><span class="n">otu_clr</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Genus&quot;</span><span class="p">])</span>
+<span class="n">feature_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">make.unique</span><span class="p">(</span><span class="n">tax_df</span><span class="o">$</span><span class="n">GenusLabel</span><span class="p">)</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">otu</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">feature_names</span>
+
+<span class="n">prevalence</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">colSums</span><span class="p">(</span><span class="n">otu</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">otu</span><span class="p">)</span>
+<span class="n">mean_abundance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">colMeans</span><span class="p">(</span><span class="n">otu</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">rowSums</span><span class="p">(</span><span class="n">otu</span><span class="p">))</span>
+<span class="n">keep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">prevalence</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">0.1</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">mean_abundance</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">0.0005</span>
+<span class="n">otu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">otu</span><span class="p">[,</span><span class="w"> </span><span class="n">keep</span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span>
+
+<span class="n">clr_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">otu</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span>
+<span class="n">clr_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">clr_mat</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">rowMeans</span><span class="p">(</span><span class="n">clr_mat</span><span class="p">)</span>
+
+<span class="n">rf_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">  </span><span class="n">transect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="nf">sample_data</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">)</span><span class="o">$</span><span class="n">transect_name</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Baquedano&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Yungay&quot;</span><span class="p">)),</span>
+<span class="w">  </span><span class="n">clr_mat</span><span class="p">,</span>
+<span class="w">  </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span>
 <span class="p">)</span>
 
-<span class="c1"># 构建完整数据框</span>
-<span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
-<span class="w">    </span><span class="n">otu_clr</span><span class="p">,</span>
-<span class="w">    </span><span class="n">body_site</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="nf">sample_data</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">)</span><span class="o">$</span><span class="n">body.site</span><span class="p">),</span>
-<span class="w">    </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span>
-<span class="p">)</span>
-
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;特征矩阵：\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  样本:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">df</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  特征:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  类别分布:\n&quot;</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="nf">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">body_site</span><span class="p">))</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;特征矩阵维度：\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  样本数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">rf_df</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  特征数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">rf_df</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>📊 输出：
-特征矩阵：
-  样本: 16
-  特征: 89
-  类别分布:
-   gut tongue
-    11      5
+数据概况：
+  样本数: 54
+  属数: 249
+  分组: Baquedano, Yungay
+特征矩阵维度：
+  样本数: 54
+  特征数: 71
 </code></pre></div>
-<p>⚠️ <strong>踩坑预警：为什么用 CLR 而不是相对丰度</strong></p>
-<blockquote>
-<p>如果你直接用相对丰度作为特征，随机森林的结果会受到组成性偏差的影响——一个物种的"重要性"可能部分来自其他物种变化的被动效应。</p>
-<p>CLR（Centered Log-Ratio）变换是 Aitchison 在 1986 年提出的组成性数据标准变换，它打破了"加和为 1"的约束，让数据可以用欧氏距离和线性方法分析。PCA 也推荐用 CLR 变换后的数据（这就是第 5 篇中 Aitchison 距离的原理）。</p>
-</blockquote>
+<p>也就是说，249 个 genus 先被压到了 71 个可用于建模的特征。这一步很重要，否则在 54 个样本上直接喂太多稀疏特征，模型会非常不稳。</p>
 <hr />
-<h2 id="step-2">Step 2：交叉验证</h2>
-<p>因为样本量太小，不能简单地分训练集和测试集。我们用<strong>留一法交叉验证（Leave-One-Out Cross-Validation, LOOCV）</strong>——每次留出一个样本做测试，用剩下的 15 个样本训练模型，循环 16 次。</p>
+<h2 id="step-2loocv">Step 2：LOOCV 评估模型性能</h2>
+<p>这里不拆训练集/测试集，而是直接用 LOOCV。对 54 个样本来说，这是更合理的做法。</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
-<span class="c1"># Leave-One-Out 交叉验证</span>
-<span class="c1"># LOOCV 在小样本下是最可靠的评估方式</span>
+<span class="c1"># Step 2: Leave-One-Out Cross-Validation</span>
 <span class="c1"># ============================================================</span>
 
-<span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
-
-<span class="c1"># caret 的 trainControl 设置 LOOCV</span>
 <span class="n">ctrl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">trainControl</span><span class="p">(</span>
-<span class="w">    </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;LOOCV&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">classProbs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w">         </span><span class="c1"># 输出概率（用于 ROC）</span>
-<span class="w">    </span><span class="n">summaryFunction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">twoClassSummary</span>
+<span class="w">  </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;LOOCV&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">classProbs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span>
+<span class="w">  </span><span class="n">summaryFunction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">twoClassSummary</span><span class="p">,</span>
+<span class="w">  </span><span class="n">savePredictions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;final&quot;</span>
 <span class="p">)</span>
 
-<span class="c1"># 训练随机森林</span>
-<span class="c1"># mtry: 每个分裂节点随机选择的特征数</span>
-<span class="c1"># ntree: 树的数量</span>
-<span class="n">rf_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span>
-<span class="w">    </span><span class="n">body_site</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span>
-<span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">,</span>
-<span class="w">    </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;rf&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">trControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctrl</span><span class="p">,</span>
-<span class="w">    </span><span class="n">metric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ROC&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">tuneGrid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">mtry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">)),</span>
-<span class="w">    </span><span class="n">ntree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span>
-<span class="w">    </span><span class="n">importance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span>
+<span class="n">rf_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span>
+<span class="w">  </span><span class="n">transect</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span>
+<span class="w">  </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rf_df</span><span class="p">,</span>
+<span class="w">  </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;rf&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">metric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ROC&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">ntree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span>
+<span class="w">  </span><span class="n">tuneLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span>
+<span class="w">  </span><span class="n">trControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctrl</span>
 <span class="p">)</span>
 
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;=== LOOCV 结果 ===\n&quot;</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="n">rf_model</span><span class="o">$</span><span class="n">results</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\n最优 mtry:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rf_model</span><span class="o">$</span><span class="n">bestTune</span><span class="o">$</span><span class="n">mtry</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;最优 ROC AUC:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">max</span><span class="p">(</span><span class="n">rf_model</span><span class="o">$</span><span class="n">results</span><span class="o">$</span><span class="n">ROC</span><span class="p">),</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;LOOCV 结果：\n&quot;</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">rf_fit</span><span class="p">)</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>📊 输出：
-=== LOOCV 结果 ===
-  mtry       ROC      Sens      Spec
-1    5  1.000000  1.000000  1.000000
-2   10  1.000000  1.000000  1.000000
-3   15  0.981818  1.000000  0.800000
-4   20  0.963636  0.909091  1.000000
+LOOCV 结果：
+Random Forest
 
-最优 mtry: 5
-最优 ROC AUC: 1
+54 samples
+71 predictors
+ 2 classes: &#39;Baquedano&#39;, &#39;Yungay&#39;
+
+No pre-processing
+Resampling: Leave-One-Out Cross-Validation
+Resampling results across tuning parameters:
+
+  mtry  ROC        Sens  Spec
+   2    0.7427586  0.68  0.7586207
+  15    0.8075862  0.72  0.8620690
+  29    0.8027586  0.68  0.8620690
+  43    0.7862069  0.60  0.8620690
+  57    0.7841379  0.60  0.8620690
+  71    0.7675862  0.56  0.8620690
+
+ROC was used to select the optimal model using the largest value.
+The final value used for the model was mtry = 15.
 </code></pre></div>
-<p><strong>ROC AUC = 1.0——完美分类。</strong> 但不要高兴太早。肠道和口腔的微生物组差异本来就极大——即使随便选几个物种都能完美区分。这个完美的 AUC 更多反映了"任务太简单"而不是"模型太好"。</p>
-<p>在真实的临床 biomarker 研究中（比如区分健康人和 IBD 患者），AUC 通常在 0.7-0.9 之间——这才是有意义的区间。</p>
-<hr />
-<h2 id="step-3">Step 3：特征重要性</h2>
-<p>即使分类很容易，<strong>特征重要性排名仍然是有价值的信息</strong>——它告诉我们哪些物种对区分贡献最大。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
-<span class="c1"># 特征重要性提取</span>
-<span class="c1"># 使用 Mean Decrease Accuracy（置换重要性）</span>
-<span class="c1"># ============================================================</span>
-
-<span class="c1"># 用全部数据重新训练一个最终模型</span>
-<span class="n">rf_final</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">randomForest</span><span class="p">(</span>
-<span class="w">    </span><span class="n">body_site</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span>
-<span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">,</span>
-<span class="w">    </span><span class="n">ntree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span>
-<span class="w">    </span><span class="n">mtry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rf_model</span><span class="o">$</span><span class="n">bestTune</span><span class="o">$</span><span class="n">mtry</span><span class="p">,</span>
-<span class="w">    </span><span class="n">importance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span>
-<span class="p">)</span>
-
-<span class="c1"># 提取重要性</span>
-<span class="n">imp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">importance</span><span class="p">(</span><span class="n">rf_final</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">  </span><span class="c1"># MDA</span>
-<span class="n">imp_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
-<span class="w">    </span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">imp</span><span class="p">),</span>
-<span class="w">    </span><span class="n">MDA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imp</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span>
-<span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">    </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">MDA</span><span class="p">))</span>
-
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;=== Top 15 Biomarker 物种 ===\n&quot;</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="nf">head</span><span class="p">(</span><span class="n">imp_df</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>📊 输出：
-=== Top 15 Biomarker 物种 ===
-              Genus      MDA
-1        Bacteroides  12.3456
-2         Neisseria  10.8765
-3   Faecalibacterium   9.4321
-4       Haemophilus   8.7654
-5      Streptococcus   7.6543
-6        Prevotella   6.5432
-7      Ruminococcus   5.4321
-8     Fusobacterium   4.8765
-9          Alistipes   4.3210
-10        Roseburia   3.9876
-11      Veillonella   3.6543
-12  Parabacteroides   3.2109
-13          Blautia   2.8765
-14      Actinomyces   2.5432
-15 Bifidobacterium   2.1098
-</code></pre></div>
-<p><strong>Top biomarker 和第 7 篇 LEfSe/ANCOM-BC 的差异物种高度一致——<em>Bacteroides</em>、<em>Neisseria</em>、<em>Faecalibacterium</em>、<em>Haemophilus</em>、<em>Streptococcus</em> 都在两种方法的前列。</strong> 这种一致性增强了我们对结果的信心。</p>
-<h3 id="_6">重要性条形图</h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
-<span class="c1"># 特征重要性条形图</span>
-<span class="c1"># ============================================================</span>
-
-<span class="n">top_n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">15</span>
-<span class="n">p_imp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">imp_df</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">    </span><span class="nf">head</span><span class="p">(</span><span class="n">top_n</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span>
-<span class="w">        </span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rev</span><span class="p">(</span><span class="n">Genus</span><span class="p">)),</span>
-<span class="w">        </span><span class="n">enriched</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span>
-<span class="w">            </span><span class="n">Genus</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Bacteroides&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Faecalibacterium&quot;</span><span class="p">,</span>
-<span class="w">                          </span><span class="s">&quot;Prevotella&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ruminococcus&quot;</span><span class="p">,</span>
-<span class="w">                          </span><span class="s">&quot;Alistipes&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Roseburia&quot;</span><span class="p">,</span>
-<span class="w">                          </span><span class="s">&quot;Parabacteroides&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Blautia&quot;</span><span class="p">,</span>
-<span class="w">                          </span><span class="s">&quot;Bifidobacterium&quot;</span><span class="p">),</span>
-<span class="w">            </span><span class="s">&quot;Gut&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Tongue&quot;</span>
-<span class="w">        </span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">    </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MDA</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enriched</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
-<span class="w">    </span><span class="nf">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">    </span><span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Gut&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span>
-<span class="w">                                  </span><span class="s">&quot;Tongue&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
-<span class="w">    </span><span class="nf">labs</span><span class="p">(</span>
-<span class="w">        </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;随机森林 Top 15 Biomarker 物种&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Mean Decrease Accuracy&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span>
-<span class="w">        </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;富集于&quot;</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">    </span><span class="nf">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
-<span class="w">        </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;italic&quot;</span><span class="p">),</span>
-<span class="w">        </span><span class="n">panel.grid.major.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_blank</span><span class="p">()</span>
-<span class="w">    </span><span class="p">)</span>
-
-<span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;results/figures/pub_rf_importance.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p_imp</span><span class="p">,</span>
-<span class="w">       </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span>
-</code></pre></div>
-<!-- 图 1 位置：随机森林特征重要性 -->
-<p><img alt="" src="../../assets/16s/ch10_rf_importance-4fb4ced52d.png" /></p>
-<p><strong>图 1：随机森林 Top 15 Biomarker 物种（按 Mean Decrease Accuracy 排序）。</strong> 红色为肠道富集物种，蓝色为舌头富集物种。<em>Bacteroides</em>（MDA=12.35）对分类的贡献最大。</p>
-<hr />
-<h2 id="step-4">Step 4：最小特征集——最少需要多少物种</h2>
-<p>一个实用的问题：如果我们只用少量几个物种就能达到很好的分类效果，那它们就是最核心的 biomarker。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
-<span class="c1"># 递归特征消除（RFE）</span>
-<span class="c1"># 从全部特征开始，逐步去掉最不重要的，看性能变化</span>
-<span class="c1"># ============================================================</span>
-
-<span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
-
-<span class="n">rfe_ctrl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rfeControl</span><span class="p">(</span>
-<span class="w">    </span><span class="n">functions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rfFuncs</span><span class="p">,</span>
-<span class="w">    </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;LOOCV&quot;</span>
-<span class="p">)</span>
-
-<span class="n">rfe_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rfe</span><span class="p">(</span>
-<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">[,</span><span class="w"> </span><span class="o">-</span><span class="nf">ncol</span><span class="p">(</span><span class="n">df</span><span class="p">)],</span>
-<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">body_site</span><span class="p">,</span>
-<span class="w">    </span><span class="n">sizes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="m">30</span><span class="p">),</span>
-<span class="w">    </span><span class="n">rfeControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rfe_ctrl</span>
-<span class="p">)</span>
-
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;=== RFE 结果 ===\n&quot;</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="n">rfe_result</span><span class="o">$</span><span class="n">results</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Variables&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Accuracy&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Kappa&quot;</span><span class="p">)])</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\n最优特征数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rfe_result</span><span class="o">$</span><span class="n">optsize</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;最优特征集:\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="nf">head</span><span class="p">(</span><span class="nf">predictors</span><span class="p">(</span><span class="n">rfe_result</span><span class="p">),</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w"> </span><span class="n">collapse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">))</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>📊 输出：
-=== RFE 结果 ===
-  Variables Accuracy  Kappa
-1         2   0.9375  0.857
-2         3   1.0000  1.000
-3         5   1.0000  1.000
-4        10   1.0000  1.000
-5        15   1.0000  1.000
-6        20   1.0000  1.000
-7        30   1.0000  1.000
-
-最优特征数: 3
-最优特征集:
-Bacteroides
-Neisseria
-Faecalibacterium
-</code></pre></div>
-<p><strong>只需要 3 个属——<em>Bacteroides</em>、<em>Neisseria</em>、<em>Faecalibacterium</em>——就能在 LOOCV 中达到 100% 准确率。</strong> 用 2 个属时准确率降到 93.75%（错分了 1 个样本）。</p>
-<p>这三个物种就是区分肠道和口腔的"最小充分集"——<em>Bacteroides</em> 代表肠道、<em>Neisseria</em> 代表口腔、<em>Faecalibacterium</em> 补充了厌氧发酵的信号。</p>
-<hr />
-<h2 id="step-5shap">Step 5：模型解释——SHAP 值</h2>
-<p>传统的特征重要性只告诉你排名，不告诉你方向——MDA 高的物种是"因为它丰度高才是肠道"还是"因为它丰度低才是肠道"？SHAP（SHapley Additive exPlanations）值可以回答这个问题。</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
-<span class="c1"># SHAP 分析</span>
-<span class="c1"># 用 fastshap 包近似计算 SHAP 值</span>
-<span class="c1"># ============================================================</span>
-
-<span class="nf">library</span><span class="p">(</span><span class="n">fastshap</span><span class="p">)</span>
-
-<span class="c1"># 定义预测函数（返回&quot;tongue&quot;类的概率）</span>
-<span class="n">pfun</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">object</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nf">predict</span><span class="p">(</span><span class="n">object</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;prob&quot;</span><span class="p">)[,</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="p">]</span>
-<span class="p">}</span>
-
-<span class="c1"># 计算 SHAP 值</span>
-<span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
-<span class="n">shap_values</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">explain</span><span class="p">(</span>
-<span class="w">    </span><span class="n">rf_final</span><span class="p">,</span>
-<span class="w">    </span><span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">[,</span><span class="w"> </span><span class="o">-</span><span class="nf">ncol</span><span class="p">(</span><span class="n">df</span><span class="p">)],</span>
-<span class="w">    </span><span class="n">pred_wrapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pfun</span><span class="p">,</span>
-<span class="w">    </span><span class="n">nsim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span>
-<span class="p">)</span>
-
-<span class="c1"># 取 top 10 特征的 SHAP 值</span>
-<span class="n">top_features</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">imp_df</span><span class="o">$</span><span class="n">Genus</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">]</span>
-<span class="n">shap_top</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">shap_values</span><span class="p">[,</span><span class="w"> </span><span class="n">top_features</span><span class="p">]</span>
-
-<span class="c1"># 汇总：每个特征的平均 |SHAP|</span>
-<span class="n">shap_summary</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
-<span class="w">    </span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">top_features</span><span class="p">,</span>
-<span class="w">    </span><span class="n">mean_abs_shap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">colMeans</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">shap_top</span><span class="p">))</span>
-<span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">    </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">mean_abs_shap</span><span class="p">))</span>
-
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;=== SHAP 特征重要性 ===\n&quot;</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="n">shap_summary</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>📊 输出：
-=== SHAP 特征重要性 ===
-              Genus mean_abs_shap
-1        Bacteroides       0.2345
-2         Neisseria       0.1987
-3   Faecalibacterium      0.1654
-4       Haemophilus       0.1321
-5      Streptococcus      0.0987
-6        Prevotella       0.0876
-7      Ruminococcus       0.0654
-8     Fusobacterium       0.0543
-9          Alistipes      0.0432
-10        Roseburia       0.0321
-</code></pre></div>
-<h3 id="shap-beeswarm-plot">SHAP Beeswarm Plot</h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
-<span class="c1"># SHAP Beeswarm Plot</span>
-<span class="c1"># 每个点是一个样本，横轴是 SHAP 值，颜色是特征值高低</span>
-<span class="c1"># ============================================================</span>
-
-<span class="c1"># 整理 SHAP + 原始特征值</span>
-<span class="n">shap_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">()</span>
-<span class="kr">for</span><span class="w"> </span><span class="p">(</span><span class="n">feat</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="n">top_features</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">shap_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbind</span><span class="p">(</span><span class="n">shap_long</span><span class="p">,</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
-<span class="w">        </span><span class="n">Feature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">feat</span><span class="p">,</span>
-<span class="w">        </span><span class="n">SHAP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shap_top</span><span class="p">[,</span><span class="w"> </span><span class="n">feat</span><span class="p">],</span>
-<span class="w">        </span><span class="n">FeatureValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">df</span><span class="p">[,</span><span class="w"> </span><span class="n">feat</span><span class="p">])[,</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w">  </span><span class="c1"># 标准化</span>
-<span class="w">    </span><span class="p">))</span>
-<span class="p">}</span>
-
-<span class="n">p_shap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">shap_long</span><span class="p">,</span>
-<span class="w">    </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SHAP</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">Feature</span><span class="p">,</span>
-<span class="w">        </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rev</span><span class="p">(</span><span class="n">shap_summary</span><span class="o">$</span><span class="n">Genus</span><span class="p">))))</span><span class="w"> </span><span class="o">+</span>
-<span class="w">    </span><span class="nf">geom_jitter</span><span class="p">(</span>
-<span class="w">        </span><span class="nf">aes</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FeatureValue</span><span class="p">),</span>
-<span class="w">        </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span>
-<span class="w">        </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">    </span><span class="nf">scale_color_gradient2</span><span class="p">(</span>
-<span class="w">        </span><span class="n">low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey90&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;特征值\n(标准化)&quot;</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">    </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dashed&quot;</span><span class="p">,</span>
-<span class="w">               </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey50&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">    </span><span class="nf">labs</span><span class="p">(</span>
-<span class="w">        </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SHAP 值分布：Top 10 Biomarker&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SHAP 值 (对 tongue 类的贡献)&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">    </span><span class="nf">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
-<span class="w">        </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;italic&quot;</span><span class="p">),</span>
-<span class="w">        </span><span class="n">panel.grid.major.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_blank</span><span class="p">()</span>
-<span class="w">    </span><span class="p">)</span>
-
-<span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;results/figures/pub_shap_beeswarm.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p_shap</span><span class="p">,</span>
-<span class="w">       </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span>
-</code></pre></div>
-<!-- 图 2 位置：SHAP Beeswarm Plot -->
-<p><img alt="" src="../../assets/16s/ch10_rf_shap_beeswarm-cf18750d40.png" /></p>
-<p><strong>图 2：SHAP Beeswarm Plot。</strong> 横轴为 SHAP 值（正值推向 tongue 分类，负值推向 gut 分类），颜色代表该样本中该物种的 CLR 丰度高低。<em>Bacteroides</em> 高丰度（红色点）对应负 SHAP 值——即 <em>Bacteroides</em> 丰度越高，模型越倾向于预测为 gut。<em>Neisseria</em> 高丰度对应正 SHAP 值——丰度越高，越倾向于预测为 tongue。</p>
-<p><strong>SHAP 图的解读比单纯的重要性排名丰富得多：</strong> 它不仅告诉你排名，还告诉你方向和非线性模式。</p>
-<p>⚠️ <strong>踩坑预警：小样本下的 SHAP 值不稳定</strong></p>
-<blockquote>
-<p>SHAP 值的可靠性依赖于模型的稳定性。在 16 个样本的数据集上，模型本身就不太稳定（换几个样本可能排名就变了），SHAP 值也会跟着波动。</p>
-<p>建议：在正式论文中使用 SHAP 分析时，至少需要 50+ 个样本。如果样本不够，用传统的 Mean Decrease Accuracy 作为主要指标，SHAP 作为补充展示。</p>
-</blockquote>
-<hr />
-<h2 id="_7">与差异分析结果交叉验证</h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
-<span class="c1"># 三种方法的 Biomarker 交叉验证</span>
-<span class="c1"># LEfSe (第 7 篇) + ANCOM-BC (第 7 篇) + 随机森林 (本篇)</span>
-<span class="c1"># ============================================================</span>
-
-<span class="c1"># 读取第 7 篇的结果</span>
-<span class="n">lefse_genera</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span><span class="s">&quot;results/lefse_results.tsv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="nf">grepl</span><span class="p">(</span><span class="s">&quot;^g__&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Taxa</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sub</span><span class="p">(</span><span class="s">&quot;^g__&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Taxa</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">    </span><span class="nf">pull</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span>
-
-<span class="n">ancom_genera</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span><span class="s">&quot;results/ancombc_significant.tsv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">    </span><span class="nf">pull</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span>
-
-<span class="n">rf_genera</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">imp_df</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="n">MDA</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">    </span><span class="nf">pull</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span>
-
-<span class="c1"># 三者交集</span>
-<span class="n">triple_overlap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">Reduce</span><span class="p">(</span><span class="n">intersect</span><span class="p">,</span>
-<span class="w">    </span><span class="nf">list</span><span class="p">(</span><span class="n">lefse_genera</span><span class="p">,</span><span class="w"> </span><span class="n">ancom_genera</span><span class="p">,</span><span class="w"> </span><span class="n">rf_genera</span><span class="p">))</span>
-
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;=== 三种方法 Biomarker 交叉验证 ===\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;LEfSe 显著属:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">lefse_genera</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;ANCOM-BC 显著属:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">ancom_genera</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;随机森林 top 属 (MDA&gt;2):&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">rf_genera</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;三者交集:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">triple_overlap</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;最可靠的 biomarker:\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="n">triple_overlap</span><span class="p">,</span><span class="w"> </span><span class="n">collapse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>📊 输出：
-=== 三种方法 Biomarker 交叉验证 ===
-LEfSe 显著属: 38
-ANCOM-BC 显著属: 52
-随机森林 top 属 (MDA&gt;2): 15
-三者交集: 12
-
-最可靠的 biomarker:
-Bacteroides, Neisseria, Faecalibacterium, Haemophilus,
-Streptococcus, Prevotella, Ruminococcus, Fusobacterium,
-Alistipes, Roseburia, Veillonella, Parabacteroides
-</code></pre></div>
-<p><strong>12 个属被三种完全不同的方法同时识别为 biomarker——这是最可靠的核心差异物种列表。</strong> 差异分析（统计检验）和机器学习（预测建模）从不同角度得到了高度一致的结果。</p>
-<p>💡 <strong>论文中的最佳实践</strong></p>
-<blockquote>
-<p><strong>Biomarker 筛选推荐使用至少两种方法取交集。</strong> 一种方法可能有方法学偏差，但多种方法的共识不太可能都错。</p>
-<p>常见组合：
-- LEfSe + ANCOM-BC（差异分析两种方法取交集）
-- ANCOM-BC + Random Forest（统计 + 机器学习取交集）
-- 三者全做，报告 Venn 图展示重叠</p>
-<p>在 methods 部分写清楚你的筛选策略，在 supplementary 放完整的单方法结果。</p>
-</blockquote>
-<hr />
-<h2 id="_8">保存结果</h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
-<span class="c1"># 保存结果</span>
-<span class="c1"># ============================================================</span>
-
-<span class="c1"># 特征重要性</span>
-<span class="nf">write_tsv</span><span class="p">(</span><span class="n">imp_df</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results/rf_feature_importance.tsv&quot;</span><span class="p">)</span>
-
-<span class="c1"># SHAP 值</span>
-<span class="nf">write_tsv</span><span class="p">(</span>
-<span class="w">    </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">df</span><span class="p">),</span><span class="w"> </span><span class="n">shap_top</span><span class="p">),</span>
-<span class="w">    </span><span class="s">&quot;results/rf_shap_values.tsv&quot;</span>
-<span class="p">)</span>
-
-<span class="c1"># 三种方法交叉验证的核心 biomarker</span>
-<span class="nf">write_tsv</span><span class="p">(</span>
-<span class="w">    </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">triple_overlap</span><span class="p">,</span>
-<span class="w">               </span><span class="n">In_LEfSe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span>
-<span class="w">               </span><span class="n">In_ANCOMBC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span>
-<span class="w">               </span><span class="n">In_RF</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span>
-<span class="w">    </span><span class="s">&quot;results/consensus_biomarkers.tsv&quot;</span>
-<span class="p">)</span>
-
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;保存完成：\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  特征重要性:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">imp_df</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;个属\n&quot;</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  核心 biomarker:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">triple_overlap</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;个属\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-<hr />
-<h2 id="_9">本篇小结</h2>
-<p>这一篇我们用随机森林从预测建模的角度筛选 biomarker 物种。</p>
-<p><strong>核心发现：</strong> 只需要 3 个属（<em>Bacteroides</em>、<em>Neisseria</em>、<em>Faecalibacterium</em>）就能在 LOOCV 中完美区分肠道和口腔样本。三种方法（LEfSe、ANCOM-BC、随机森林）的交集有 12 个核心 biomarker——这是最可靠的差异物种列表。</p>
-<p><strong>方法层面的关键收获：</strong></p>
+<p>这套结果很像真实项目，而不是教学示例里的“完美分类”：</p>
 <ol>
-<li><strong>CLR 变换是微生物组机器学习的标准预处理。</strong> 不要用原始相对丰度。</li>
-<li><strong>小样本下必须用 LOOCV。</strong> 不要简单地 80/20 分训练测试集——16 个样本的 20%只有 3 个样本，没有统计意义。</li>
-<li><strong>特征重要性 + SHAP 比单独的重要性排名更有信息量。</strong> SHAP 还能告诉你方向。</li>
-<li><strong>多种方法取交集是最可靠的 biomarker 筛选策略。</strong></li>
+<li><strong>最佳 LOOCV ROC AUC = 0.8076</strong></li>
+<li>敏感度和特异度都还不错，但没有高到离谱</li>
+<li><code>mtry = 15</code> 最优，说明模型需要的并不是“越多特征越好”</li>
 </ol>
-<p>当前项目目录：</p>
-<div class="highlight"><pre><span></span><code>results/
-├── rf_feature_importance.tsv    # 随机森林特征重要性
-├── rf_shap_values.tsv           # SHAP 值
-├── consensus_biomarkers.tsv     # 三种方法的共识 biomarker
-└── figures/
-    ├── pub_rf_importance.png    # 特征重要性图
-    └── pub_shap_beeswarm.png   # SHAP Beeswarm Plot
+<p>这类表现通常更可信，因为它没有夸张到让人怀疑过拟合。</p>
+<hr />
+<h2 id="step-3">Step 3：看特征重要性</h2>
+<p>接下来真正关心的是：<strong>哪些 genus 对区分两条 transect 贡献最大？</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Step 3: Mean Decrease Accuracy 重要性</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">final_rf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">randomForest</span><span class="p">(</span>
+<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rf_df</span><span class="p">[,</span><span class="w"> </span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">],</span>
+<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rf_df</span><span class="o">$</span><span class="n">transect</span><span class="p">,</span>
+<span class="w">  </span><span class="n">ntree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1500</span><span class="p">,</span>
+<span class="w">  </span><span class="n">importance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span>
+<span class="p">)</span>
+
+<span class="n">importance_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">  </span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="nf">importance</span><span class="p">(</span><span class="n">final_rf</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)),</span>
+<span class="w">  </span><span class="n">MeanDecreaseAccuracy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">importance</span><span class="p">(</span><span class="n">final_rf</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)[,</span><span class="w"> </span><span class="m">1</span><span class="p">],</span>
+<span class="w">  </span><span class="n">MeanDecreaseGini</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">importance</span><span class="p">(</span><span class="n">final_rf</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)[,</span><span class="w"> </span><span class="m">1</span><span class="p">],</span>
+<span class="w">  </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span>
+<span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">MeanDecreaseAccuracy</span><span class="p">))</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Top 15 重要属：\n&quot;</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">head</span><span class="p">(</span><span class="n">importance_df</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">))</span>
+
+<span class="nf">write_tsv</span><span class="p">(</span><span class="n">importance_df</span><span class="p">,</span><span class="w"> </span><span class="nf">file.path</span><span class="p">(</span><span class="n">ATACAMA_ROOT</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rf_feature_importance.tsv&quot;</span><span class="p">))</span>
 </code></pre></div>
-<h2 id="_10">下一篇预告</h2>
-<p>到目前为止，我们所有的分析都基于<strong>组成</strong>——哪些物种在、各有多少。但还有一个很有趣的问题：这些微生物<strong>从哪里来</strong>？一个人手掌上的微生物，有多少是从肠道"迁移"过来的？有多少是从环境中获得的？下一篇我们用 <strong>SourceTracker</strong> 做微生物溯源分析。</p>
-<p>下篇见。</p>
+<div class="highlight"><pre><span></span><code>📊 输出：
+Top 15 重要属：
+                                    Genus                               MeanDecreaseAccuracy MeanDecreaseGini
+JG30-KF-CM45                        JG30-KF-CM45                                 12.491515          1.964350
+wb1-P19                             wb1-P19                                       9.012343          1.191830
+Unclassified_Family_unclassified.3  Unclassified_Family_unclassified.3            8.131222          0.869856
+Unclassified_Family_unclassified.23 Unclassified_Family_unclassified.23           7.069633          0.881346
+0319-7L14                           0319-7L14                                     6.993990          0.835270
+Paenibacillus                       Paenibacillus                                 6.895014          0.957220
+TK10                                TK10                                          6.446916          0.873141
+Unclassified_Xanthobacteraceae      Unclassified_Xanthobacteraceae                5.937866          0.472634
+Marmoricola                         Marmoricola                                   5.903318          0.649455
+Ammoniphilus                        Ammoniphilus                                  5.748349          0.529462
+RB41                                RB41                                          5.031333          0.870706
+Conexibacter                        Conexibacter                                  4.987412          0.483336
+Crossiella                          Crossiella                                    4.435870          0.379164
+Unclassified_Family_unclassified.5  Unclassified_Family_unclassified.5            3.758165          0.279785
+Nitrososphaeraceae                  Nitrososphaeraceae                            3.567798          0.542121
+</code></pre></div>
+<p>最值得记的不是后面那几个边缘特征，而是排在前面的高权重 genus：</p>
+<ol>
+<li><strong><code>JG30-KF-CM45</code></strong> 是最强特征</li>
+<li><strong><code>0319-7L14</code>、<code>TK10</code>、<code>wb1-P19</code></strong> 也都很靠前</li>
+<li><strong><code>Paenibacillus</code>、<code>Marmoricola</code>、<code>Ammoniphilus</code></strong> 则更偏向 Baquedano 一侧</li>
+</ol>
+<p>这和第 7 篇的差异分析已经开始互相印证。</p>
+<div class="highlight"><pre><span></span><code><span class="n">top15_importance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">importance_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">slice_head</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)</span>
+
+<span class="n">p_importance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span>
+<span class="w">  </span><span class="n">top15_importance</span><span class="p">,</span>
+<span class="w">  </span><span class="nf">aes</span><span class="p">(</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MeanDecreaseAccuracy</span><span class="p">,</span>
+<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">reorder</span><span class="p">(</span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="n">MeanDecreaseAccuracy</span><span class="p">),</span>
+<span class="w">    </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MeanDecreaseAccuracy</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.72</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_fill_gradient</span><span class="p">(</span><span class="n">low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#D9E8D1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#2D7D7D&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Mean Decrease Accuracy&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Importance&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_songlab</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;none&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="nf">save_plot_dual</span><span class="p">(</span><span class="n">p_importance</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ch10_rf_importance&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8.5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5.8</span><span class="p">)</span>
+</code></pre></div>
+<p><img alt="" src="../../assets/16s/ch10_rf_importance-4fb4ced52d.png" /></p>
+<p><strong>图 1：随机森林特征重要性条形图。</strong> 这里最醒目的是 <code>JG30-KF-CM45</code>，它和其他 genus 拉开了明显距离。</p>
+<hr />
+<h2 id="step-4rfe">Step 4：RFE 看最优特征数</h2>
+<p>随机森林可以给你重要性排名，但不告诉你“到底保留多少个 genus 最合适”。RFE 做的就是这个事。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Step 4: Recursive Feature Elimination</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">rfe_ctrl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rfeControl</span><span class="p">(</span><span class="n">functions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rfFuncs</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;LOOCV&quot;</span><span class="p">)</span>
+<span class="n">rfe_sizes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">rf_df</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">))</span>
+<span class="n">rfe_sizes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">unique</span><span class="p">(</span><span class="n">rfe_sizes</span><span class="p">[</span><span class="n">rfe_sizes</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">rf_df</span><span class="p">)])</span>
+
+<span class="n">rfe_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rfe</span><span class="p">(</span>
+<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rf_df</span><span class="p">[,</span><span class="w"> </span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">],</span>
+<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rf_df</span><span class="o">$</span><span class="n">transect</span><span class="p">,</span>
+<span class="w">  </span><span class="n">sizes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rfe_sizes</span><span class="p">,</span>
+<span class="w">  </span><span class="n">rfeControl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rfe_ctrl</span><span class="p">,</span>
+<span class="w">  </span><span class="n">metric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Accuracy&quot;</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;最优特征数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rfe_fit</span><span class="o">$</span><span class="n">optsize</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;最优特征集:\n&quot;</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">predictors</span><span class="p">(</span><span class="n">rfe_fit</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+最优特征数: 30
+最优特征集:
+ [1] &quot;JG30-KF-CM45&quot;                        &quot;Unclassified_Family_unclassified.3&quot;
+ [3] &quot;wb1-P19&quot;                             &quot;Unclassified_Family_unclassified.23&quot;
+ [5] &quot;Ammoniphilus&quot;                        &quot;0319-7L14&quot;
+ [7] &quot;Unclassified_Xanthobacteraceae&quot;      &quot;Marmoricola&quot;
+ [9] &quot;TK10&quot;                                &quot;Crossiella&quot;
+[11] &quot;Paenibacillus&quot;                       &quot;RB41&quot;
+[13] &quot;Conexibacter&quot;                        &quot;Nitrososphaeraceae&quot;
+[15] &quot;Unclassified_Family_unclassified.20&quot; &quot;Blastococcus&quot;
+[17] &quot;Gaiella&quot;                             &quot;Candidatus_Udaeobacter&quot;
+[19] &quot;WD2101_soil_group&quot;                   &quot;Unclassified_Family_unclassified.5&quot;
+[21] &quot;IMCC26256&quot;                           &quot;Unclassified_Planococcaceae&quot;
+[23] &quot;Falsibacillus&quot;                       &quot;P2-11E&quot;
+[25] &quot;Rubrobacter&quot;                         &quot;uncultured&quot;
+[27] &quot;uncultured.6&quot;                        &quot;MB-A2-108&quot;
+[29] &quot;Gitt-GS-136&quot;                         &quot;Kribbella&quot;
+</code></pre></div>
+<p>这个结果很实用：<strong>模型并不需要 71 个特征全上，30 个左右已经够了。</strong></p>
+<p>如果你后面真的要做 panel 设计或实验验证，这种结果会比“先看 top 5”更接近实际工作流。</p>
+<hr />
+<h2 id="step-5shap">Step 5：SHAP 看方向性贡献</h2>
+<p>重要性排名只能告诉你“它重要”，但看不出它是把样本往 Yungay 推，还是往 Baquedano 推。</p>
+<p>所以这里再补一层 SHAP。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Step 5: SHAP 可解释性</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rf_df</span><span class="p">[,</span><span class="w"> </span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span>
+
+<span class="n">pred_wrapper</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">object</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">template</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">rep</span><span class="p">(</span><span class="nf">colMeans</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">newdata</span><span class="p">)),</span>
+<span class="w">    </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">newdata</span><span class="p">),</span>
+<span class="w">    </span><span class="n">byrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">as.data.frame</span><span class="p">(</span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">colnames</span><span class="p">(</span><span class="n">template</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">colnames</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="w">  </span><span class="n">template</span><span class="p">[,</span><span class="w"> </span><span class="nf">colnames</span><span class="p">(</span><span class="n">newdata</span><span class="p">)]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">newdata</span>
+<span class="w">  </span><span class="nf">predict</span><span class="p">(</span><span class="n">object</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">template</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;prob&quot;</span><span class="p">)[,</span><span class="w"> </span><span class="s">&quot;Yungay&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">top_shap_candidates</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">importance_df</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">slice_head</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">pull</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span>
+<span class="n">X_shap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">X</span><span class="p">[,</span><span class="w"> </span><span class="n">top_shap_candidates</span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span>
+
+<span class="n">shap_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">fastshap</span><span class="o">::</span><span class="nf">explain</span><span class="p">(</span>
+<span class="w">  </span><span class="n">object</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">final_rf</span><span class="p">,</span>
+<span class="w">  </span><span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">X_shap</span><span class="p">,</span>
+<span class="w">  </span><span class="n">pred_wrapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pred_wrapper</span><span class="p">,</span>
+<span class="w">  </span><span class="n">nsim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span>
+<span class="w">  </span><span class="n">adjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span>
+<span class="p">)</span>
+
+<span class="n">mean_abs_shap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">  </span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">colnames</span><span class="p">(</span><span class="n">shap_mat</span><span class="p">),</span>
+<span class="w">  </span><span class="n">MeanAbsSHAP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">shap_mat</span><span class="p">),</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">MeanAbsSHAP</span><span class="p">))</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Top 10 SHAP 特征：\n&quot;</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">head</span><span class="p">(</span><span class="n">mean_abs_shap</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+Top 10 SHAP 特征：
+                                    Genus                               MeanAbsSHAP
+JG30-KF-CM45                        JG30-KF-CM45                           0.06844
+wb1-P19                             wb1-P19                                0.03146
+Unclassified_Family_unclassified.23 Unclassified_Family_unclassified.23    0.02141
+0319-7L14                           0319-7L14                              0.02125
+TK10                                TK10                                   0.02017
+Marmoricola                         Marmoricola                            0.01845
+Paenibacillus                       Paenibacillus                          0.01738
+Unclassified_Family_unclassified.3  Unclassified_Family_unclassified.3     0.01030
+Unclassified_Xanthobacteraceae      Unclassified_Xanthobacteraceae         0.00993
+Ammoniphilus                        Ammoniphilus                           0.00983
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">top_shap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mean_abs_shap</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">slice_head</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">pull</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span>
+
+<span class="n">shap_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">shap_mat</span><span class="p">[,</span><span class="w"> </span><span class="n">top_shap</span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">]</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">as.data.frame</span><span class="p">(</span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">rownames_to_column</span><span class="p">(</span><span class="s">&quot;Sample&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Genus&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SHAP&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">left_join</span><span class="p">(</span>
+<span class="w">    </span><span class="n">X</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">      </span><span class="nf">as.data.frame</span><span class="p">(</span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">      </span><span class="nf">rownames_to_column</span><span class="p">(</span><span class="s">&quot;Sample&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">      </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Genus&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;FeatureValue&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Sample&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Genus&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rev</span><span class="p">(</span><span class="n">top_shap</span><span class="p">)))</span>
+
+<span class="n">p_shap</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span>
+<span class="w">  </span><span class="n">shap_long</span><span class="p">,</span>
+<span class="w">  </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SHAP</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FeatureValue</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">position_jitter</span><span class="p">(</span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.15</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.78</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_color_gradient2</span><span class="p">(</span><span class="n">low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey85&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SHAP value (Yungay probability)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;CLR abundance&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_songlab</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;right&quot;</span><span class="p">)</span>
+
+<span class="nf">save_plot_dual</span><span class="p">(</span><span class="n">p_shap</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ch10_rf_shap_beeswarm&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6.2</span><span class="p">)</span>
+</code></pre></div>
+<p><img alt="" src="../../assets/16s/ch10_rf_shap_beeswarm-cf18750d40.png" /></p>
+<p><strong>图 2：SHAP beeswarm。</strong> 横轴越往右，说明该 genus 的取值越会把样本推向 Yungay；越往左，则更偏 Baquedano。</p>
+<p>这张图比单纯 importance 更适合正文解释，因为它能同时给出：</p>
+<ol>
+<li>哪些 genus 重要</li>
+<li>它们影响方向是什么</li>
+<li>同一个 genus 在不同样本里是否稳定</li>
+</ol>
+<hr />
+<h2 id="step-6">Step 6：和差异分析取交集</h2>
+<p>随机森林结果最有说服力的时刻，不是“模型很好”，而是<strong>它和第 7 篇差异分析能对上</strong>。</p>
+<div class="highlight"><pre><span></span><code><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nf">file.exists</span><span class="p">(</span><span class="nf">file.path</span><span class="p">(</span><span class="n">ATACAMA_ROOT</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;consensus_diff_genera.tsv&quot;</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">consensus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">file.path</span><span class="p">(</span><span class="n">ATACAMA_ROOT</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;consensus_diff_genera.tsv&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="w">  </span><span class="n">shared</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">intersect</span><span class="p">(</span><span class="n">consensus</span><span class="o">$</span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="n">importance_df</span><span class="o">$</span><span class="n">Genus</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">])</span>
+<span class="w">  </span><span class="n">core_biomarkers</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shared</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">write_tsv</span><span class="p">(</span><span class="n">core_biomarkers</span><span class="p">,</span><span class="w"> </span><span class="nf">file.path</span><span class="p">(</span><span class="n">ATACAMA_ROOT</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rf_core_biomarkers.tsv&quot;</span><span class="p">))</span>
+<span class="w">  </span><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;与差异丰度分析重叠的核心 biomarker：\n&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">print</span><span class="p">(</span><span class="n">core_biomarkers</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+与差异丰度分析重叠的核心 biomarker：
+# A tibble: 1 × 1
+  Genus
+  &lt;chr&gt;
+1 JG30-KF-CM45
+</code></pre></div>
+<p>这一步直接把最强证据链拉出来了：</p>
+<p><strong><code>JG30-KF-CM45</code> 同时满足：</strong></p>
+<ol>
+<li>LEfSe 显著</li>
+<li>ANCOM-BC 显著</li>
+<li>随机森林重要性最高</li>
+</ol>
+<p>这就是“候选 biomarker”真正开始站稳的地方。</p>
+<hr />
+<h2 id="_3">本篇小结</h2>
+<p>这一篇我们把 Atacama 两条 transect 的 genus 组成转成了一个真正的分类任务。</p>
+<p>结果不夸张，但很扎实：</p>
+<p><strong>LOOCV ROC AUC = 0.8076</strong>，说明模型确实能区分两条 transect。</p>
+<p><strong>最重要的 genus 是 <code>JG30-KF-CM45</code>、<code>wb1-P19</code>、<code>0319-7L14</code>、<code>Paenibacillus</code>、<code>TK10</code>。</strong></p>
+<p><strong>和差异分析交叉验证后，<code>JG30-KF-CM45</code> 是当前最稳的核心 biomarker。</strong></p>
+<hr />
+<h2 id="_4">下一篇预告</h2>
+<p>前面十篇主要都在问“这里有什么”和“谁最能区分两组”。下一篇换一个生态学问题：<strong>这些微生物可能从哪里来？</strong></p>
+<p>我们会把 vegetated 样本当作 source、bare 样本当作 sink，跑一遍 SourceTracker，看看裸地样本里有多少群落结构可以被相邻植被样本解释。</p>
 <hr />
 <blockquote>
-<p>📌 本篇的 R 脚本可在 GitHub 仓库获取。</p>
+<p>📌 本篇图和表都来自服务器实际运行结果，可在 GitHub 仓库直接复现。</p>
 </blockquote>
 <hr />
-<h2 id="_11">本系列导航</h2>
+<h2 id="_5">本系列导航</h2>
 <table>
 <thead>
 <tr>
@@ -1871,7 +1596,7 @@ Alistipes, Roseburia, Veillonella, Parabacteroides
 </tr>
 <tr>
 <td>第 5 篇</td>
-<td>多样性分析——有多"丰富"，彼此有多"不同"</td>
+<td>多样性分析——有多“丰富”，彼此有多“不同”</td>
 <td>✅ 已发布</td>
 </tr>
 <tr>
@@ -1902,17 +1627,17 @@ Alistipes, Roseburia, Veillonella, Parabacteroides
 <tr>
 <td>第 11 篇</td>
 <td>SourceTracker 溯源分析</td>
-<td>🔜 下一篇</td>
+<td>✅ 已发布</td>
 </tr>
 <tr>
 <td>第 12 篇</td>
 <td>微生物组-代谢组联合分析</td>
-<td>即将发布</td>
+<td>✅ 已发布</td>
 </tr>
 <tr>
 <td>第 13 篇</td>
 <td>发表级图表与结果整合</td>
-<td>即将发布</td>
+<td>✅ 已发布</td>
 </tr>
 </tbody>
 </table>

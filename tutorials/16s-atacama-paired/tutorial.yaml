@@ -49,7 +49,7 @@ reproducibility:
     - 双端去噪参数固定为 `trim-left-f/r=13`、`trunc-len-f/r=150`
   provenance:
     - "`data/demux.qza`、`results/table.qza`、`results/taxonomy.qza`、`results/tree/rooted-tree.qza` 都带完整 QIIME2 provenance"
-    - GitHub 站点与 WeChat 草稿都从 `ref/16s/[1-5].md` 同步渲染
+    - GitHub 站点与 WeChat 草稿当前从 `ref/16s/[0-9]*.md` 同步渲染；其中 `01-05` 已纳入 manifest 主线，`06-13` 目前通过同一 profile 继续发布
 data_sources:
   dataset_version: atacama-soils-paired-2024.5-v1
   items:
@@ -591,12 +591,12 @@ publication:
       - 微生物组
       - paired-end
     summary: >
-      QIIME2 Atacama soils 双端 16S 实战教程，覆盖从 EMP paired-end 原始数据到 alpha/beta 多样性分析。
+      QIIME2 Atacama soils 双端 16S 实战教程，覆盖从 EMP paired-end 原始数据到下游差异分析、功能预测、网络、机器学习与整合图表。
   series:
     profile: 16s
-    source_glob: ../../ref/16s/[1-5].md
+    source_glob: ../../ref/16s/[0-9]*.md
     github:
-      bundle_root: ../../site_builds/16s-tutorial
+      bundle_root: ../../site_builds/16s-tutorial-v3
     wechat:
-      output_dir: ../../drafts/16s-series/wechat_drafts_local_v1
+      output_dir: ../../drafts/16s-series/wechat_drafts_local_v3
       author: Songlab

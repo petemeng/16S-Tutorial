@@ -68,9 +68,9 @@
 
 - 图数：2
 
-![](assets/16s/ch08_pathway_barplot-c8e051db93.png)
-
 ![](assets/16s/ch08_nsti_histogram-a1e971eb51.png)
+
+![](assets/16s/ch08_pathway_barplot-c8e051db93.png)
 
 ## [16S 微生物组最佳实践系列（九）：共现网络分析——谁和谁总在一起](series/09.md)
 
