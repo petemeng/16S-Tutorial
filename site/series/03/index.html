@@ -1,0 +1,1486 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到 alpha/beta 多样性分析。">
+      
+      
+        <meta name="author" content="petemeng">
+      
+      
+      
+        <link rel="prev" href="../02/">
+      
+      
+        <link rel="next" href="../04/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>第 3 篇 - 16S 微生物组最佳实践系列</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#16s-dada2" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-header__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            16S 微生物组最佳实践系列
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 3 篇
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01/" class="md-tabs__link">
+          
+  
+  
+  正文
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../figures/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  图表总览
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-nav__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    16S 微生物组最佳实践系列
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    正文
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    正文
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 篇
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dada2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DADA2 在做什么：不讲公式，讲直觉
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一步：看质量图，决定截断位置
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dada2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行 DADA2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        评估去噪结果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="评估去噪结果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每个样本的 reads 变化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查看 ASV 表的基本信息
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="查看 ASV 表的基本信息">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查看代表序列
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        当前项目结构
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../figures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图表总览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dada2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DADA2 在做什么：不讲公式，讲直觉
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一步：看质量图，决定截断位置
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dada2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行 DADA2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        评估去噪结果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="评估去噪结果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        每个样本的 reads 变化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查看 ASV 表的基本信息
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="查看 ASV 表的基本信息">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查看代表序列
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        当前项目结构
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="16s-dada2">16S 微生物组最佳实践系列（三）：DADA2 去噪——从噪声中找到真实序列</h1>
+<blockquote>
+<p>📋 教程信息
+- GitHub：<a href="https://github.com/petemeng/16S-Tutorial">petemeng/16S-Tutorial</a>（完整代码与环境文件）
+- 数据来源：Atacama soils 双端数据集（阿塔卡马沙漠土壤微生物组，54 个预过滤样本）
+- 预计阅读：30 分钟 | 实操：20 分钟（去噪本身约 5-10 分钟）
+- 难度：⭐⭐（5 星制）
+- 前置知识：完成本系列第 2 篇，data/ 目录下有 demux.qza</p>
+</blockquote>
+<hr />
+<h2 id="_1">本篇目标</h2>
+<p>上一篇我们把原始数据导入了 QIIME2，做了解复用（demultiplexing）。现在每个样本的 reads 已经分好了——但这些 reads 里有噪声。</p>
+<p>测序不是完美的。每条 read 里都可能有测序错误——一个碱基被读错了。如果你直接拿这些带噪声的 reads 去数"有多少种不同的序列"，就会严重高估物种多样性：同一种细菌因为测序错误产生了几十个"假"的序列变体，每个都被当成了不同的"物种"。</p>
+<p><strong>DADA2 的任务就是从这些带噪声的 reads 中，推断出真实的生物学序列——ASV。</strong></p>
+<p>读完这一篇，你会：</p>
+<ol>
+<li>理解 DADA2 内部在做什么（不讲数学，讲直觉）</li>
+<li>学会从质量图中选择正向和反向 reads 的截断位置</li>
+<li>运行 DADA2 去噪，得到 ASV 表（feature table）和代表序列</li>
+<li>评估去噪结果——多少 reads 通过了？ASV 数量合理吗？</li>
+<li>知道 reads 暴跌时应该先查什么</li>
+</ol>
+<hr />
+<h2 id="dada2">DADA2 在做什么：不讲公式，讲直觉</h2>
+<p>想象你在一个嘈杂的酒吧里试图听清三个人在说话。你的耳朵（测序仪）有时候会听错一个词——把"cat"听成"bat"。如果你把听到的每个不同的词都当成一个新词，你的词汇表里就会出现很多"幽灵词"。</p>
+<p>DADA2 做的事情类似于：它学习你的"听错"模式（测序错误模型），然后据此推断哪些"不同的词"其实是同一个词的听错版本，把它们校正回来。</p>
+<p>具体来说，DADA2 做了四件事：</p>
+<p><strong>1. 过滤和修剪。</strong> 去掉质量太差的 reads，在用户指定的位置截断（去掉末端的低质量碱基）。</p>
+<p><strong>2. 学习错误模型。</strong> 从数据中学习每种碱基替换错误的发生概率（比如 A→G 的错误率是多少、在不同质量值下分别是多少）。这个错误模型是数据驱动的——不同的测序 run 产生的错误模式不同，DADA2 会为你的数据专门学习。</p>
+<p><strong>3. 去噪（核心步骤）。</strong> 利用学到的错误模型，判断两条看起来不同的序列是否可以用测序错误来解释。如果可以，就把低丰度的那条"校正"到高丰度的那条上。校正后剩下的每一条独特序列就是一个 ASV。</p>
+<p><strong>4. 合并双端 reads。</strong> 如果你的数据是双端测序的，DADA2 会尝试把正向和反向 reads 拼接起来。它们中间应该有一段重叠区域——如果重叠区域的序列不一致（错配太多），这对 reads 就会被丢弃。</p>
+<p><strong>5. 去除嵌合体。</strong> 嵌合体（chimera）是 PCR 过程中产生的假序列——一条 read 的前半段来自细菌 A、后半段来自细菌 B。这种"拼接怪"不代表任何真实的细菌，必须被去除。</p>
+<hr />
+<h2 id="_2">第一步：看质量图，决定截断位置</h2>
+<p>DADA2 需要你告诉它：正向 reads 在哪个位置截断（<code>--p-trunc-len-f</code>），反向 reads 在哪个位置截断（<code>--p-trunc-len-r</code>）。</p>
+<p>截断位置的选择依据是碱基质量——质量开始明显下降的位置就是截断点。我们需要看质量图。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 查看解复用数据的质量图</span>
+<span class="c1"># 这个可视化文件在上一篇已经生成了</span>
+<span class="c1"># 现在我们重点关注它里面的质量曲线</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nb">cd</span><span class="w"> </span>~/16s-atacama-tutorial
+conda<span class="w"> </span>activate<span class="w"> </span>qiime2-amplicon-2024.5
+
+<span class="c1"># 如果上一篇没有生成，这里重新生成</span>
+qiime<span class="w"> </span>demux<span class="w"> </span>summarize<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-data<span class="w"> </span>data/demux-subsample.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-visualization<span class="w"> </span>results/demux-subsample.qzv
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;打开 https://view.qiime2.org 查看 results/demux-subsample.qzv&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;重点看 &#39;Interactive Quality Plot&#39; 标签页&quot;</span>
+</code></pre></div>
+<p>把 <code>demux-subsample.qzv</code> 拖到 https://view.qiime2.org，点击 "Interactive Quality Plot" 标签页。你会看到两张图——正向 reads 和反向 reads 各一张。</p>
+<!-- 图 1 位置：正向 reads 质量图 -->
+<p><img alt="" src="../../assets/16s/demultiplex-summary-forward-5792de8573.png" /></p>
+<!-- 图 2 位置：反向 reads 质量图 -->
+<p><img alt="" src="../../assets/16s/demultiplex-summary-reverse-2b835a29d5.png" /></p>
+<p><strong>图 1-2：正向和反向 reads 的碱基质量分布。</strong> 横轴是碱基在 read 中的位置，纵轴是中位数 Phred 质量值。箱线图显示了每个位置上所有 reads 的质量分布。</p>
+<p><strong>怎么读这两张图，以及怎么选截断位置：</strong></p>
+<p><strong>正向 reads：</strong> Atacama 这套双端数据在前十几个碱基有明显的引物残留和质量波动，过了这一段以后，150 bp 内的质量仍然稳定。我们选择 <strong><code>--p-trim-left-f 13</code></strong> 去掉左端引物区，再用 <strong><code>--p-trunc-len-f 150</code></strong> 保留高质量主体。</p>
+<p><strong>反向 reads：</strong> 反向 reads 的整体质量仍然略低于正向，但在去掉前 13 bp 后，到 150 bp 仍然可用。我们同样选择 <strong><code>--p-trim-left-r 13</code></strong> 和 <strong><code>--p-trunc-len-r 150</code></strong>，保持正反向长度对称。</p>
+<p><strong>为什么这里左右两端都保留 150 bp？</strong> 因为 Atacama 官方 paired-end 教程本身就是按这个参数验证过的，配合 <code>trim-left=13</code> 后，正反向 reads 仍然能提供大约 47 bp 的重叠区，合并是安全的。</p>
+<p>⚠️ <strong>踩坑预警：截断位置和重叠长度的关系</strong></p>
+<blockquote>
+<p>双端 reads 需要在中间有一段重叠区域才能合并。16S V4 区的扩增子长度约 250-253 bp。如果你的正向 reads 保留 150 bp、反向保留 150 bp，那么总共覆盖 300 bp，重叠区域约 300 - 253 = 47 bp。</p>
+<p>DADA2 默认要求重叠区域至少 12 bp。37 bp 远超这个要求，没有问题。</p>
+<p><strong>但如果你截断得太短</strong>——比如正向 120 bp、反向 100 bp，总共 220 bp——就不够覆盖 253 bp 的扩增子了，reads 无法合并，你会看到合并成功率为零或接近零。</p>
+<p><strong>一个简单的公式：</strong>
+<code>trunc_f + trunc_r - amplicon_length ≥ 12</code></p>
+<p>如果不确定你的扩增子长度，查一下你的引物——515F-806R 扩增的 V4 区约 250-253 bp，341F-785R 扩增的 V3-V4 约 430-440 bp（后者通常需要 2×300 bp 测序才能有足够的重叠）。</p>
+</blockquote>
+<hr />
+<h2 id="dada2_1">运行 DADA2</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 运行 DADA2 去噪</span>
+<span class="c1"># 这是整个 16S 上游处理中最耗时的步骤（5-30 分钟）</span>
+<span class="c1">#</span>
+<span class="c1"># --p-trunc-len-f 150: 正向 reads 截断到 150 bp</span>
+<span class="c1"># --p-trunc-len-r 150: 反向 reads 截断到 150 bp</span>
+<span class="c1"># --p-trim-left-f 13: 去掉正向 reads 左端的引物残留</span>
+<span class="c1"># --p-trim-left-r 13: 去掉反向 reads 左端的引物残留</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>dada2<span class="w"> </span>denoise-paired<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-demultiplexed-seqs<span class="w"> </span>data/demux.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p-trunc-len-f<span class="w"> </span><span class="m">150</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p-trunc-len-r<span class="w"> </span><span class="m">150</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p-trim-left-f<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p-trim-left-r<span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-table<span class="w"> </span>results/table.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-representative-sequences<span class="w"> </span>results/rep-seqs.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-denoising-stats<span class="w"> </span>results/denoising-stats.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--verbose
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+Saved FeatureTable[Frequency] to: results/table.qza
+Saved FeatureData[Sequence] to: results/rep-seqs.qza
+Saved SampleData[DADA2Stats] to: results/denoising-stats.qza
+</code></pre></div>
+<p>DADA2 完成了五个步骤。输出了三个关键文件：</p>
+<p><strong><code>table.qza</code></strong> —— Feature table（ASV 表）。一个矩阵，行是 ASV，列是样本，值是每个 ASV 在每个样本中出现的次数。这是后续所有分析的核心输入。</p>
+<p><strong><code>rep-seqs.qza</code></strong> —— Representative sequences（代表序列）。每个 ASV 对应的 DNA 序列。后续用于物种注释和构建系统发育树。</p>
+<p><strong><code>denoising-stats.qza</code></strong> —— 去噪的统计信息。记录了每个样本在每一步有多少 reads 通过、有多少被丢弃。<strong>这是评估去噪质量最重要的文件。</strong></p>
+<hr />
+<h2 id="_3">评估去噪结果</h2>
+<h3 id="reads">每个样本的 reads 变化</h3>
+<p><img alt="" src="../../assets/16s/denoising-retention-summary-cae8f2dc98.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 查看去噪统计——每个样本的 reads 在每一步的变化</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>metadata<span class="w"> </span>tabulate<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--m-input-file<span class="w"> </span>results/denoising-stats.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-visualization<span class="w"> </span>results/denoising-stats.qzv
+
+<span class="c1"># 同时导出为 TSV 方便在命令行查看</span>
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>results/denoising-stats.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>results/denoising-stats-export/
+
+<span class="c1"># 查看关键数字</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== DADA2 去噪统计 ===&quot;</span>
+column<span class="w"> </span>-t<span class="w"> </span>results/denoising-stats-export/stats.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-12
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+=== DADA2 去噪统计 ===
+sample-id    input  filtered  percentage of input passed filter  denoised  merged  percentage of input merged  non-chimeric  percentage of input non-chimeric
+BAQ2420.1.1  2255   2009      89.09                              1565      801     35.52                        801           35.52
+BAQ2420.1.2  2150   1956      90.98                              1720      899     41.81                        899           41.81
+BAQ2420.1.3  2095   1907      91.03                              1730      899     42.91                        899           42.91
+BAQ2420.2    2029   1797      88.57                              1636      938     46.23                        924           45.54
+BAQ2420.3    2031   1779      87.59                              1637      855     42.10                        855           42.10
+BAQ2462.1    2913   2533      86.96                              2354      1368    46.96                        1368          46.96
+BAQ2462.2    1967   1700      86.43                              1595      964     49.01                        964           49.01
+BAQ2462.3    1541   1398      90.72                              1285      667     43.28                        667           43.28
+BAQ2687.1    2688   2459      91.48                              2140      948     35.27                        919           34.19
+BAQ2687.2    2109   1808      85.73                              1680      1225    58.08                        1225          58.08
+...
+</code></pre></div>
+<p>这张表是评估去噪质量的核心。每一列代表 DADA2 流程中的一个步骤：</p>
+<p><strong>input → filtered：</strong> 初始过滤（基于截断位置和修剪参数）。Atacama 这套数据大部分样本的通过率在 85%-91% 左右，说明 <code>trim-left=13</code> + <code>trunc-len=150</code> 的组合没有过度裁剪。</p>
+<p><strong>filtered → denoised：</strong> DADA2 核心去噪。这一步主要是建模和纠错，不会像过滤或合并那样大幅丢 reads。</p>
+<p><strong>denoised → merged：</strong> 双端 reads 合并。这一步是 Atacama 流程里损失最多的一段，很多样本最终保留 35%-58% 的输入 reads。对低生物量、环境来源、paired-end amplicon 数据来说，这个区间是可以接受的。</p>
+<p><strong>merged → non-chimeric：</strong> 嵌合体去除。Atacama 这批样本在这一段损失非常小，说明主要损耗来自 reads 合并而不是嵌合体爆炸。</p>
+<p>让我们计算一下整体的保留率：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 计算每个样本的总保留率</span>
+<span class="c1"># ============================================================</span>
+
+awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;\t&#39;</span><span class="w"> </span><span class="s1">&#39;NR&gt;2 {printf &quot;%s\t%.1f%%\n&quot;, $1, $8/$2*100}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>results/denoising-stats-export/stats.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>column<span class="w"> </span>-t<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-15
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== 总保留率统计 ===&quot;</span>
+awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;\t&#39;</span><span class="w"> </span><span class="s1">&#39;NR&gt;2 {sum+=$8/$2} END {printf &quot;平均: %.1f%%\n&quot;, sum/(NR-2)*100}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>results/denoising-stats-export/stats.tsv
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+BAQ2420.1.1  35.5%
+BAQ2420.1.2  41.8%
+BAQ2420.1.3  42.9%
+BAQ2420.2    45.5%
+BAQ2420.3    42.1%
+BAQ2462.1    47.0%
+BAQ2462.2    49.0%
+BAQ2462.3    43.3%
+BAQ2687.1    34.2%
+BAQ2687.2    58.1%
+...
+
+=== 总保留率统计 ===
+平均: 45.0%
+</code></pre></div>
+<p><strong>平均 45.0% 的总保留率，对这套 desert-soil paired-end 数据是合理的。</strong> 它明显低于人类肠道那类高生物量、质量非常整齐的数据，但仍然保留了 63,491 条 non-chimeric reads、54 个样本和 1,080 个初始 ASV，足够支撑后续下游分析。</p>
+<p>怎么判断这个数字是否正常？参考基准需要结合数据类型看：</p>
+<table>
+<thead>
+<tr>
+<th>总保留率</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt; 60%</td>
+<td>对环境样本来说非常好</td>
+</tr>
+<tr>
+<td>40%-60%</td>
+<td>常见且可接受。重点看合并和嵌合体是否合理</td>
+</tr>
+<tr>
+<td>30%-40%</td>
+<td>需要注意。检查重叠长度和质量尾部</td>
+</tr>
+<tr>
+<td>&lt; 30%</td>
+<td>有问题。需要排查原因后重新去噪</td>
+</tr>
+</tbody>
+</table>
+<p>⚠️ <strong>踩坑预警：reads 在某一步暴跌怎么办</strong></p>
+<blockquote>
+<p>如果你看到某个步骤的 reads 损失特别大，按以下顺序排查：</p>
+<p><strong>filtered 步骤暴跌（&gt; 30% 损失）：</strong> 截断位置设得太激进了。放宽 <code>--p-trunc-len</code> 参数——或者反过来，如果你截断得太少，没有去掉低质量末端，在 denoised 步骤可能反而损失更多。</p>
+<p><strong>merged 步骤暴跌（&gt; 30% 损失）：</strong> 正向和反向 reads 的重叠区域不够长。检查 <code>trunc_f + trunc_r - amplicon_length ≥ 12</code> 是否成立。如果不够，增加截断长度或减少修剪。</p>
+<p><strong>non-chimeric 步骤暴跌（&gt; 30% 损失）：</strong> 嵌合体比例异常高。可能是 PCR 循环数过多导致的——这是实验问题，分析层面无法解决。如果只是某个样本嵌合体比例高，考虑排除该样本。</p>
+<p><strong>某个样本的 input reads 就很少（&lt; 1000）：</strong> 这不是去噪的问题，是上游的问题——测序深度不够或者解复用时 barcode 匹配率低。</p>
+</blockquote>
+<hr />
+<h2 id="asv">查看 ASV 表的基本信息</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Feature table 摘要</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>feature-table<span class="w"> </span>summarize<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-table<span class="w"> </span>results/table.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--m-sample-metadata-file<span class="w"> </span>data/sample-metadata.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-visualization<span class="w"> </span>results/table.qzv
+
+<span class="c1"># 导出为 BIOM 格式再转 TSV，方便命令行查看</span>
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>results/table.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>results/table-export/
+
+<span class="c1"># BIOM → TSV</span>
+biom<span class="w"> </span>convert<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-i<span class="w"> </span>results/table-export/feature-table.biom<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>results/table-export/feature-table.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--to-tsv
+
+<span class="c1"># 查看基本维度</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Feature Table 基本信息 ===&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;ASV 数量:&quot;</span>
+awk<span class="w"> </span><span class="s1">&#39;END {print NR-2}&#39;</span><span class="w"> </span>results/table-export/feature-table.tsv
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;样本数量:&quot;</span>
+awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;\t&#39;</span><span class="w"> </span><span class="s1">&#39;NR==2 {print NF-1}&#39;</span><span class="w"> </span>results/table-export/feature-table.tsv
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;每个样本的 ASV reads 数:&quot;</span>
+tail<span class="w"> </span>-n<span class="w"> </span>+3<span class="w"> </span>results/table-export/feature-table.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>awk<span class="w"> </span><span class="s1">&#39;{for(i=2;i&lt;=NF;i++) sum[i]+=$i}</span>
+<span class="s1">         END {for(i=2;i&lt;=NF;i++) printf &quot;%d\n&quot;, sum[i]}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>sort<span class="w"> </span>-n<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>awk<span class="w"> </span><span class="s1">&#39;NR==1{min=$1} {sum+=$1} END{printf &quot;  最小: %d\n  最大: %d\n  中位数: %d\n  平均: %d\n&quot;, min, $1, sum/NR, sum/NR}&#39;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+=== Feature Table 基本信息 ===
+ASV 数量:
+1080
+样本数量:
+54
+
+每个样本的 ASV reads 数:
+  最小: 33
+  最大: 2133
+  中位数: 1204
+  平均: 1175
+</code></pre></div>
+<p><strong>1,080 个 ASV，54 个样本。</strong> 这正是环境来源 16S 数据的典型感觉：样本数比我们最终做 rarefaction 时保留的多，ASV 数也比人体体位点教学数据更丰富。</p>
+<p>每个样本的 reads 数从 33 到 2,133 不等，中位数约 1,204。后续做多样性分析时，我们不能盲目按最小值抽平——那会把所有样本都压到几乎没信息。第 5 篇会结合稀释曲线，在保留尽可能多样本和保留足够多 reads 之间做权衡。</p>
+<h3 id="_4">查看代表序列</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 看看 ASV 的代表序列长什么样</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>feature-table<span class="w"> </span>tabulate-seqs<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-data<span class="w"> </span>results/rep-seqs.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-visualization<span class="w"> </span>results/rep-seqs.qzv
+
+<span class="c1"># 导出序列</span>
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>results/rep-seqs.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>results/rep-seqs-export/
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;前 5 个 ASV 的序列：&quot;</span>
+head<span class="w"> </span>-10<span class="w"> </span>results/rep-seqs-export/dna-sequences.fasta
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;序列长度分布：&quot;</span>
+awk<span class="w"> </span><span class="s1">&#39;/^&gt;/{next} {print length($0)}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>results/rep-seqs-export/dna-sequences.fasta<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rn<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-5
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+前 5 个 ASV 的序列：
+&gt;d86a9035d3538d8ccc54c8f113db1840
+TACGGAGGGGGCTAGCGTTGTTCGGAATTACTGGGCGTAAAGAGCGCGTAGGCGGTTTGATAAGTCAGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATTGAAACTATCGAACTGGTCAGCTTGAGTATGGCAGAGGTAGGTGGAATTTCGTGTGTAGCGGTGAAATGCGTAGATATACGAAGGAACA
+&gt;9ea1ac66ec39e42e2e50019a500f85e4
+TACGGAGGGGGCTAGCGTTGTTCGGAATTACTGGGCGTAAAGAGCACGTAGGCGGGCTCGTAAGTCAGTGGTGAAAGCCCTGGGCTCAACCCAGGAACTGCCCTGATACTGCGAGTCTAGAGTATGGTAGAGGGTAGCGGAATTCCTAGTGTAGCGGTGAAATGCGTAGATATTAGGAAGAACACC
+&gt;984851508f092d9315d64ca2542ac36c
+TACGGAGGGGGCTAGCGTTGTTCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTTTCGTAAGTTGGATGTGAAATCCCCGGGCTCAACCTGGGAATTGCATCCAAAACTGCGAGACTTGAGTATGGCAGAGGTAGGTGGAATTTCCTGTGTAGCGGTGAAATGCGTAGATATAGGAAGGAACACC
+&gt;f3b015e043182ca0ab424c5577060a60
+TACGGAGGGGGCTAGCGTTGTTCGGAATTACTGGGCGTAAAGCGCGCGTAGGCGGTTCGGTAAGTCCGCTGTGAAAGCCCCGGGCTCAACCTGGGAACTGCAGTCGATACTACCGAGCTTGAGTATGGTAGAGGTTAATGGAATTCCCAGTGTAGAGGTGAAATTCGTAGATATCTGGAGGAACACC
+&gt;70b81248f5d7b37a39489c5e187c8f19
+TACGGAGGGGGCTAGCGTTGTTCGGAATTACTGGGCGTAAAGAGCGCGTAGGCGGATTCGTAAGTCTGATGTGAAATCCCCGGGCTCAACCTGGGAATTGCATTTAAAACTGCGATCCTTGAGTATGGCAGAGGTAAACGGAATTTCCTGTGTAGCGGTGAAATGCGTAGATATAGGAAGGAACACC
+
+序列长度分布：
+    952 227
+     77 228
+     28 226
+</code></pre></div>
+<p><strong>绝大多数 ASV 的长度集中在 226-228 bp，峰值是 227 bp。</strong> 这和我们前面做的 <code>trim-left 13</code> 完全一致：原本的 V4 扩增子长度再去掉两端引物残留后，留下的就是现在看到的主峰长度。</p>
+<p>如果你看到长度分布很离散（比如 200-300 bp 之间都有），说明合并出了问题——可能是截断位置不合适，或者数据中混了非 V4 的扩增产物。</p>
+<hr />
+<h2 id="_5">当前项目结构</h2>
+<div class="highlight"><pre><span></span><code>~/16s-atacama-tutorial/
+├── data/
+│   ├── demux.qza                        # 过滤低深度样本后的解复用数据
+│   ├── emp-paired-end-sequences.qza     # 原始导入数据
+│   └── sample-metadata.tsv              # 样本元数据
+├── results/
+│   ├── table.qza                        # ★ ASV 表（feature table）
+│   ├── rep-seqs.qza                     # ★ 代表序列
+│   ├── denoising-stats.qza             # 去噪统计
+│   ├── demux-summary.qzv               # 解复用质量报告
+│   ├── table.qzv                       # ASV 表摘要
+│   ├── rep-seqs.qzv                    # 代表序列摘要
+│   └── denoising-stats.qzv             # 去噪统计可视化
+└── logs/
+    └── versions.log
+</code></pre></div>
+<p>带 ★ 的两个文件——<code>table.qza</code> 和 <code>rep-seqs.qza</code>——是后续所有分析的核心输入。它们的地位类似于 RNA-seq 中的 counts matrix。</p>
+<hr />
+<h2 id="_6">本篇小结</h2>
+<p>DADA2 去噪是整个 16S 上游处理中最关键的一步。我们完成了：</p>
+<p>从质量图中确定了修剪和截断参数（正反向都 <code>trim-left 13</code>、<code>trunc-len 150</code>），运行了 DADA2 的完整去噪流程（过滤→去噪→合并→去嵌合体），评估了去噪质量（平均 45.0% 的 reads 保留率，54 个样本进入 ASV 表），得到了 1,080 个初始 ASV 和对应的代表序列。</p>
+<p>核心收获：</p>
+<p><strong>截断位置的选择不是随意的。</strong> 它取决于质量图中碱基质量开始明显下降的位置，同时必须保证正反向 reads 有足够的重叠区域（≥ 12 bp）。</p>
+<p><strong>去噪统计表是你的"质检报告"。</strong> 每一步的 reads 变化都有意义——哪一步损失最大，就说明哪个环节可能有问题。</p>
+<p><strong>ASV 的长度分布是一个快速的 sanity check。</strong> 如果几乎所有 ASV 都是预期长度（V4 区约 253 bp），说明去噪和合并都正确完成了。</p>
+<h2 id="_7">下一篇预告</h2>
+<p>我们有了 1,080 个 ASV——但它们只是一串 DNA 序列，我们还不知道每个序列代表的是什么细菌。下一篇我们做<strong>物种注释</strong>：用 Silva 数据库给每个 ASV 打上分类学标签（门→纲→目→科→属），然后构建系统发育树——这棵树在后续的 UniFrac 距离计算中会用到。</p>
+<p>下篇见。</p>
+<hr />
+<blockquote>
+<p>📌 本篇所有命令和输出均来自实际运行记录。</p>
+</blockquote>
+<hr />
+<h2 id="_8">本系列导航</h2>
+<table>
+<thead>
+<tr>
+<th>篇目</th>
+<th>主题</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 篇</td>
+<td>只测一个基因，怎么就能知道有哪些细菌</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 2 篇</td>
+<td>搭建环境，拿到数据</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td><strong>第 3 篇</strong></td>
+<td><strong>DADA2 去噪——从噪声中找到真实序列</strong></td>
+<td><strong>📍 本篇</strong></td>
+</tr>
+<tr>
+<td>第 4 篇</td>
+<td>物种注释与系统发育树</td>
+<td>🔜 下一篇</td>
+</tr>
+<tr>
+<td>第 5 篇</td>
+<td>Alpha 和 Beta 多样性分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 6 篇</td>
+<td>物种组成可视化</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 7 篇</td>
+<td>差异物种分析：LEfSe + ANCOM-BC</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 8 篇</td>
+<td>PICRUSt2 功能预测</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 9 篇</td>
+<td>共现网络分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 10 篇</td>
+<td>随机森林 biomarker 筛选</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 11 篇</td>
+<td>SourceTracker 溯源分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 12 篇</td>
+<td>微生物组-代谢组联合分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 13 篇</td>
+<td>发表级图表与结果整合</td>
+<td>即将发布</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../02/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第 2 篇">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                第 2 篇
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../04/" class="md-footer__link md-footer__link--next" aria-label="下一页: 第 4 篇">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                第 4 篇
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

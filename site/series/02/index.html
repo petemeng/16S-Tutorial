@@ -1,0 +1,1659 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到 alpha/beta 多样性分析。">
+      
+      
+        <meta name="author" content="petemeng">
+      
+      
+      
+        <link rel="prev" href="../01/">
+      
+      
+        <link rel="next" href="../03/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>第 2 篇 - 16S 微生物组最佳实践系列</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#16s" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-header__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            16S 微生物组最佳实践系列
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 2 篇
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01/" class="md-tabs__link">
+          
+  
+  
+  正文
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../figures/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  图表总览
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-nav__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    16S 微生物组最佳实践系列
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    正文
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    正文
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 篇
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        我们选了什么数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qiime2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装 QIIME2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qiime2-artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QIIME2 的 artifact 系统：先搞懂再动手
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="QIIME2 的 artifact 系统：先搞懂再动手">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是 artifact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么要搞这么复杂
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        日常操作中你需要记住的
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        创建项目目录
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下载数据
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="下载数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        看一眼样本元数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qiime2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        将数据导入 QIIME2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="将数据导入 QIIME2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        按条形码拆分样本
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一次看你的数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        当前项目结构
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../figures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图表总览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        我们选了什么数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qiime2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装 QIIME2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qiime2-artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QIIME2 的 artifact 系统：先搞懂再动手
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="QIIME2 的 artifact 系统：先搞懂再动手">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#artifact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是 artifact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么要搞这么复杂
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        日常操作中你需要记住的
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        创建项目目录
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下载数据
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="下载数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        看一眼样本元数据
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qiime2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        将数据导入 QIIME2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="将数据导入 QIIME2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        按条形码拆分样本
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一次看你的数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        当前项目结构
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="16s">16S 微生物组最佳实践系列（二）：搭建环境，拿到数据</h1>
+<blockquote>
+<p>📋 教程信息
+- GitHub：<a href="https://github.com/petemeng/16S-Tutorial">petemeng/16S-Tutorial</a>（完整代码与环境文件）
+- 数据来源：QIIME2 "Atacama soils" 教程数据集（双端土壤微生物组，V4 区）
+- 预计阅读：25 分钟 | 实操：30 分钟
+- 难度：⭐（5 星制）
+- 前置知识：读过本系列第 1 篇，会打开终端</p>
+</blockquote>
+<hr />
+<h2 id="_1">本篇目标</h2>
+<p>上一篇我们搞清楚了 16S 分析的核心概念。这一篇我们开始动手——搭环境、下数据、和 QIIME2 打个照面。</p>
+<p>读完这一篇，你会：</p>
+<ol>
+<li>在你的电脑或服务器上安装好 QIIME2</li>
+<li>理解 QIIME2 的 artifact 系统——它为什么存在、怎么用</li>
+<li>下载一个真实的 16S 数据集并导入 QIIME2</li>
+<li>第一次看到你的测序数据长什么样</li>
+</ol>
+<hr />
+<h2 id="_2">我们选了什么数据</h2>
+<p>我们使用 QIIME2 官方的 <strong>"Atacama soils"</strong> 双端教程数据集。它来自智利阿塔卡马沙漠土壤样本，包含 Baquedano 和 Yungay 两条 transect 的多点采样，配套完整的 barcode 元数据和 EMP 双端测序文件。</p>
+<p>为什么选这个？</p>
+<p><strong>第一，它是真正的双端官方教程数据。</strong> 既然这一套教程要讲标准双端流程，就不该再硬套单端的 Moving Pictures。Atacama 是 QIIME2 官方现成的 paired-end 教程路径，从导入、解复用、DADA2 到多样性分析都有标准做法。</p>
+<p><strong>第二，它足够小，但不是玩具数据。</strong> 官方提供的是 10% 子集，下载量大约 300 MB，几分钟内就能拿到；但元数据、环境梯度、样本数都是真实研究规模，后面做差异分析和多样性分析不会像 mock dataset 一样失真。</p>
+<p><strong>第三，它的生物学问题很适合教学。</strong> 这不是"肠道 vs 手掌"那种一眼分团的超强效应，而是更接近真实项目的环境梯度比较：不同 transect、不同 site、不同 depth 的土壤群落有差异，但差异没有夸张到遮住方法学细节。你会更清楚地看到"统计显著"和"视觉分离"不一定是同一回事。</p>
+<hr />
+<h2 id="qiime2">安装 QIIME2</h2>
+<p>QIIME2 的安装有多种方式。我们用 conda——和 RNA-seq 系列保持一致，也是最省心的方式。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 安装 QIIME2（2024.5 版本）</span>
+<span class="c1"># 这台服务器上直接走 defaults 源不稳定，所以先把官方 YAML</span>
+<span class="c1"># 改写成清华镜像版，再创建环境</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 如果你还没有 conda，先安装 Miniconda</span>
+<span class="c1"># （RNA-seq 系列第 2 篇有详细步骤，这里不重复）</span>
+
+<span class="c1"># 下载官方环境文件</span>
+curl<span class="w"> </span>--http1.1<span class="w"> </span>-fL<span class="w"> </span>--retry<span class="w"> </span><span class="m">20</span><span class="w"> </span>--retry-all-errors<span class="w"> </span>--retry-delay<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>/tmp/qiime2-amplicon-2024.5.yml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>https://data.qiime2.org/distro/amplicon/qiime2-amplicon-2024.5-py39-linux-conda.yml
+
+<span class="c1"># 改写 channel，避免 defaults / repo.anaconda.com 在服务器上卡住</span>
+python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;&#39;PY&#39;</span>
+<span class="s">from pathlib import Path</span>
+
+<span class="s">src = Path(&quot;/tmp/qiime2-amplicon-2024.5.yml&quot;)</span>
+<span class="s">dst = Path(&quot;/tmp/qiime2-amplicon-2024.5-mirrored.yml&quot;)</span>
+<span class="s">lines = src.read_text(encoding=&quot;utf-8&quot;).splitlines()</span>
+
+<span class="s">out = []</span>
+<span class="s">in_channels = False</span>
+<span class="s">for line in lines:</span>
+<span class="s">    if line.startswith(&quot;channels:&quot;):</span>
+<span class="s">        out.append(line)</span>
+<span class="s">        in_channels = True</span>
+<span class="s">        continue</span>
+<span class="s">    if in_channels and line.startswith(&quot;dependencies:&quot;):</span>
+<span class="s">        out.extend([</span>
+<span class="s">            &quot;- https://packages.qiime2.org/qiime2/2024.5/amplicon/released&quot;,</span>
+<span class="s">            &quot;- bioconda&quot;,</span>
+<span class="s">            &quot;- conda-forge&quot;,</span>
+<span class="s">            &quot;- https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main&quot;,</span>
+<span class="s">            &quot;- https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r&quot;,</span>
+<span class="s">        ])</span>
+<span class="s">        out.append(line)</span>
+<span class="s">        in_channels = False</span>
+<span class="s">        continue</span>
+<span class="s">    if not in_channels:</span>
+<span class="s">        out.append(line)</span>
+
+<span class="s">dst.write_text(&quot;\n&quot;.join(out) + &quot;\n&quot;, encoding=&quot;utf-8&quot;)</span>
+<span class="s">print(dst)</span>
+<span class="s">PY</span>
+
+<span class="c1"># 创建环境</span>
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>qiime2-amplicon-2024.5<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--file<span class="w"> </span>/tmp/qiime2-amplicon-2024.5-mirrored.yml
+
+<span class="c1"># 激活环境</span>
+<span class="nv">CONDA_BASE</span><span class="o">=</span><span class="k">$(</span>conda<span class="w"> </span>info<span class="w"> </span>--base<span class="k">)</span>
+<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CONDA_BASE</span><span class="s2">/etc/profile.d/conda.sh&quot;</span>
+conda<span class="w"> </span>activate<span class="w"> </span>qiime2-amplicon-2024.5
+
+<span class="c1"># 验证安装</span>
+qiime<span class="w"> </span>--version
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+q2cli version 2024.5.0 Run `qiime info` for more version details.
+</code></pre></div>
+<p>如果你看到了版本号，说明安装成功了。</p>
+<p>⚠️ <strong>踩坑预警：安装失败的常见原因</strong></p>
+<blockquote>
+<p><strong>内存不足：</strong> QIIME2 环境的解析（solving environment）阶段很吃内存。如果你的机器内存 &lt; 4 GB，可能会卡住或报错。解决方案：用 <code>mamba</code> 替代 <code>conda</code> 做环境解析——速度快得多，内存占用也小：</p>
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>install<span class="w"> </span>-n<span class="w"> </span>base<span class="w"> </span>mamba<span class="w"> </span>-y
+mamba<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>qiime2-amplicon-2024.5<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--file<span class="w"> </span>qiime2-amplicon-2024.5-py39-linux-conda.yml
+</code></pre></div>
+<p><strong>网络超时：</strong> 国内服务器下载 conda 包可能很慢。配置清华镜像源（RNA-seq 系列第 2 篇有详细步骤）可以大幅加速。</p>
+<p><strong>版本冲突：</strong> 如果你之前装过老版本的 QIIME2，不要在同一个环境里升级——直接创建一个新环境。不同版本的 QIIME2 依赖的包版本差异很大，混装会导致各种奇怪的报错。</p>
+</blockquote>
+<hr />
+<h2 id="qiime2-artifact">QIIME2 的 artifact 系统：先搞懂再动手</h2>
+<p>在下载数据之前，我们需要先理解 QIIME2 最独特的一个设计——artifact 系统。如果你不理解这个概念，后面每一条命令都会让你困惑。</p>
+<h3 id="artifact">什么是 artifact</h3>
+<p>在大多数生信工具里，输入是文件（FASTQ、BAM、TSV），输出也是文件。你可以随时用 <code>head</code>、<code>cat</code> 或 Excel 打开它们。</p>
+<p>QIIME2 不一样。它把所有数据都包装成了一种特殊格式，后缀名是 <strong><code>.qza</code></strong>（QIIME2 Artifact）。<code>.qza</code> 文件本质上是一个 zip 压缩包，里面包含了：</p>
+<ol>
+<li><strong>数据本身</strong>（比如 FASTQ 文件、feature table、分类学注释等）</li>
+<li><strong>元数据</strong>（数据的类型是什么、用了什么方法生成的）</li>
+<li><strong>完整的分析溯源记录</strong>（provenance）——这份数据是从哪一步来的、每一步用了什么参数</li>
+</ol>
+<p>另外还有 <strong><code>.qzv</code></strong> 文件（QIIME2 Visualization），专门用来存储可视化结果。你可以把 <code>.qzv</code> 文件拖到 https://view.qiime2.org 在浏览器里查看。</p>
+<h3 id="_3">为什么要搞这么复杂</h3>
+<p>你可能觉得"直接用 FASTQ 和 TSV 不好吗，干嘛要包一层？"</p>
+<p><strong>原因一：防止误用。</strong> QIIME2 的每个命令都会检查输入数据的"语义类型"（semantic type）。比如 <code>qiime dada2 denoise-paired</code> 只接受 <code>SampleData[PairedEndSequencesWithQuality]</code> 类型的输入——如果你不小心传了一个 feature table，它会立刻报错，而不是默默地给你一个没有意义的结果。</p>
+<p><strong>原因二：可追溯性。</strong> 每个 <code>.qza</code> 文件都记录了它从哪里来、经过了哪些处理步骤。如果你半年后回头看一个分析结果，不用翻笔记本——打开 <code>.qza</code> 的 provenance 就能看到完整的分析历史。</p>
+<p><strong>原因三：可复现性。</strong> provenance 里不仅记录了你做了什么，还记录了每一步用的 QIIME2 版本和插件版本。这意味着别人拿到你的 <code>.qza</code> 文件就能知道怎么复现你的分析。</p>
+<h3 id="_4">日常操作中你需要记住的</h3>
+<div class="highlight"><pre><span></span><code>.qza = 数据（不能直接看，需要导出或者用 QIIME2 命令处理）
+.qzv = 可视化（拖到 view.qiime2.org 就能看）
+</code></pre></div>
+<p>如果你想看 <code>.qza</code> 里到底装了什么，可以用 <code>qiime tools export</code> 把数据导出为常规格式（FASTQ、BIOM、TSV 等）。我们后面会经常用到这个操作——尤其是把数据导出到 R 做下游分析的时候。</p>
+<hr />
+<h2 id="_5">创建项目目录</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 创建项目目录结构</span>
+<span class="c1"># ============================================================</span>
+
+mkdir<span class="w"> </span>-p<span class="w"> </span>~/16s-atacama-tutorial/<span class="o">{</span>data/raw/emp-paired-end-sequences,results,logs<span class="o">}</span>
+<span class="nb">cd</span><span class="w"> </span>~/16s-atacama-tutorial
+
+<span class="c1"># 记录版本信息</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== Tool Versions ===&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>logs/versions.log
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;QIIME2: </span><span class="k">$(</span>qiime<span class="w"> </span>--version<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>logs/versions.log
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Date: </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>logs/versions.log
+cat<span class="w"> </span>logs/versions.log
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+=== Tool Versions ===
+QIIME2: q2cli version 2024.5.0 Run `qiime info` for more version details.
+Date: Mon Mar 16 13:18:12 CST 2026
+</code></pre></div>
+<hr />
+<h2 id="_6">下载数据</h2>
+<p>Atacama soils 数据集可以直接从 QIIME2 的数据服务器下载。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 下载 Atacama soils 10% paired-end 教程数据</span>
+<span class="c1"># 包含：</span>
+<span class="c1">#   - barcode FASTQ</span>
+<span class="c1">#   - forward / reverse FASTQ</span>
+<span class="c1">#   - 样本元数据文件（记录 transect、site、depth 等环境信息）</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 如需代理加速，可取消下面两行注释</span>
+<span class="c1"># export http_proxy=&quot;http://iyun70.com:7890&quot;</span>
+<span class="c1"># export https_proxy=&quot;http://iyun70.com:7890&quot;</span>
+
+curl<span class="w"> </span>--http1.1<span class="w"> </span>-fL<span class="w"> </span>--retry<span class="w"> </span><span class="m">20</span><span class="w"> </span>--retry-all-errors<span class="w"> </span>--retry-delay<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>data/sample-metadata.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>https://data.qiime2.org/2024.5/tutorials/atacama-soils/sample_metadata.tsv
+
+curl<span class="w"> </span>--http1.1<span class="w"> </span>-fL<span class="w"> </span>--retry<span class="w"> </span><span class="m">20</span><span class="w"> </span>--retry-all-errors<span class="w"> </span>--retry-delay<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>data/raw/emp-paired-end-sequences/forward.fastq.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>https://data.qiime2.org/2024.5/tutorials/atacama-soils/10p/forward.fastq.gz
+
+curl<span class="w"> </span>--http1.1<span class="w"> </span>-fL<span class="w"> </span>--retry<span class="w"> </span><span class="m">20</span><span class="w"> </span>--retry-all-errors<span class="w"> </span>--retry-delay<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>data/raw/emp-paired-end-sequences/reverse.fastq.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>https://data.qiime2.org/2024.5/tutorials/atacama-soils/10p/reverse.fastq.gz
+
+curl<span class="w"> </span>--http1.1<span class="w"> </span>-fL<span class="w"> </span>--retry<span class="w"> </span><span class="m">20</span><span class="w"> </span>--retry-all-errors<span class="w"> </span>--retry-delay<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>data/raw/emp-paired-end-sequences/barcodes.fastq.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>https://data.qiime2.org/2024.5/tutorials/atacama-soils/10p/barcodes.fastq.gz
+
+du<span class="w"> </span>-sh<span class="w"> </span>data/raw/emp-paired-end-sequences
+ls<span class="w"> </span>-lh<span class="w"> </span>data/raw/emp-paired-end-sequences/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+310M    data/raw/emp-paired-end-sequences
+-rw-rw-r-- 1 tly9658 tly9658  20M  barcodes.fastq.gz
+-rw-rw-r-- 1 tly9658 tly9658 137M  forward.fastq.gz
+-rw-rw-r-- 1 tly9658 tly9658 154M  reverse.fastq.gz
+</code></pre></div>
+<p>三个文件：<code>forward.fastq.gz</code>（正向 reads）、<code>reverse.fastq.gz</code>（反向 reads）和 <code>barcodes.fastq.gz</code>（条形码序列，用于拆分样本）。</p>
+<p>这个数据集的测序方式是典型的 EMP 多样本混合测序：所有样本的 reads 先混在一起，再通过 barcode 序列解复用。和 RNA-seq 常见的"每个样本一对 FASTQ"不同，但在 16S 扩增子数据里非常常见。</p>
+<h3 id="_7">看一眼样本元数据</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 查看样本元数据——这是整个分析最重要的文件之一</span>
+<span class="c1"># 它记录了每个样本的分组信息、采样时间等</span>
+<span class="c1"># ============================================================</span>
+
+head<span class="w"> </span>-10<span class="w"> </span>data/sample-metadata.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>column<span class="w"> </span>-t
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;样本总数：&quot;</span>
+tail<span class="w"> </span>-n<span class="w"> </span>+2<span class="w"> </span>data/sample-metadata.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;transect 分布：&quot;</span>
+tail<span class="w"> </span>-n<span class="w"> </span>+3<span class="w"> </span>data/sample-metadata.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>cut<span class="w"> </span>-f7<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rn
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;depth 分布：&quot;</span>
+tail<span class="w"> </span>-n<span class="w"> </span>+3<span class="w"> </span>data/sample-metadata.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>cut<span class="w"> </span>-f9<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-n<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+sample-id    barcode-sequence  elevation  extract-concen  amplicon-concentration  extract-group-no  transect-name  site-name  depth  ph    ...
+#q2:types    categorical       numeric    numeric         numeric                  categorical       categorical    categorical numeric numeric ...
+BAQ1370.1.2  GCCCAAGTTCAC      1370       0.019           0.950                    B                 Baquedano      BAQ1370    2      7.98  ...
+BAQ1370.3    GCGCCGAATCTT      1370       0.124           17.460                   E                 Baquedano      BAQ1370    2            ...
+BAQ1370.1.3  ATAAAGAGGAGG      1370       1.200           0.960                    J                 Baquedano      BAQ1370    3      8.13  ...
+BAQ1552.1.1  ATCCCAGCATGC      1552       0.722           18.830                   J                 Baquedano      BAQ1552    1      7.87  ...
+BAQ1552.2    GCTTCCAGACAA      1552       0.017           2.000                    B                 Baquedano      BAQ1552    2            ...
+BAQ2420.1.1  ACACAGTCCTGA      2420       0.350           7.400                    H                 Baquedano      BAQ2420    1      9.33  ...
+BAQ2420.1.2  ATTATACGGCGC      2420       0.108           11.420                   H                 Baquedano      BAQ2420    2      9.36  ...
+BAQ2420.2    TAAACGCGACTC      2420       0.089           10.060                   A                 Baquedano      BAQ2420    2      9.36  ...
+
+样本总数：
+75
+
+transect 分布：
+     43 Yungay
+     32 Baquedano
+
+depth 分布：
+      8 1
+     59 2
+      8 3
+</code></pre></div>
+<p>这份元数据不是简单的"分组标签"，而是完整的环境信息表。最直接的两个变量是 <code>transect-name</code>（Baquedano vs Yungay）和 <code>depth</code>（1/2/3）。后面做 alpha、beta 多样性和差异分析时，我们会先从 <code>transect-name</code> 这条主线讲起。</p>
+<p>💡 <strong>关于样本元数据文件的格式</strong></p>
+<blockquote>
+<p>QIIME2 对元数据文件格式有严格要求：</p>
+<ul>
+<li>必须是 TSV（制表符分隔）格式</li>
+<li>第一列必须是 <code>sample-id</code></li>
+<li><strong>第二行必须是数据类型声明</strong>（<code>#q2:types</code>），标注每一列是 <code>categorical</code>（分类型）还是 <code>numeric</code>（数值型）</li>
+<li>不允许有空行或不完整的行</li>
+</ul>
+<p>格式错误是初学者最常遇到的 QIIME2 报错来源之一。如果你自己准备元数据文件，建议用 Keemei（一个 Google Sheets 插件）做格式检查，或者直接用 <code>qiime metadata tabulate</code> 验证。</p>
+</blockquote>
+<hr />
+<h2 id="qiime2_1">将数据导入 QIIME2</h2>
+<p>原始 FASTQ 文件不能直接被 QIIME2 的分析命令使用——需要先导入为 <code>.qza</code> artifact。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 将 FASTQ 文件导入 QIIME2 artifact</span>
+<span class="c1"># --type: 告诉 QIIME2 这是双端测序的多样本混合数据</span>
+<span class="c1"># --input-format: 数据格式是 EMP 协议的双端测序</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>tools<span class="w"> </span>import<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--type<span class="w"> </span>EMPPairedEndSequences<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>data/raw/emp-paired-end-sequences<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>data/emp-paired-end-sequences.qza
+
+ls<span class="w"> </span>-lh<span class="w"> </span>data/emp-paired-end-sequences.qza
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+-rw-rw-r-- 1 tly9658 tly9658 310M data/emp-paired-end-sequences.qza
+</code></pre></div>
+<p>310 MB 的 <code>.qza</code> 文件——里面包含了原始的 FASTQ 数据加上 QIIME2 的元数据。</p>
+<h3 id="_8">按条形码拆分样本</h3>
+<p>这个数据集是多样本混合测序的，我们需要用 barcode 把不同样本的 reads 拆分开来：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 解复用（demultiplexing）：用 barcode 把 reads 分配到样本</span>
+<span class="c1"># --p-rev-comp-mapping-barcodes: barcode 序列是反向互补的</span>
+<span class="c1">#   （这取决于建库方案，EMP 协议需要这个参数）</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>demux<span class="w"> </span>emp-paired<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-seqs<span class="w"> </span>data/emp-paired-end-sequences.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--m-barcodes-file<span class="w"> </span>data/sample-metadata.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--m-barcodes-column<span class="w"> </span>barcode-sequence<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p-rev-comp-mapping-barcodes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-per-sample-sequences<span class="w"> </span>data/demux-full.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-error-correction-details<span class="w"> </span>data/demux-details.qza
+
+<span class="c1"># 官方 Atacama 教程会先做一次 30% 下采样，便于快速查看质量图</span>
+qiime<span class="w"> </span>demux<span class="w"> </span>subsample-paired<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-sequences<span class="w"> </span>data/demux-full.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p-fraction<span class="w"> </span><span class="m">0</span>.3<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-subsampled-sequences<span class="w"> </span>data/demux-subsample.qza
+
+qiime<span class="w"> </span>demux<span class="w"> </span>summarize<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-data<span class="w"> </span>data/demux-subsample.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-visualization<span class="w"> </span>results/demux-subsample.qzv
+
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>results/demux-subsample.qzv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>demux-subsample/
+
+<span class="c1"># 过滤掉下采样后 reads 太少的样本，得到后续真正用于 DADA2 的 demux.qza</span>
+qiime<span class="w"> </span>demux<span class="w"> </span>filter-samples<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-demux<span class="w"> </span>data/demux-subsample.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--m-metadata-file<span class="w"> </span>demux-subsample/per-sample-fastq-counts.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p-where<span class="w"> </span><span class="s1">&#39;CAST([forward sequence count] AS INT) &gt; 100&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-filtered-demux<span class="w"> </span>data/demux.qza
+
+qiime<span class="w"> </span>demux<span class="w"> </span>summarize<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-data<span class="w"> </span>data/demux.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-visualization<span class="w"> </span>results/demux-summary.qzv
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;解复用完成。可视化文件：results/demux-summary.qzv&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;用浏览器打开 https://view.qiime2.org 查看&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+Saved SampleData[PairedEndSequencesWithQuality] to: data/demux-full.qza
+Saved ErrorCorrectionDetails to: data/demux-details.qza
+Saved SampleData[PairedEndSequencesWithQuality] to: data/demux-subsample.qza
+Saved Visualization to: results/demux-subsample.qzv
+Exported results/demux-subsample.qzv as Visualization to directory demux-subsample/
+Saved SampleData[PairedEndSequencesWithQuality] to: data/demux.qza
+Saved Visualization to: results/demux-summary.qzv
+解复用完成。可视化文件：results/demux-summary.qzv
+</code></pre></div>
+<p>⚠️ <strong>踩坑预警：如果你的数据已经按样本拆分了</strong></p>
+<blockquote>
+<p>很多测序公司会直接给你按样本拆分好的 FASTQ 文件（每个样本一对 <code>_R1.fastq.gz</code> 和 <code>_R2.fastq.gz</code>），而不是混合的 EMP 格式。这种情况下你不需要解复用，直接用另一种方式导入：</p>
+<div class="highlight"><pre><span></span><code>qiime<span class="w"> </span>tools<span class="w"> </span>import<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--type<span class="w"> </span><span class="s1">&#39;SampleData[PairedEndSequencesWithQuality]&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>data/raw/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-format<span class="w"> </span>CasavaOneEightSingleLanePerSampleDirFmt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>data/demux.qza
+</code></pre></div>
+<p><strong>关键区别</strong>：<code>--type</code> 和 <code>--input-format</code> 的选择取决于你的数据格式。搞错了会报错，或者更糟——不报错但数据被错误解析。不确定的时候，先用 <code>ls</code> 看看你的文件命名格式，然后去 QIIME2 文档查对应的导入方式。</p>
+</blockquote>
+<hr />
+<h2 id="_9">第一次看你的数据</h2>
+<p>解复用完成后，我们先看看数据的基本情况。把 <code>results/demux-summary.qzv</code> 拖到 https://view.qiime2.org（或者用 <code>qiime tools view results/demux-summary.qzv</code>），你会看到一个交互式的质量报告。</p>
+<p>但我们也可以用命令行快速看几个关键数字：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 查看每个样本的 reads 数量</span>
+<span class="c1"># 这里直接复用 demux-subsample 导出的 per-sample-fastq-counts.tsv</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;下采样后元数据样本数：&quot;</span>
+tail<span class="w"> </span>-n<span class="w"> </span>+3<span class="w"> </span>data/sample-metadata.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;downsample 后保留 &gt;100 forward reads 的样本数：&quot;</span>
+awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;\t&#39;</span><span class="w"> </span><span class="s1">&#39;NR&gt;1 &amp;&amp; $2&gt;100 {n++} END {print n}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>demux-subsample/per-sample-fastq-counts.tsv
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;forward reads 概要：&quot;</span>
+awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;\t&#39;</span><span class="w"> </span><span class="s1">&#39;NR&gt;1 {print $2}&#39;</span><span class="w"> </span>demux-subsample/per-sample-fastq-counts.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>sort<span class="w"> </span>-n<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">        NR==1 {min=$1}</span>
+<span class="s1">        {a[NR]=$1; sum+=$1}</span>
+<span class="s1">        END {</span>
+<span class="s1">            print &quot;  最小:&quot;, min</span>
+<span class="s1">            print &quot;  最大:&quot;, a[NR]</span>
+<span class="s1">            print &quot;  中位数:&quot;, a[int((NR+1)/2)]</span>
+<span class="s1">            print &quot;  平均:&quot;, int(sum/NR)</span>
+<span class="s1">        }&#39;</span>
+</code></pre></div>
+<p>在 <code>results/demux-subsample.qzv</code> 的可视化中，你会看到两张关键图：</p>
+<p><strong>每个样本的 reads 数量分布。</strong> 这套数据在下采样后依然差异很大——有的样本几乎没有 reads，有的样本还有四千多条。为了避免后续 DADA2 被低深度样本拖累，我们只保留 <code>forward sequence count &gt; 100</code> 的 54 个样本进入下一篇。</p>
+<p><strong>碱基质量随 reads 位置的变化。</strong> 和 RNA-seq 类似，reads 末端的质量通常会下降。但在 16S 分析中，这张图还帮你决定一个关键参数：<strong>在 DADA2 去噪时，正向和反向 reads 分别在哪个位置截断。</strong> 这是下一篇的核心内容。</p>
+<!-- 图 1 位置：正向 reads 质量图 -->
+<p><img alt="" src="../../assets/16s/demultiplex-summary-forward-5792de8573.png" /></p>
+<!-- 图 2 位置：反向 reads 质量图 -->
+<p><img alt="" src="../../assets/16s/demultiplex-summary-reverse-2b835a29d5.png" /></p>
+<hr />
+<h2 id="_10">当前项目结构</h2>
+<div class="highlight"><pre><span></span><code>find<span class="w"> </span>~/16s-atacama-tutorial<span class="w"> </span>-maxdepth<span class="w"> </span><span class="m">2</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>sed<span class="w"> </span><span class="s2">&quot;s|</span><span class="nv">$HOME</span><span class="s2">/16s-atacama-tutorial/||&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+data/demux-details.qza
+data/demux-full.qza
+data/demux-subsample.qza
+data/demux.qza
+data/emp-paired-end-sequences.qza
+data/sample-metadata.tsv
+logs/versions.log
+results/demux-subsample.qzv
+results/demux-summary.qzv
+</code></pre></div>
+<hr />
+<h2 id="_11">本篇小结</h2>
+<p>我们完成了三件事：安装了 QIIME2、下载并导入了 Atacama soils 双端数据集、完成了解复用和低深度样本过滤，并第一次查看了数据的基本质量。</p>
+<p>更重要的是，我们理解了 QIIME2 的 artifact 系统——<code>.qza</code> 不是普通文件，而是带有类型检查和溯源记录的数据包。这个设计在刚接触时会觉得多此一举，但随着分析的推进，你会越来越体会到它在防错和追溯上的价值。</p>
+<h2 id="_12">下一篇预告</h2>
+<p>数据到手了，接下来我们进入 16S 分析最关键的一步：<strong>DADA2 去噪</strong>。这一步从解复用后的双端 reads 中，推断出真实的 ASV 序列。去噪的质量直接决定了后续所有分析的可靠性。</p>
+<p>下一篇我们会详细讲：DADA2 内部在做什么？正向和反向 reads 的截断位置怎么选？去噪后应该剩下多少 reads 才正常？以及——如果你的样本在去噪后 reads 数量暴跌，应该先查什么？</p>
+<p>下篇见。</p>
+<hr />
+<blockquote>
+<p>📌 本篇所有命令均来自实际运行记录。完整的脚本文件和日志可在 GitHub 仓库获取。</p>
+</blockquote>
+<hr />
+<h2 id="_13">本系列导航</h2>
+<table>
+<thead>
+<tr>
+<th>篇目</th>
+<th>主题</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 篇</td>
+<td>只测一个基因，怎么就能知道有哪些细菌</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td><strong>第 2 篇</strong></td>
+<td><strong>搭建环境，拿到数据</strong></td>
+<td><strong>📍 本篇</strong></td>
+</tr>
+<tr>
+<td>第 3 篇</td>
+<td>DADA2 去噪——从噪声中找到真实序列</td>
+<td>🔜 下一篇</td>
+</tr>
+<tr>
+<td>第 4 篇</td>
+<td>物种注释与系统发育树</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 5 篇</td>
+<td>Alpha 和 Beta 多样性分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 6 篇</td>
+<td>物种组成可视化</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 7 篇</td>
+<td>差异物种分析：LEfSe + ANCOM-BC</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 8 篇</td>
+<td>PICRUSt2 功能预测</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 9 篇</td>
+<td>共现网络分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 10 篇</td>
+<td>随机森林 biomarker 筛选</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 11 篇</td>
+<td>SourceTracker 溯源分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 12 篇</td>
+<td>微生物组-代谢组联合分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 13 篇</td>
+<td>发表级图表与结果整合</td>
+<td>即将发布</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../01/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第 1 篇">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                第 1 篇
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../03/" class="md-footer__link md-footer__link--next" aria-label="下一页: 第 3 篇">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                第 3 篇
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

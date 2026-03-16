@@ -1,0 +1,1573 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到 alpha/beta 多样性分析。">
+      
+      
+        <meta name="author" content="petemeng">
+      
+      
+      
+        <link rel="prev" href="../03/">
+      
+      
+        <link rel="next" href="../05/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>第 4 篇 - 16S 微生物组最佳实践系列</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#16s-asv" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-header__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            16S 微生物组最佳实践系列
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 4 篇
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01/" class="md-tabs__link">
+          
+  
+  
+  正文
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../figures/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  图表总览
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-nav__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    16S 微生物组最佳实践系列
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    正文
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    正文
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 篇
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        物种注释的原理：分类器怎么"认出"一段序列
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="物种注释的原理：分类器怎么&#34;认出&#34;一段序列">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#silva-vs-greengenes2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        两大参考数据库：Silva vs Greengenes2
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下载预训练分类器
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行物种注释
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="运行物种注释">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        看看注释结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        注释结果的格式解读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        初步查看物种组成
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        构建系统发育树
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        过滤低丰度和非目标的 ASV
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        当前项目的核心文件
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../figures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图表总览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        物种注释的原理：分类器怎么"认出"一段序列
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="物种注释的原理：分类器怎么&#34;认出&#34;一段序列">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#silva-vs-greengenes2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        两大参考数据库：Silva vs Greengenes2
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下载预训练分类器
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行物种注释
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="运行物种注释">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        看看注释结果
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        注释结果的格式解读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        初步查看物种组成
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        构建系统发育树
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        过滤低丰度和非目标的 ASV
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        当前项目的核心文件
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="16s-asv">16S 微生物组最佳实践系列（四）：物种注释——给每个 ASV 一个名字</h1>
+<blockquote>
+<p>📋 教程信息
+- GitHub：<a href="https://github.com/petemeng/16S-Tutorial">petemeng/16S-Tutorial</a>（完整代码与环境文件）
+- 数据来源：Atacama soils 双端数据集（54 个样本，1,080 个初始 ASV）
+- 预计阅读：25 分钟 | 实操：15 分钟（分类器训练除外）
+- 难度：⭐⭐（5 星制）
+- 前置知识：完成本系列第 3 篇，results/ 下有 table.qza 和 rep-seqs.qza</p>
+</blockquote>
+<hr />
+<h2 id="_1">本篇目标</h2>
+<p>上一篇我们从带噪声的 reads 中推断出了 1,080 个 ASV。但目前每个 ASV 只有一串字母序列——你看到 <code>TACGGAGGGGGCTAGCGTTGTTCG...</code> 不会有任何感觉。</p>
+<p>这一篇我们要给每个 ASV 贴上分类学标签：它属于哪个门、哪个纲、哪个目、哪个科、哪个属。注释完成后，<code>TACGGAGGATGCGAGCGTTATCCG...</code> 就变成了像 "Singulisphaera" 或 "Pirellulaceae" 这样的名字——你立刻就知道它大致是谁了。</p>
+<p>同时我们还会构建一棵系统发育树——它记录了所有 ASV 之间的进化关系，在后续的 UniFrac 距离计算中是必需的。</p>
+<p>读完这一篇，你会：</p>
+<ol>
+<li>理解物种注释的原理——分类器是怎么"认出"一段序列的</li>
+<li>使用预训练的 Silva 分类器对 ASV 进行注释</li>
+<li>评估注释质量——哪些注释可以信，哪些需要谨慎</li>
+<li>构建系统发育树</li>
+<li>第一次看到你的样本里到底有哪些微生物</li>
+</ol>
+<hr />
+<h2 id="_2">物种注释的原理：分类器怎么"认出"一段序列</h2>
+<p>物种注释的逻辑其实很简单：拿你的 ASV 序列去和一个已知物种的参考数据库比对，找到最接近的匹配。</p>
+<p>但"最接近"不是简单的序列比对。QIIME2 默认使用的是<strong>朴素贝叶斯分类器</strong>（Naive Bayes classifier）——它在训练阶段学习了"属于某个分类学类别的序列长什么样"，然后在预测阶段对每个 ASV 给出最可能的分类学归属和相应的置信度。</p>
+<p>你不需要理解贝叶斯分类器的数学细节。只需要知道两个关键点：</p>
+<p><strong>分类器需要"训练"。</strong> 你不能拿一个空的分类器去注释——它必须先在参考数据库上训练过。训练的过程就是让分类器学习"某个属的 V4 区序列有什么特征"。好消息是 QIIME2 提供了预训练好的分类器，我们可以直接下载使用。</p>
+<p><strong>置信度（confidence）很重要。</strong> 分类器给出的不只是"这个 ASV 是 Bacteroides"，还有一个置信度分数（0 到 1 之间）。置信度越高，注释越可靠。如果置信度很低（比如 &lt; 0.7），说明分类器"不太确定"——可能是因为参考数据库中没有这种细菌的近缘序列，或者这段 V4 序列在多个属之间长得太像了。</p>
+<h3 id="silva-vs-greengenes2">两大参考数据库：Silva vs Greengenes2</h3>
+<p><strong>Silva</strong>（当前版本 138.1）：覆盖范围最广的 16S 参考数据库，包含超过 200 万条序列。分类学体系经过人工审核，质量较高。目前是微生物组研究中使用最广泛的参考数据库。</p>
+<p><strong>Greengenes2</strong>（2022 版）：由 Rob Knight 团队维护的更新版 Greengenes 数据库。它将全长 16S 序列与宏基因组数据整合，分类学体系基于 GTDB（Genome Taxonomy Database），和传统的 NCBI 分类有一些差异。</p>
+<p><strong>我们选 Silva 138.1。</strong> 原因：它的使用最广泛，文献中的兼容性最好（别人的结果也是用 Silva 注释的，方便比较），而且 QIIME2 提供了针对不同引物区域预训练好的 Silva 分类器。</p>
+<p>💡 <strong>Silva vs Greengenes2 的实际影响</strong></p>
+<blockquote>
+<p>对于大多数肠道微生物组研究，两个数据库给出的属水平注释高度一致。差异主要出现在：</p>
+<ol>
+<li>分类学命名不同——Greengenes2 用 GTDB 命名，有些你熟悉的名字变了（比如 Firmicutes 在 GTDB 中叫 Bacillota）</li>
+<li>某些难以区分的属——比如 Clostridium sensu stricto 在 Silva 和 Greengenes2 中的拆分方式不同</li>
+</ol>
+<p>选哪个不是一个"对错"的问题，而是一个"一致性"的问题——整个项目从头到尾用同一个数据库就行。</p>
+</blockquote>
+<hr />
+<h2 id="_3">下载预训练分类器</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 下载 QIIME2 预训练的 Silva 138.1 分类器</span>
+<span class="c1"># 这个分类器已经针对 515F-806R 引物的 V4 区预训练好了</span>
+<span class="c1"># 文件约 300 MB</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nb">cd</span><span class="w"> </span>~/16s-atacama-tutorial
+conda<span class="w"> </span>activate<span class="w"> </span>qiime2-amplicon-2024.5
+
+mkdir<span class="w"> </span>-p<span class="w"> </span>data/ref
+
+curl<span class="w"> </span>--http1.1<span class="w"> </span>-fL<span class="w"> </span>--retry<span class="w"> </span><span class="m">20</span><span class="w"> </span>--retry-all-errors<span class="w"> </span>--retry-delay<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>data/ref/silva-138-99-nb-classifier.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;https://data.qiime2.org/classifiers/sklearn-1.4.2/silva/silva-138-99-nb-classifier.qza&quot;</span>
+
+ls<span class="w"> </span>-lh<span class="w"> </span>data/ref/silva-138-99-nb-classifier.qza
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+-rw-rw-r-- 1 tly9658 tly9658 209M data/ref/silva-138-99-nb-classifier.qza
+</code></pre></div>
+<p>这里我们直接使用一份已经验证过的 Silva 138.1 朴素贝叶斯分类器。<strong>如果你的数据用的是其他引物区域</strong>（比如 V3-V4 而不是 V4），仍然应该换成对应区域的分类器，或者自己训练一个。用错误的分类器会导致大量 ASV 注释失败或注释到错误的物种。</p>
+<p>⚠️ <strong>踩坑预警：引物区域和分类器必须匹配</strong></p>
+<blockquote>
+<p>这是 16S 物种注释中最常见的错误之一。预训练分类器是在特定的引物区域上训练的——它学习的是"这段扩增子序列的特征"。如果你的数据是 V3-V4 区，分类器就没见过这种模式，注释准确率会大幅下降。</p>
+<p>怎么确认你的引物区域？查看你的测序方案文档，或者直接看引物序列：
+- 515F + 806R → V4 区（最常见）
+- 341F + 785R → V3-V4 区
+- 27F + 1492R → 近全长（通常是三代测序）</p>
+<p>如果找不到对应的预训练分类器，可以自己训练：
+<div class="highlight"><pre><span></span><code><span class="c1"># 从 Silva 全长序列中提取你的引物区域，然后训练分类器</span>
+qiime<span class="w"> </span>feature-classifier<span class="w"> </span>extract-reads<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-sequences<span class="w"> </span>silva-138-99-seqs.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p-f-primer<span class="w"> </span>CCTACGGGNGGCWGCAG<span class="w"> </span><span class="se">\ </span><span class="w">   </span><span class="c1"># 你的正向引物</span>
+<span class="w">    </span>--p-r-primer<span class="w"> </span>GACTACHVGGGTATCTAATCC<span class="w"> </span><span class="se">\ </span><span class="c1"># 你的反向引物</span>
+<span class="w">    </span>--o-reads<span class="w"> </span>ref-seqs-v3v4.qza
+
+qiime<span class="w"> </span>feature-classifier<span class="w"> </span>fit-classifier-naive-bayes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-reference-reads<span class="w"> </span>ref-seqs-v3v4.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-reference-taxonomy<span class="w"> </span>silva-138-99-tax.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-classifier<span class="w"> </span>my-v3v4-classifier.qza
+</code></pre></div>
+训练过程可能需要 30-60 分钟和 16 GB 以上内存。</p>
+</blockquote>
+<hr />
+<h2 id="_4">运行物种注释</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 用预训练分类器对 ASV 代表序列进行物种注释</span>
+<span class="c1"># 这一步对每个 ASV 序列，分类器输出最可能的分类学归属</span>
+<span class="c1"># 和对应的置信度分数</span>
+<span class="c1"># 约需要 2-5 分钟</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>feature-classifier<span class="w"> </span>classify-sklearn<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-classifier<span class="w"> </span>data/ref/silva-138-99-nb-classifier.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-reads<span class="w"> </span>results/rep-seqs.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-classification<span class="w"> </span>results/taxonomy.qza
+
+<span class="c1"># 生成可视化</span>
+qiime<span class="w"> </span>metadata<span class="w"> </span>tabulate<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--m-input-file<span class="w"> </span>results/taxonomy.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-visualization<span class="w"> </span>results/taxonomy.qzv
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;物种注释完成。&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+Saved FeatureData[Taxonomy] to: results/taxonomy.qza
+Saved Visualization to: results/taxonomy.qzv
+物种注释完成。
+</code></pre></div>
+<h3 id="_5">看看注释结果</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 导出注释结果为 TSV，看看注释到了什么</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>results/taxonomy.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>results/taxonomy-export/
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== 前 10 个 ASV 的注释结果 ===&quot;</span>
+head<span class="w"> </span>-11<span class="w"> </span>results/taxonomy-export/taxonomy.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>column<span class="w"> </span>-t
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=== 注释到属水平的 ASV 比例 ===&quot;</span>
+<span class="c1"># 统计有多少 ASV 被注释到了属（genus）水平</span>
+<span class="nv">total</span><span class="o">=</span><span class="k">$(</span>tail<span class="w"> </span>-n<span class="w"> </span>+2<span class="w"> </span>results/taxonomy-export/taxonomy.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
+<span class="nv">to_genus</span><span class="o">=</span><span class="k">$(</span>tail<span class="w"> </span>-n<span class="w"> </span>+2<span class="w"> </span>results/taxonomy-export/taxonomy.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="s1">&#39;\t&#39;</span><span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">        {</span>
+<span class="s1">            split($2, ranks, &quot;;&quot;)</span>
+<span class="s1">            if (length(ranks) &gt;= 6 &amp;&amp; ranks[6] !~ /^g__$/) n++</span>
+<span class="s1">        }</span>
+<span class="s1">        END {print n+0}&#39;</span>
+<span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  总 ASV 数: </span><span class="nv">$total</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  注释到属: </span><span class="nv">$to_genus</span><span class="s2"> (</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;scale=1; </span><span class="nv">$to_genus</span><span class="s2">*100/</span><span class="nv">$total</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>bc<span class="k">)</span><span class="s2">%)&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+=== 前 10 个 ASV 的注释结果 ===
+Feature ID                         Taxon                                                                                                   Confidence
+d86a9035d3538d8ccc54c8f113db1840   d__Bacteria;p__Chloroflexi;c__Anaerolineae;o__SBR1031;f__A4b;g__A4b;s__                               0.9693853489318925
+9ea1ac66ec39e42e2e50019a500f85e4   d__Bacteria;p__Planctomycetota;c__Planctomycetes;o__Pirellulales;f__Pirellulaceae                    0.9935652970488821
+984851508f092d9315d64ca2542ac36c   d__Bacteria;p__Planctomycetota;c__Planctomycetes;o__Isosphaerales;f__Isosphaeraceae;g__Singulisphaera;s__  0.7286151013854676
+f3b015e043182ca0ab424c5577060a60   d__Bacteria;p__Planctomycetota;c__Planctomycetes;o__Pirellulales;f__Pirellulaceae;g__uncultured;s__  0.8309186211035888
+70b81248f5d7b37a39489c5e187c8f19   d__Bacteria;p__Planctomycetota;c__Planctomycetes;o__Planctomycetales;f__Rubinisphaeraceae;g__SH-PL14;s__  0.9997328183751049
+...
+
+=== 注释到属水平的 ASV 比例 ===
+  总 ASV 数: 1080
+  注释到属: 845 (78.2%)
+</code></pre></div>
+<p><strong>78.2% 的 ASV 被注释到了属水平。</strong> 对土壤环境样本来说，这是一个完全合理的比例——环境来源数据本来就比人体肠道更容易遇到未培养类群和数据库代表不足的问题。</p>
+<p><strong>剩下的 18.7% 呢？</strong> 它们要么被注释到了更高的分类水平（比如只到科或目），要么分类器的置信度太低被截断了。这不意味着这些 ASV 是"错误"的——它们可能是参考数据库中缺少近缘序列的未知物种，或者是 V4 区序列在多个属之间无法区分的类群。</p>
+<h3 id="_6">注释结果的格式解读</h3>
+<p>看第一行：<code>d__Bacteria;p__Chloroflexi;c__Anaerolineae;o__SBR1031;f__A4b;g__A4b;s__</code></p>
+<p>每一级用分号分隔，前缀含义：</p>
+<table>
+<thead>
+<tr>
+<th>前缀</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d__</td>
+<td>Domain（域）</td>
+<td>Bacteria</td>
+</tr>
+<tr>
+<td>p__</td>
+<td>Phylum（门）</td>
+<td>Chloroflexi</td>
+</tr>
+<tr>
+<td>c__</td>
+<td>Class（纲）</td>
+<td>Anaerolineae</td>
+</tr>
+<tr>
+<td>o__</td>
+<td>Order（目）</td>
+<td>SBR1031</td>
+</tr>
+<tr>
+<td>f__</td>
+<td>Family（科）</td>
+<td>A4b</td>
+</tr>
+<tr>
+<td>g__</td>
+<td>Genus（属）</td>
+<td>A4b</td>
+</tr>
+<tr>
+<td>s__</td>
+<td>Species（种）</td>
+<td>空（未可靠到种）</td>
+</tr>
+</tbody>
+</table>
+<p>这个 ASV 被注释到了 Chloroflexi 门下的 A4b 类群，说明它在这个层级上和数据库中的参考序列已经足够接近。</p>
+<p>再看第二行——置信度很高，但只到了科水平（Pirellulaceae），没有继续细分到属。这说明分类器在更细的层级上不够确定：土壤环境里这类情况很常见，因为数据库中大量序列仍然是未培养或尚未规范命名的类群。</p>
+<p>💡 <strong>什么时候该信种水平的注释？</strong></p>
+<blockquote>
+<p>第 1 篇我们提到过，16S V4 区的分辨率通常只能可靠到属。但你看到有些 ASV 确实被注释到了种，或者至少细到很具体的属名（比如 <em>Singulisphaera</em>）。这可信吗？</p>
+<p>取决于两件事：
+1. <strong>置信度</strong>：如果置信度 &gt; 0.95，且种水平注释是唯一的匹配，通常可信
+2. <strong>该物种在 V4 区是否有独特的序列特征</strong>：有些属内不同种的 V4 区完全相同——这种情况下种水平注释就是猜测</p>
+<p><strong>保守的做法：在论文中以属水平为主进行讨论</strong>，种水平注释可以作为参考但不作为主要结论。</p>
+</blockquote>
+<hr />
+<h2 id="_7">初步查看物种组成</h2>
+<p>注释完了，我们先快速看一眼——样本里到底有哪些主要的微生物？</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 生成物种组成的条形图（QIIME2 内置可视化）</span>
+<span class="c1"># --p-level 6 表示在属（genus）水平展示</span>
+<span class="c1"># level: 1=域, 2=门, 3=纲, 4=目, 5=科, 6=属, 7=种</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>taxa<span class="w"> </span>barplot<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-table<span class="w"> </span>results/table.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-taxonomy<span class="w"> </span>results/taxonomy.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--m-metadata-file<span class="w"> </span>data/sample-metadata.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-visualization<span class="w"> </span>results/taxa-barplot.qzv
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;物种组成条形图：results/taxa-barplot.qzv&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;打开 https://view.qiime2.org 查看&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;在可视化界面中选择 Level 2 (Phylum) 先看门水平的大画面&quot;</span>
+</code></pre></div>
+<p>把 <code>taxa-barplot.qzv</code> 拖到 https://view.qiime2.org，你会看到一个交互式的堆叠条形图。先把分类水平调到 Level 2（Phylum/门水平），你会看到：</p>
+<!-- 图 1 位置：门水平物种组成条形图 -->
+
+<p><strong>图 1：门水平的物种组成堆叠柱状图。</strong> 每根柱子是一个样本，不同颜色代表不同的门。</p>
+<p><strong>你会看到一个很典型的荒漠土壤模式：</strong></p>
+<p><strong>Actinobacteriota 和 Proteobacteria 是两个绝对主导门。</strong> 在 Baquedano 和 Yungay 两条 transect 中，它们平均都占到了 65%-75% 左右，是整套数据最稳定的骨架类群。</p>
+<p><strong>Baquedano 的 Firmicutes 和 Verrucomicrobiota 略高。</strong> 这说明两条 transect 虽然都属于 Atacama desert，但局部环境条件仍然足以改变群落结构。</p>
+<p><strong>Yungay 的 Chloroflexi 相对更高。</strong> 这类差异不会像肠道 vs 手掌那样一眼断崖式分开，但它正是更接近真实项目的效果大小。</p>
+<!-- 图 1 位置：门水平物种组成条形图 -->
+<p><img alt="" src="../../assets/16s/phylum-composition-transect-20474a455e.png" /></p>
+<hr />
+<h2 id="_8">构建系统发育树</h2>
+<p>多样性分析中有一类指标叫"系统发育多样性"（如 Faith's PD、UniFrac 距离），它们不只看"有哪些 ASV"，还考虑 ASV 之间的进化关系——亲缘关系近的 ASV 被认为功能更相似。</p>
+<p>计算这些指标需要一棵系统发育树。我们用 QIIME2 的 <code>align-to-tree-mafft-fasttree</code> 流水线来构建。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 构建系统发育树（四步合一的流水线）</span>
+<span class="c1"># 1. MAFFT 多序列比对</span>
+<span class="c1"># 2. 过滤高度可变的比对位点</span>
+<span class="c1"># 3. FastTree 构建无根树</span>
+<span class="c1"># 4. 在中点处定根，得到有根树</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>phylogeny<span class="w"> </span>align-to-tree-mafft-fasttree<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-sequences<span class="w"> </span>results/rep-seqs.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-alignment<span class="w"> </span>results/tree/aligned-rep-seqs.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-masked-alignment<span class="w"> </span>results/tree/masked-aligned-rep-seqs.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-tree<span class="w"> </span>results/tree/unrooted-tree.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-rooted-tree<span class="w"> </span>results/tree/rooted-tree.qza
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;系统发育树构建完成。&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;有根树：results/tree/rooted-tree.qza&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;（后续的 UniFrac 计算需要这个文件）&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+Saved FeatureData[AlignedSequence] to: results/tree/aligned-rep-seqs.qza
+Saved FeatureData[AlignedSequence] to: results/tree/masked-aligned-rep-seqs.qza
+Saved Phylogeny[Unrooted] to: results/tree/unrooted-tree.qza
+Saved Phylogeny[Rooted] to: results/tree/rooted-tree.qza
+系统发育树构建完成。
+有根树：results/tree/rooted-tree.qza
+</code></pre></div>
+<p>四个输出文件中，后续分析真正需要的只有 <strong><code>rooted-tree.qza</code></strong>（有根树）。其他三个是中间产物——比对结果和无根树——通常不需要单独查看。</p>
+<p>⚠️ <strong>踩坑预警：为什么不用更精确的建树方法？</strong></p>
+<blockquote>
+<p>FastTree 是一个快速但相对粗糙的建树工具。对于几百到几千个 ASV，它在几分钟内就能出结果。更精确的方法如 RAxML 或 IQ-TREE 可以给出更可靠的树拓扑，但运行时间要长得多。</p>
+<p>对于 16S 扩增子分析（尤其是 V4 区的约 250 bp 短序列），FastTree 的精度已经足够——UniFrac 计算对树拓扑的微小差异不太敏感。如果你在做全长 16S 或者需要发表高质量系统发育树，可以换用 IQ-TREE。</p>
+</blockquote>
+<hr />
+<h2 id="asv">过滤低丰度和非目标的 ASV</h2>
+<p>在进入下游分析之前，做一些清理：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 过滤 1: 去除线粒体和叶绿体序列</span>
+<span class="c1"># 在土壤样本里，这一步通常是为了防止混入植物来源</span>
+<span class="c1"># 叶绿体序列或其他非目标扩增产物</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>taxa<span class="w"> </span>filter-table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-table<span class="w"> </span>results/table.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-taxonomy<span class="w"> </span>results/taxonomy.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p-exclude<span class="w"> </span><span class="s2">&quot;mitochondria,chloroplast&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-filtered-table<span class="w"> </span>results/table-no-mitochondria-no-chloroplast.qza
+
+<span class="c1"># 同步过滤代表序列</span>
+qiime<span class="w"> </span>taxa<span class="w"> </span>filter-seqs<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-sequences<span class="w"> </span>results/rep-seqs.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-taxonomy<span class="w"> </span>results/taxonomy.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p-exclude<span class="w"> </span><span class="s2">&quot;mitochondria,chloroplast&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-filtered-sequences<span class="w"> </span>results/rep-seqs-no-mitochondria-no-chloroplast.qza
+
+<span class="c1"># 看看过滤掉了多少</span>
+qiime<span class="w"> </span>feature-table<span class="w"> </span>summarize<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-table<span class="w"> </span>results/table-no-mitochondria-no-chloroplast.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-visualization<span class="w"> </span>results/table-no-mitochondria-no-chloroplast.qzv
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;过滤前后对比：&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  过滤前 ASV 数: 1080&quot;</span>
+<span class="c1"># 从 summary 中提取过滤后的数量</span>
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>results/table-no-mitochondria-no-chloroplast.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>results/tmp-export/
+biom<span class="w"> </span>summarize-table<span class="w"> </span>-i<span class="w"> </span>results/tmp-export/feature-table.biom<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>grep<span class="w"> </span><span class="s2">&quot;Num observations&quot;</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>results/tmp-export/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+过滤前后对比：
+  过滤前 ASV 数: 1080
+  Num observations (ASVs): 1079
+</code></pre></div>
+<p>过滤掉了 1 个 ASV（共 2 条 reads，线粒体或叶绿体来源）。这很符合土壤样本的预期：我们不是在做叶面或根际微生物组，所以植物来源污染并不严重，但这一步仍然值得保留，因为它能保证后续分析的对象更干净。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 过滤 2: 去除在所有样本中只出现一次的 ASV</span>
+<span class="c1"># 这些极低丰度的 ASV 很可能是残余的测序噪声</span>
+<span class="c1"># ============================================================</span>
+
+qiime<span class="w"> </span>feature-table<span class="w"> </span>filter-features<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--i-table<span class="w"> </span>results/table-no-mitochondria-no-chloroplast.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--p-min-frequency<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--o-filtered-table<span class="w"> </span>results/table-filtered.qza
+
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>results/table-filtered.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>results/tmp-export/
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;最终过滤后 ASV 数:&quot;</span>
+biom<span class="w"> </span>summarize-table<span class="w"> </span>-i<span class="w"> </span>results/tmp-export/feature-table.biom<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>grep<span class="w"> </span><span class="s2">&quot;Num observations&quot;</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>results/tmp-export/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+最终过滤后 ASV 数:
+  Num observations (ASVs): 1078
+</code></pre></div>
+<p>从 1080 → 1079（去线粒体/叶绿体）→ 1078（去单次出现的 ASV）。这也说明 DADA2 本身已经做得很干净了：额外过滤只移除了极少量边缘特征。</p>
+<hr />
+<h2 id="_9">当前项目的核心文件</h2>
+<div class="highlight"><pre><span></span><code>~/16s-atacama-tutorial/results/
+├── table-filtered.qza        # ★ 过滤后的 ASV 表（后续分析的主输入）
+├── rep-seqs-no-mitochondria-no-chloroplast.qza  # ★ 过滤后的代表序列
+├── taxonomy.qza              # ★ 物种注释结果
+├── tree/rooted-tree.qza      # ★ 有根系统发育树
+├── taxa-barplot.qzv          #   物种组成条形图
+└── ...
+</code></pre></div>
+<p>带 ★ 的四个文件——过滤后的 ASV 表、代表序列、物种注释、系统发育树——是后续所有分析的输入。它们的关系是：</p>
+<ul>
+<li><strong>table-filtered.qza</strong>：告诉你"每个 ASV 在每个样本中出现了几次"</li>
+<li><strong>taxonomy.qza</strong>：告诉你"每个 ASV 是什么物种"</li>
+<li><strong>tree/rooted-tree.qza</strong>：告诉你"ASV 之间的进化关系"</li>
+<li><strong>rep-seqs-no-mitochondria-no-chloroplast.qza</strong>：每个 ASV 的实际 DNA 序列（PICRUSt2 功能预测需要）</li>
+</ul>
+<hr />
+<h2 id="_10">本篇小结</h2>
+<p>这一篇我们完成了 16S 上游处理的最后两步：物种注释和系统发育树构建。</p>
+<p>核心收获：</p>
+<p><strong>分类器和引物区域必须匹配。</strong> 用 V4 区的数据就用 V4 区训练的分类器。不匹配会导致大量 ASV 注释失败。</p>
+<p><strong>78% 的 ASV 被注释到属水平——这是土壤 V4 区数据的正常表现。</strong> 种水平的注释要谨慎对待，属水平仍然是论文讨论的安全基准。</p>
+<p><strong>置信度分数不能忽略。</strong> 置信度低的注释意味着分类器不确定——不要把低置信度的注释当作确定的结论。</p>
+<p><strong>线粒体/叶绿体序列和单次出现的 ASV 需要过滤掉。</strong> 这一步在植物相关样本中尤其重要。</p>
+<p>现在我们手上有了完整的四件套：ASV 表 + 物种注释 + 系统发育树 + 代表序列。16S 分析的"上游处理"到此结束——从下一篇开始，我们进入"下游分析"：多样性、差异物种、功能预测、网络分析。</p>
+<h2 id="_11">下一篇预告</h2>
+<p>我们已经知道"样本里有什么"了。但怎么量化和比较不同样本的微生物多样性？</p>
+<p>下一篇我们进入<strong>alpha 和 beta 多样性分析</strong>——16S 分析中最核心的下游分析。Alpha 多样性回答"一个样本内部有多丰富"，beta 多样性回答"不同样本之间有多不同"。Atacama 这套数据不会像人体体位点那样分得特别夸张，但正因为如此，它更适合讲清楚稀释深度、PCoA 和 PERMANOVA 到底在判断什么。</p>
+<p>下篇见。</p>
+<hr />
+<blockquote>
+<p>📌 本篇所有命令和输出均来自实际运行记录。</p>
+</blockquote>
+<hr />
+<h2 id="_12">本系列导航</h2>
+<table>
+<thead>
+<tr>
+<th>篇目</th>
+<th>主题</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 篇</td>
+<td>只测一个基因，怎么就能知道有哪些细菌</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 2 篇</td>
+<td>搭建环境，拿到数据</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 3 篇</td>
+<td>DADA2 去噪——从噪声中找到真实序列</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td><strong>第 4 篇</strong></td>
+<td><strong>物种注释——给每个 ASV 一个名字</strong></td>
+<td><strong>📍 本篇</strong></td>
+</tr>
+<tr>
+<td>第 5 篇</td>
+<td>Alpha 和 Beta 多样性分析</td>
+<td>🔜 下一篇</td>
+</tr>
+<tr>
+<td>第 6 篇</td>
+<td>物种组成可视化</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 7 篇</td>
+<td>差异物种分析：LEfSe + ANCOM-BC</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 8 篇</td>
+<td>PICRUSt2 功能预测</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 9 篇</td>
+<td>共现网络分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 10 篇</td>
+<td>随机森林 biomarker 筛选</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 11 篇</td>
+<td>SourceTracker 溯源分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 12 篇</td>
+<td>微生物组-代谢组联合分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 13 篇</td>
+<td>发表级图表与结果整合</td>
+<td>即将发布</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../03/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第 3 篇">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                第 3 篇
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../05/" class="md-footer__link md-footer__link--next" aria-label="下一页: 第 5 篇">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                第 5 篇
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
