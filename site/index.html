@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到 alpha/beta 多样性分析。">
+        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到差异分析、功能预测、网络、机器学习与整合图表。">
       
       
         <meta name="author" content="petemeng">
@@ -634,6 +634,230 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="series/06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="series/07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="series/08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="series/09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="series/10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="series/11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="series/12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="series/13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -762,8 +986,8 @@
 <p>这套站点来自已经在服务器上顺序执行并补齐真实结果图的 16S 双端教程，主题是 QIIME2 官方 Atacama soils paired-end 数据集。</p>
 <h2 id="_1">这版网页包含什么</h2>
 <ul>
-<li>共 5 篇正文页面，覆盖从双端 EMP 原始数据到 alpha/beta 多样性分析。</li>
-<li>当前正文中嵌入了 11 张真实结果图，全部来自 Atacama soils 双端流程的实际运行产物。</li>
+<li>共 13 篇正文页面，覆盖从双端 EMP 原始数据到发表级结果整合。</li>
+<li>当前正文中嵌入了 26 张真实结果图，全部来自 Atacama soils 双端流程的实际运行产物。</li>
 <li>页面源码和部署配置已整理成 MkDocs 结构，可直接同步到 GitHub Pages。</li>
 </ul>
 <h2 id="_2">开始阅读</h2>
@@ -779,6 +1003,22 @@
   上一篇我们从带噪声的 reads 中推断出了 1,080 个 ASV。但目前每个 ASV 只有一串字母序列——你看到 TACGGAGGGGGCTAGCGTTGTTCG... 不会有任何感觉。</li>
 <li><a href="series/05/">:material-book-open-page-variant: 16S 微生物组最佳实践系列（五）：多样性分析——你的样本有多"丰富"，彼此有多"不同"</a>
   前四篇完成了上游处理——从原始 FASTQ 到过滤后的 ASV 表、物种注释和系统发育树。从这一篇开始，我们进入下游分析。</li>
+<li><a href="series/06/">:material-book-open-page-variant: 16S 微生物组最佳实践系列（六）：物种组成可视化——谁占了多少</a>
+  上一篇的 PCoA 告诉我们"不同体位点的微生物组成整体上很不同"。但"不同在哪"还不清楚——肠道里是什么菌占优势？手掌上又是什么？</li>
+<li><a href="series/07/">:material-book-open-page-variant: 16S 微生物组最佳实践系列（七）：差异物种分析——谁真的变了</a>
+  上一篇我们"看见"了不同体位点的微生物组成差异——肠道以 Bacteroides 为主，手掌以 Staphylococcus 为主。但"看起来不同"不等于"统计上显著不同"。而且堆叠柱状图只展示了 top...</li>
+<li><a href="series/08/">:material-book-open-page-variant: 16S 微生物组最佳实践系列（八）：PICRUSt2 功能预测——它们能做什么</a>
+  上一篇我们找到了肠道和口腔之间"谁变了"。 Bacteroides 在肠道富集， Neisseria 在口腔富集——这些是 物种层面 的差异。但审稿人常常会追问：这些物种差异意味着什么功能差异？肠道微生物组和口腔微生物组在 代谢能力...</li>
+<li><a href="series/09/">:material-book-open-page-variant: 16S 微生物组最佳实践系列（九）：共现网络分析——谁和谁总在一起</a>
+  前面几篇我们一直在单独审视每一个物种：它在哪里多、在哪里少、有什么功能。但生态系统不是个体的简单集合——物种之间存在复杂的互作关系。有些细菌总是一起出现（比如 A 需要 B 的代谢产物），有些细菌互相排斥（比如它们竞争同一种营养物质）。</li>
+<li><a href="series/10/">:material-book-open-page-variant: 16S 微生物组最佳实践系列（十）：随机森林 Biomarker 筛选——谁最能代表这个群落</a>
+  第 7 篇的差异分析告诉我们"谁变了"，但差异分析的逻辑是"逐个检验每个物种"——它把每个物种孤立地看。如果我们换一个视角： 能不能用一组物种的组合来预测样本来自哪个组？ 而且不只是找到差异物种，还要排出 优先级...</li>
+<li><a href="series/11/">:material-book-open-page-variant: 16S 微生物组最佳实践系列（十一）：SourceTracker 溯源分析——它们从哪里来</a>
+  前面十篇我们一直在研究"这里有什么"和"不同地方有什么不同"。现在换一个视角： 这些微生物是从哪里来的？</li>
+<li><a href="series/12/">:material-book-open-page-variant: 16S 微生物组最佳实践系列（十二）：微生物组-代谢组联合分析——跨组学的对话</a>
+  到目前为止，我们的 11 篇教程都只用了一种数据——16S 扩增子序列。但在真实的研究中，微生物组几乎不会孤立存在。微生物影响宿主代谢，宿主的代谢环境又反过来塑造微生物组成。要理解这种双向互作，我们需要 同时分析微生物组和代谢组数据 。</li>
+<li><a href="series/13/">:material-book-open-page-variant: 16S 微生物组最佳实践系列（十三）：发表级图表与结果整合——最后一公里</a>
+  分析做完了，结果有了，但离发表还差最后一步—— 把分析结果变成审稿人满意的图表 。</li>
 </ul>
 </div>
 <h2 id="_3">使用方式</h2>

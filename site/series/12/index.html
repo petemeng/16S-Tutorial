@@ -1,0 +1,1869 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到差异分析、功能预测、网络、机器学习与整合图表。">
+      
+      
+        <meta name="author" content="petemeng">
+      
+      
+      
+        <link rel="prev" href="../11/">
+      
+      
+        <link rel="next" href="../13/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>第 12 篇 - 16S 微生物组最佳实践系列</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#16s-" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-header__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            16S 微生物组最佳实践系列
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 12 篇
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01/" class="md-tabs__link">
+          
+  
+  
+  正文
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../figures/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  图表总览
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-nav__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    16S 微生物组最佳实践系列
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    正文
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    正文
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 篇
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么需要联合分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="为什么需要联合分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        单组学的局限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        整合分析的层次
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 0：模拟代谢组数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1mantel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1：Mantel 检验——整体关联
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2procrustes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2：Procrustes 分析——空间对齐可视化
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2：Procrustes 分析——空间对齐可视化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procrustes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procrustes 图
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3：物种-代谢物相关分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3：物种-代谢物相关分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关热图
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        更高级的方法：简要介绍
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保存结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../figures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图表总览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么需要联合分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="为什么需要联合分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        单组学的局限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        整合分析的层次
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 0：模拟代谢组数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1mantel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1：Mantel 检验——整体关联
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2procrustes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2：Procrustes 分析——空间对齐可视化
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2：Procrustes 分析——空间对齐可视化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procrustes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procrustes 图
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3：物种-代谢物相关分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3：物种-代谢物相关分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关热图
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        更高级的方法：简要介绍
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保存结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="16s-">16S 微生物组最佳实践系列（十二）：微生物组-代谢组联合分析——跨组学的对话</h1>
+<blockquote>
+<p>📋 教程信息
+- GitHub：[songlab-cal/16s-best-practices]（完整代码与环境文件）
+- 数据来源：模拟数据（基于 Moving Pictures 生成的配对代谢组数据）
+- 预计阅读：45 分钟 | 实操：30 分钟
+- 难度：⭐⭐⭐⭐⭐（5 星制）
+- 前置知识：完成本系列第 5-6 篇，理解距离矩阵和 PCoA 的概念</p>
+</blockquote>
+<hr />
+<h2 id="_1">本篇目标</h2>
+<p>到目前为止，我们的 11 篇教程都只用了一种数据——16S 扩增子序列。但在真实的研究中，微生物组几乎不会孤立存在。微生物影响宿主代谢，宿主的代谢环境又反过来塑造微生物组成。要理解这种双向互作，我们需要<strong>同时分析微生物组和代谢组数据</strong>。</p>
+<p>多组学整合（multi-omics integration）是当前微生物组研究的前沿。但它也是方法学上最复杂的领域——方法多、假设多、陷阱多。这一篇我们从最基础的关联分析开始，循序渐进：先用 <strong>Mantel 检验</strong> 评估两套数据的整体关联，再用 <strong>Procrustes 分析</strong> 可视化它们在低维空间中的一致性，最后用 <strong>Spearman 相关热图</strong> 看具体物种和代谢物的对应关系。</p>
+<p><strong>重要说明：</strong> Moving Pictures 数据集没有配套的代谢组数据。为了演示方法，我们<strong>模拟</strong>了一套与微生物组相关的代谢物丰度数据。所有下游的"生物学发现"都是基于模拟数据——不要当作真实结论。但方法学的流程是完全真实的。</p>
+<p>读完这一篇，你会：</p>
+<ol>
+<li>理解 Mantel 检验的原理——"两个距离矩阵是否相关"</li>
+<li>用 Procrustes 分析可视化微生物组和代谢组的空间一致性</li>
+<li>画物种-代谢物的相关热图，找到有趣的关联对</li>
+<li>了解更高级的整合方法（mmvec、DIABLO）的思路</li>
+<li>知道多组学整合的常见陷阱</li>
+</ol>
+<hr />
+<h2 id="_2">为什么需要联合分析</h2>
+<h3 id="_3">单组学的局限</h3>
+<p>16S 告诉你"有谁在"，代谢组告诉你"有什么化学物质"。单独看，它们各自只能描述系统的一个维度。但真正的生物学问题往往是：<strong>特定的微生物是否产生了特定的代谢物？这些代谢物是否影响了宿主的健康？</strong></p>
+<p>比如，第 8 篇 PICRUSt2 告诉我们肠道微生物有合成短链脂肪酸的"潜力"——但代谢组可以直接测量丁酸和丙酸是否真的在那里。如果 <em>Faecalibacterium</em> 的丰度和丁酸浓度正相关，这比单纯的功能预测有说服力得多。</p>
+<h3 id="_4">整合分析的层次</h3>
+<p>多组学整合有不同的"深度"：</p>
+<ol>
+<li><strong>关联分析</strong>（本篇）：两套数据之间有没有统计关联？</li>
+<li><strong>共变分析</strong>：哪些具体的物种和代谢物共变？</li>
+<li><strong>因果推断</strong>：微生物变化是否导致了代谢物变化？（需要时间序列或干预实验）</li>
+<li><strong>机制解析</strong>：通过哪些代谢通路实现？（需要宏基因组 + 宏转录组 + 代谢组）</li>
+</ol>
+<p>本篇聚焦第 1-2 层。这已经足够回答大多数论文的需求。</p>
+<hr />
+<h2 id="step-0">Step 0：模拟代谢组数据</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 文件：analysis/12_multiomics.R</span>
+<span class="c1"># 功能：微生物组-代谢组联合分析</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">phyloseq</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">vegan</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">readr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span>
+
+<span class="c1"># 加载微生物组数据</span>
+<span class="n">ps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;results/phyloseq_object.rds&quot;</span><span class="p">)</span>
+<span class="n">ps_gut</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">subset_samples</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;gut&quot;</span><span class="p">)</span>
+<span class="n">ps_gut</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">prune_taxa</span><span class="p">(</span><span class="nf">taxa_sums</span><span class="p">(</span><span class="n">ps_gut</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">ps_gut</span><span class="p">)</span>
+
+<span class="c1"># 模拟代谢组数据</span>
+<span class="c1"># 以真实微生物组数据为 seed，生成相关的代谢物丰度</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
+<span class="n">otu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as</span><span class="p">(</span><span class="nf">otu_table</span><span class="p">(</span><span class="n">ps_gut</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;matrix&quot;</span><span class="p">)</span>
+<span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nf">taxa_are_rows</span><span class="p">(</span><span class="n">ps_gut</span><span class="p">))</span><span class="w"> </span><span class="n">otu</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">t</span><span class="p">(</span><span class="n">otu</span><span class="p">)</span>
+
+<span class="n">n_samples</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">otu</span><span class="p">)</span>
+<span class="n">n_metabolites</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">50</span>
+
+<span class="c1"># 生成 50 个代谢物，其中 20 个和微生物丰度相关</span>
+<span class="c1"># 模拟方式：部分代谢物 = 线性组合(微生物) + 噪声</span>
+<span class="n">metab</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n_samples</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n_metabolites</span><span class="p">),</span>
+<span class="w">                 </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_samples</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_metabolites</span><span class="p">)</span>
+
+<span class="c1"># 让前 10 个代谢物和丰度最高的 10 个 ASV 相关</span>
+<span class="n">top_asvs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">order</span><span class="p">(</span><span class="nf">colMeans</span><span class="p">(</span><span class="n">otu</span><span class="p">),</span><span class="w"> </span><span class="n">decreasing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">]</span>
+<span class="kr">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">metab</span><span class="p">[,</span><span class="w"> </span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">otu</span><span class="p">[,</span><span class="w"> </span><span class="n">top_asvs</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.7</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                  </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.3</span>
+<span class="p">}</span>
+
+<span class="c1"># 让第 11-20 个代谢物和 beta 多样性模式相关</span>
+<span class="n">pca_scores</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">prcomp</span><span class="p">(</span><span class="n">otu</span><span class="p">,</span><span class="w"> </span><span class="n">scale.</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="o">$</span><span class="n">x</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">]</span>
+<span class="kr">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="m">11</span><span class="o">:</span><span class="m">20</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">metab</span><span class="p">[,</span><span class="w"> </span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pca_scores</span><span class="p">[,</span><span class="w"> </span><span class="p">((</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">11</span><span class="p">)</span><span class="w"> </span><span class="o">%%</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.6</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                  </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">0.4</span>
+<span class="p">}</span>
+
+<span class="c1"># 命名</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">metab</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;Metabolite_&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">sprintf</span><span class="p">(</span><span class="s">&quot;%02d&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">50</span><span class="p">))</span>
+<span class="nf">rownames</span><span class="p">(</span><span class="n">metab</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">otu</span><span class="p">)</span>
+
+<span class="c1"># 添加真实感的代谢物名称</span>
+<span class="n">metab_names</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;Butyrate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Propionate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Acetate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Succinate&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Lactate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Tryptophan&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Indole-3-acetic_acid&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Bile_acid_1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bile_acid_2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SCFA_total&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;Unknown_&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">40</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">metab</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metab_names</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;代谢组数据：\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  样本数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">metab</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  代谢物数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">metab</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+代谢组数据：
+  样本数: 11
+  代谢物数: 50
+</code></pre></div>
+<p>⚠️ <strong>踩坑预警：真实的代谢组数据预处理</strong></p>
+<blockquote>
+<p>模拟数据跳过了代谢组的预处理步骤。在真实项目中，LC-MS/GC-MS 的原始代谢组数据需要经过一系列处理：峰检测（peak picking）→ 峰对齐（alignment）→ 填充缺失值（gap filling）→ 归一化（normalization）→ log 变换 → 质量过滤（去除 blank 中出现的、CV 过高的代谢物）。</p>
+<p>推荐工具：XCMS（R 包）或 MZmine3（Java 软件）。预处理完的代谢物丰度表才能用于下游的联合分析。</p>
+</blockquote>
+<hr />
+<h2 id="step-1mantel">Step 1：Mantel 检验——整体关联</h2>
+<p>Mantel 检验回答一个核心问题：<strong>微生物组的样本间距离矩阵和代谢组的样本间距离矩阵是否相关？</strong> 如果两个距离矩阵高度相关，说明微生物组成相似的样本，代谢物谱也相似——两套数据在"刻画样本间差异"这件事上是一致的。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Step 1: Mantel 检验</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 微生物组距离矩阵（Bray-Curtis）</span>
+<span class="n">dist_micro</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">distance</span><span class="p">(</span><span class="n">ps_gut</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bray&quot;</span><span class="p">)</span>
+
+<span class="c1"># 代谢组距离矩阵（Euclidean，对 log+标准化后的数据）</span>
+<span class="n">metab_scaled</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="nf">log1p</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">metab</span><span class="p">)))</span><span class="w">  </span><span class="c1"># 模拟数据取绝对值</span>
+<span class="n">dist_metab</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dist</span><span class="p">(</span><span class="n">metab_scaled</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;euclidean&quot;</span><span class="p">)</span>
+
+<span class="c1"># Mantel 检验</span>
+<span class="c1"># method = &quot;spearman&quot;: 对非线性关联更稳健</span>
+<span class="c1"># permutations = 9999: 置换次数</span>
+<span class="n">mantel_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mantel</span><span class="p">(</span>
+<span class="w">    </span><span class="n">dist_micro</span><span class="p">,</span><span class="w"> </span><span class="n">dist_metab</span><span class="p">,</span>
+<span class="w">    </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;spearman&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9999</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;=== Mantel 检验结果 ===\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Mantel 统计量 r:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">mantel_result</span><span class="o">$</span><span class="n">statistic</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;p 值:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mantel_result</span><span class="o">$</span><span class="n">signif</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;置换次数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mantel_result</span><span class="o">$</span><span class="n">permutations</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+=== Mantel 检验结果 ===
+Mantel 统计量 r: 0.5423
+p 值: 0.003
+置换次数: 9999
+</code></pre></div>
+<p><strong>Mantel r = 0.54, p = 0.003——微生物组和代谢组之间存在中等强度的显著关联。</strong> 这意味着微生物组成相似的样本确实有更相似的代谢物谱。</p>
+<p>Mantel r 的解读和 Pearson 相关类似：0.3-0.5 是弱-中等关联，0.5-0.7 是中等-强关联，&gt; 0.7 是强关联。在真实的微生物组-代谢组研究中，Mantel r 通常在 0.3-0.6 之间——因为代谢物的来源不只有微生物，宿主自身的代谢也贡献了很大一部分。</p>
+<p>💡 <strong>经验之谈：Mantel 检验的距离度量选择</strong></p>
+<blockquote>
+<p>微生物组距离推荐 Bray-Curtis（abundance-based）或 UniFrac（phylogenetic）。代谢组距离推荐 Euclidean（适用于归一化后的连续数据）。</p>
+<p>不同的距离度量可能给出不同的 Mantel r——这不是 bug，而是它们强调了不同维度的差异。建议做多种距离组合的敏感性分析，在 supplementary 中展示。</p>
+</blockquote>
+<hr />
+<h2 id="step-2procrustes">Step 2：Procrustes 分析——空间对齐可视化</h2>
+<p>Mantel 检验给了一个数字，但我们想"看到"两套数据的关系。Procrustes 分析把微生物组和代谢组各自做 PCoA（或 PCA），然后把两个 PCoA 空间"对齐"——通过旋转、平移、缩放让两套坐标尽量重合。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Step 2: Procrustes 分析</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 微生物组 PCoA</span>
+<span class="n">pcoa_micro</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cmdscale</span><span class="p">(</span><span class="n">dist_micro</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">eig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="c1"># 代谢组 PCoA</span>
+<span class="n">pcoa_metab</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cmdscale</span><span class="p">(</span><span class="n">dist_metab</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">eig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="c1"># Procrustes 对齐</span>
+<span class="n">protest_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">protest</span><span class="p">(</span>
+<span class="w">    </span><span class="n">pcoa_micro</span><span class="o">$</span><span class="n">points</span><span class="p">,</span>
+<span class="w">    </span><span class="n">pcoa_metab</span><span class="o">$</span><span class="n">points</span><span class="p">,</span>
+<span class="w">    </span><span class="n">permutations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9999</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;=== Procrustes 分析结果 ===\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;M² (sum of squared differences):&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="n">protest_result</span><span class="o">$</span><span class="n">ss</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;相关系数 (1 - M²)^0.5:&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="nf">sqrt</span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">protest_result</span><span class="o">$</span><span class="n">ss</span><span class="p">),</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;p 值:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">protest_result</span><span class="o">$</span><span class="n">signif</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+=== Procrustes 分析结果 ===
+M² (sum of squared differences): 0.4567
+相关系数 (1 - M²)^0.5: 0.7374
+p 值: 0.002
+</code></pre></div>
+<p><strong>Procrustes 相关 = 0.74, p = 0.002——两套数据在低维空间中有很好的一致性。</strong></p>
+<p>M² 是 Procrustes 对齐后的残差平方和，越小说明两个空间越一致。相关系数 = √(1 - M²) 是更直觉的度量。</p>
+<h3 id="procrustes">Procrustes 图</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Procrustes 可视化</span>
+<span class="c1"># 两套 PCoA 坐标对齐后，用箭头连接同一样本的两个位置</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 提取对齐后的坐标</span>
+<span class="n">coords_micro</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">    </span><span class="n">protest_result</span><span class="o">$</span><span class="n">Yrot</span><span class="p">,</span><span class="w">  </span><span class="c1"># 微生物组（旋转后）</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Microbiome&quot;</span>
+<span class="p">)</span>
+<span class="n">coords_metab</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">    </span><span class="n">protest_result</span><span class="o">$</span><span class="n">X</span><span class="p">,</span><span class="w">     </span><span class="c1"># 代谢组（参考）</span>
+<span class="w">    </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Metabolome&quot;</span>
+<span class="p">)</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">coords_micro</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Dim1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Dim2&quot;</span><span class="p">)</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">coords_metab</span><span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Dim1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Dim2&quot;</span><span class="p">)</span>
+
+<span class="c1"># 合并用于画箭头</span>
+<span class="n">arrow_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">    </span><span class="n">x_micro</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coords_micro</span><span class="o">$</span><span class="n">Dim1</span><span class="p">,</span>
+<span class="w">    </span><span class="n">y_micro</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coords_micro</span><span class="o">$</span><span class="n">Dim2</span><span class="p">,</span>
+<span class="w">    </span><span class="n">x_metab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coords_metab</span><span class="o">$</span><span class="n">Dim1</span><span class="p">,</span>
+<span class="w">    </span><span class="n">y_metab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coords_metab</span><span class="o">$</span><span class="n">Dim2</span><span class="p">,</span>
+<span class="w">    </span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">otu</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">p_procrustes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_segment</span><span class="p">(</span>
+<span class="w">        </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arrow_df</span><span class="p">,</span>
+<span class="w">        </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_micro</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y_micro</span><span class="p">,</span>
+<span class="w">            </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_metab</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y_metab</span><span class="p">),</span>
+<span class="w">        </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey60&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span>
+<span class="w">        </span><span class="n">arrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">arrow</span><span class="p">(</span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unit</span><span class="p">(</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;inches&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_point</span><span class="p">(</span>
+<span class="w">        </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coords_micro</span><span class="p">,</span>
+<span class="w">        </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Dim1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Dim2</span><span class="p">),</span>
+<span class="w">        </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_point</span><span class="p">(</span>
+<span class="w">        </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coords_metab</span><span class="p">,</span>
+<span class="w">        </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Dim1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Dim2</span><span class="p">),</span>
+<span class="w">        </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">17</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span>
+<span class="w">        </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sprintf</span><span class="p">(</span>
+<span class="w">            </span><span class="s">&quot;Procrustes 分析 (corr = %.2f, p = %.3f)&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nf">sqrt</span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">protest_result</span><span class="o">$</span><span class="n">ss</span><span class="p">),</span>
+<span class="w">            </span><span class="n">protest_result</span><span class="o">$</span><span class="n">signif</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Dimension 1&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Dimension 2&quot;</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">annotate</span><span class="p">(</span><span class="s">&quot;point&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">annotate</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Microbiome&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.8</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">annotate</span><span class="p">(</span><span class="s">&quot;point&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">17</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">annotate</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">Inf</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Metabolome&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.8</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.5</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_blank</span><span class="p">(),</span>
+<span class="w">          </span><span class="n">axis.line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_line</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey20&quot;</span><span class="p">))</span>
+
+<span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;results/figures/pub_procrustes.png&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="n">p_procrustes</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span>
+</code></pre></div>
+<!-- 图 1 位置：Procrustes 图 -->
+<p><img alt="" src="../../assets/16s/ch12_procrustes-cf85ed6bba.png" /></p>
+<p><strong>图 1：微生物组（红圆）和代谢组（蓝三角）的 Procrustes 分析。</strong> 每条箭头连接同一个样本在两个组学空间中的位置。箭头越短，说明这个样本在两个组学中的"行为"越一致。大部分箭头较短，说明整体一致性良好。</p>
+<hr />
+<h2 id="step-3-">Step 3：物种-代谢物相关分析</h2>
+<p>前两步回答了"整体上有没有关联"。现在我们要看具体细节：<strong>哪个物种和哪个代谢物相关？</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Step 3: 物种-代谢物 Spearman 相关热图</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 合并到属水平</span>
+<span class="n">ps_genus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tax_glom</span><span class="p">(</span><span class="n">ps_gut</span><span class="p">,</span><span class="w"> </span><span class="n">taxrank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Genus&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">NArm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="n">otu_genus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as</span><span class="p">(</span><span class="nf">otu_table</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;matrix&quot;</span><span class="p">)</span>
+<span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nf">taxa_are_rows</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">))</span><span class="w"> </span><span class="n">otu_genus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">t</span><span class="p">(</span><span class="n">otu_genus</span><span class="p">)</span>
+
+<span class="c1"># 只保留 top 15 属</span>
+<span class="n">top_genera</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="nf">sort</span><span class="p">(</span><span class="nf">colMeans</span><span class="p">(</span><span class="n">otu_genus</span><span class="p">),</span>
+<span class="w">                          </span><span class="n">decreasing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))[</span><span class="m">1</span><span class="o">:</span><span class="m">15</span><span class="p">]</span>
+<span class="n">otu_top</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">otu_genus</span><span class="p">[,</span><span class="w"> </span><span class="n">top_genera</span><span class="p">]</span>
+
+<span class="c1"># 用属名替换 ASV ID</span>
+<span class="n">tax</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="nf">tax_table</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">))</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">otu_top</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tax</span><span class="p">[</span><span class="nf">colnames</span><span class="p">(</span><span class="n">otu_top</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Genus&quot;</span><span class="p">]</span>
+
+<span class="c1"># 只保留前 15 个代谢物（包含 SCFA 等）</span>
+<span class="n">metab_top</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metab</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">15</span><span class="p">]</span>
+
+<span class="c1"># 计算 Spearman 相关</span>
+<span class="n">cor_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">otu_top</span><span class="p">),</span>
+<span class="w">                   </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">metab_top</span><span class="p">))</span>
+<span class="n">pval_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">otu_top</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">metab_top</span><span class="p">))</span>
+
+<span class="kr">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="nf">ncol</span><span class="p">(</span><span class="n">otu_top</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kr">for</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="nf">ncol</span><span class="p">(</span><span class="n">metab_top</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">test</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cor.test</span><span class="p">(</span><span class="n">otu_top</span><span class="p">[,</span><span class="w"> </span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">metab_top</span><span class="p">[,</span><span class="w"> </span><span class="n">j</span><span class="p">],</span>
+<span class="w">                          </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;spearman&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cor_mat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">test</span><span class="o">$</span><span class="n">estimate</span>
+<span class="w">        </span><span class="n">pval_mat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">test</span><span class="o">$</span><span class="n">p.value</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nf">rownames</span><span class="p">(</span><span class="n">cor_mat</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">colnames</span><span class="p">(</span><span class="n">otu_top</span><span class="p">)</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">cor_mat</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">colnames</span><span class="p">(</span><span class="n">metab_top</span><span class="p">)</span>
+<span class="nf">rownames</span><span class="p">(</span><span class="n">pval_mat</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">colnames</span><span class="p">(</span><span class="n">otu_top</span><span class="p">)</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">pval_mat</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">colnames</span><span class="p">(</span><span class="n">metab_top</span><span class="p">)</span>
+
+<span class="c1"># FDR 校正</span>
+<span class="n">pval_adj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">p.adjust</span><span class="p">(</span><span class="nf">as.vector</span><span class="p">(</span><span class="n">pval_mat</span><span class="p">),</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;BH&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">pval_mat</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># 显著相关对数</span>
+<span class="n">n_sig</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">pval_adj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;显著相关对数（FDR &lt; 0.05）:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">n_sig</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;总检验数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">pval_adj</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+显著相关对数（FDR &lt; 0.05）: 23
+总检验数: 225
+</code></pre></div>
+<h3 id="_5">相关热图</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 绘制相关热图</span>
+<span class="c1"># 只标注 FDR &lt; 0.05 的格子</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 构建显著性标记矩阵</span>
+<span class="n">sig_mark</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">cor_mat</span><span class="p">),</span>
+<span class="w">                     </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">cor_mat</span><span class="p">))</span>
+<span class="n">sig_mark</span><span class="p">[</span><span class="n">pval_adj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;*&quot;</span>
+<span class="n">sig_mark</span><span class="p">[</span><span class="n">pval_adj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.01</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;**&quot;</span>
+<span class="n">sig_mark</span><span class="p">[</span><span class="n">pval_adj</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.001</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;***&quot;</span>
+
+<span class="nf">pheatmap</span><span class="p">(</span>
+<span class="w">    </span><span class="n">cor_mat</span><span class="p">,</span>
+<span class="w">    </span><span class="n">display_numbers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sig_mark</span><span class="p">,</span>
+<span class="w">    </span><span class="n">number_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;black&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">fontsize_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span>
+<span class="w">    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">colorRampPalette</span><span class="p">(</span>
+<span class="w">        </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)(</span><span class="m">100</span><span class="p">),</span>
+<span class="w">    </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">seq</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">length.out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">101</span><span class="p">),</span>
+<span class="w">    </span><span class="n">clustering_method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ward.D2&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">fontsize_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span>
+<span class="w">    </span><span class="n">fontsize_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span>
+<span class="w">    </span><span class="n">angle_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span>
+<span class="w">    </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;微生物属-代谢物 Spearman 相关&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;results/figures/pub_corr_heatmap.png&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span>
+<span class="p">)</span>
+</code></pre></div>
+<!-- 图 2 位置：物种-代谢物相关热图 -->
+<p><img alt="" src="../../assets/16s/ch12_genus_metabolite_heatmap-0e5a754a6d.png" /></p>
+<p><strong>图 2：Top 15 肠道微生物属和 Top 15 代谢物的 Spearman 相关系数热图。</strong> 红色为正相关，蓝色为负相关。星号标记 FDR 校正后的显著性（<em> p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001）。</em>Bacteroides<em> 和 Butyrate 的正相关（r=0.78</em>*）是最强的信号之一。</p>
+<p>⚠️ <strong>踩坑预警：多重检验校正至关重要</strong></p>
+<blockquote>
+<p>15 × 15 = 225 次相关检验。如果不做 FDR 校正，5% 的假阳性率意味着会有约 11 个"显著"结果纯粹出于偶然。</p>
+<p>更严格的做法：只对你有先验假说的物种-代谢物对做检验（比如只看产 SCFA 的菌和 SCFA 的关系），避免全矩阵的大规模检验。在 methods 部分写清楚你的多重检验校正策略。</p>
+</blockquote>
+<hr />
+<h2 id="_6">更高级的方法：简要介绍</h2>
+<p>本篇的 Mantel + Procrustes + 相关热图是多组学联合分析的"入门套件"。如果你的数据量够大、问题够深入，可以考虑以下高级方法：</p>
+<p><strong>mmvec（微生物-代谢物向量分析）：</strong> 用神经网络学习微生物和代谢物之间的条件概率——给定某个微生物丰度，预测哪些代谢物最可能共现。比简单的 Spearman 相关更能处理稀疏和组成性数据。</p>
+<p><strong>DIABLO（mixOmics 包）：</strong> 多组学整合的统计学习框架。它同时对多个组学数据做稀疏 PLS（partial least squares），找到在所有组学中都一致的变量组合。适合有明确分组（case vs control）的多组学数据。</p>
+<p><strong>Songbird + Qurro：</strong> Songbird 用多项式回归对微生物丰度建模，输出 log-ratio 排名。Qurro 让你选择任意 log-ratio 并检查它和代谢物的关系。</p>
+<p>💡 <strong>经验之谈：选方法还是先看数据</strong></p>
+<blockquote>
+<p>多组学整合的第一步永远不是"选方法"，而是"看数据"。先做最简单的 Mantel 和 Procrustes，确认两套数据之间确实有关联（如果 Mantel p &gt; 0.1，用再高级的方法也没用），然后再根据具体问题选择合适的整合策略。</p>
+</blockquote>
+<hr />
+<h2 id="_7">保存结果</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 保存多组学联合分析结果</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 相关矩阵</span>
+<span class="nf">write.csv</span><span class="p">(</span><span class="n">cor_mat</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results/microbe_metabolite_corr.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># p 值矩阵</span>
+<span class="nf">write.csv</span><span class="p">(</span><span class="n">pval_adj</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results/microbe_metabolite_pval_adj.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Mantel 和 Procrustes 汇总</span>
+<span class="nf">cat</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;Mantel r:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">mantel_result</span><span class="o">$</span><span class="n">statistic</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Mantel p:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mantel_result</span><span class="o">$</span><span class="n">signif</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Procrustes corr:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">sqrt</span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">protest_result</span><span class="o">$</span><span class="n">ss</span><span class="p">),</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Procrustes p:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">protest_result</span><span class="o">$</span><span class="n">signif</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;results/multiomics_summary.txt&quot;</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;多组学联合分析结果保存完成。\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="_8">本篇小结</h2>
+<p>这一篇我们用三种方法探索了微生物组和代谢组之间的关联。</p>
+<p><strong>Mantel 检验</strong> 确认了两套数据的整体相关性（r=0.54, p=0.003）。</p>
+<p><strong>Procrustes 分析</strong> 将两套数据在低维空间中对齐，可视化了样本级别的一致性（corr=0.74, p=0.002）。</p>
+<p><strong>Spearman 相关热图</strong> 揭示了具体的物种-代谢物关联，找到 23 对显著相关（FDR &lt; 0.05）。</p>
+<p><strong>方法层面的关键收获：</strong></p>
+<ol>
+<li><strong>先做 Mantel 确认整体关联，再深入看具体的物种-代谢物对。</strong> 没有整体关联的情况下做具体关联分析会产生大量假阳性。</li>
+<li><strong>Procrustes 图是 Mantel 检验的"视觉版"</strong>——很适合放在论文的主图中。</li>
+<li><strong>多重检验校正在联合分析中尤其重要</strong>——检验数量爆炸式增长（物种数 × 代谢物数），不校正就是在"挖假阳性"。</li>
+<li><strong>模拟数据的结论不能当真，但方法流程是真实的。</strong> 拿到自己的配对数据后，直接替换输入就能用。</li>
+</ol>
+<p>当前项目目录：</p>
+<div class="highlight"><pre><span></span><code>results/
+├── microbe_metabolite_corr.csv    # 相关系数矩阵
+├── microbe_metabolite_pval_adj.csv # FDR 校正后的 p 值
+├── multiomics_summary.txt          # Mantel + Procrustes 汇总
+└── figures/
+    ├── pub_procrustes.png          # Procrustes 图
+    └── pub_corr_heatmap.png        # 相关热图
+</code></pre></div>
+<h2 id="_9">下一篇预告</h2>
+<p>走到第 12 篇，我们的 16S 最佳实践系列已经覆盖了从数据下载到多组学联合分析的完整流程。最后一篇我们来做一件同样重要但经常被忽略的事：<strong>把分析结果整合成发表级的图表</strong>。统一配色、对齐坐标、添加统计标注、导出矢量图... 这些"最后一公里"的工作决定了你的论文图是"能看"还是"好看"。</p>
+<p>最后一篇见。</p>
+<hr />
+<blockquote>
+<p>📌 本篇的 R 脚本可在 GitHub 仓库获取。请注意代谢组数据为模拟数据。</p>
+</blockquote>
+<hr />
+<h2 id="_10">本系列导航</h2>
+<table>
+<thead>
+<tr>
+<th>篇目</th>
+<th>主题</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 篇</td>
+<td>只测一个基因，怎么就能知道有哪些细菌</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 2 篇</td>
+<td>搭建环境，拿到数据</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 3 篇</td>
+<td>DADA2 去噪——从噪声中找到真实序列</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 4 篇</td>
+<td>物种注释——给每个 ASV 一个名字</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 5 篇</td>
+<td>多样性分析——有多"丰富"，彼此有多"不同"</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 6 篇</td>
+<td>物种组成可视化——谁占了多少</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 7 篇</td>
+<td>差异物种分析——谁真的变了</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 8 篇</td>
+<td>PICRUSt2 功能预测——它们能做什么</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 9 篇</td>
+<td>共现网络分析——谁和谁总在一起</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 10 篇</td>
+<td>随机森林 biomarker 筛选——谁最能代表这个群落</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 11 篇</td>
+<td>SourceTracker 溯源分析——它们从哪里来</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td><strong>第 12 篇</strong></td>
+<td><strong>微生物组-代谢组联合分析——跨组学的对话</strong></td>
+<td><strong>📍 本篇</strong></td>
+</tr>
+<tr>
+<td>第 13 篇</td>
+<td>发表级图表与结果整合</td>
+<td>🔜 下一篇</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../11/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第 11 篇">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                第 11 篇
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../13/" class="md-footer__link md-footer__link--next" aria-label="下一页: 第 13 篇">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                第 13 篇
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

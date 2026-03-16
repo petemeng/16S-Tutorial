@@ -1,5 +1,5 @@
 site_name: '16S 微生物组最佳实践系列'
-site_description: 'QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到 alpha/beta 多样性分析。'
+site_description: 'QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到差异分析、功能预测、网络、机器学习与整合图表。'
 site_author: 'petemeng'
 repo_url: https://github.com/petemeng/16S-Tutorial
 edit_uri: edit/main/docs/
@@ -50,4 +50,12 @@ nav:
       - 第 3 篇: series/03.md
       - 第 4 篇: series/04.md
       - 第 5 篇: series/05.md
+      - 第 6 篇: series/06.md
+      - 第 7 篇: series/07.md
+      - 第 8 篇: series/08.md
+      - 第 9 篇: series/09.md
+      - 第 10 篇: series/10.md
+      - 第 11 篇: series/11.md
+      - 第 12 篇: series/12.md
+      - 第 13 篇: series/13.md
   - 图表总览: figures.md

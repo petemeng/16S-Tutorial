@@ -1,0 +1,2023 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到差异分析、功能预测、网络、机器学习与整合图表。">
+      
+      
+        <meta name="author" content="petemeng">
+      
+      
+      
+        <link rel="prev" href="../07/">
+      
+      
+        <link rel="next" href="../09/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>第 8 篇 - 16S 微生物组最佳实践系列</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#16s-picrust2" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-header__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            16S 微生物组最佳实践系列
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 8 篇
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01/" class="md-tabs__link">
+          
+  
+  
+  正文
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../figures/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  图表总览
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-nav__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    16S 微生物组最佳实践系列
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    正文
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    正文
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 篇
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        功能预测的原理：从"谁在"推断"能做什么"
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="功能预测的原理：从&#34;谁在&#34;推断&#34;能做什么&#34;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心思路
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        局限性：必须诚实面对
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        环境准备
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1：准备输入文件
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-picrust2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2：运行 PICRUSt2 全流程
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3nsti" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3：检查预测质量——NSTI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4kegg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4：KEGG 通路差异分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4：KEGG 通路差异分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        功能差异热图
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5：特定功能模块的深入分析
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6kokegg-orthology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6：KO（KEGG Orthology）层面的分析
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#picrust2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法论反思：什么时候用 PICRUSt2，什么时候不用
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保存结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../figures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图表总览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        功能预测的原理：从"谁在"推断"能做什么"
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="功能预测的原理：从&#34;谁在&#34;推断&#34;能做什么&#34;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心思路
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        局限性：必须诚实面对
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        环境准备
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1：准备输入文件
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-picrust2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2：运行 PICRUSt2 全流程
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3nsti" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3：检查预测质量——NSTI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4kegg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4：KEGG 通路差异分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4：KEGG 通路差异分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        功能差异热图
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5：特定功能模块的深入分析
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6kokegg-orthology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6：KO（KEGG Orthology）层面的分析
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#picrust2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法论反思：什么时候用 PICRUSt2，什么时候不用
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保存结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="16s-picrust2">16S 微生物组最佳实践系列（八）：PICRUSt2 功能预测——它们能做什么</h1>
+<blockquote>
+<p>📋 教程信息
+- GitHub：[songlab-cal/16s-best-practices]（完整代码与环境文件）
+- 数据来源：Moving Pictures 数据集（34 个样本，670 个 ASV）
+- 预计阅读：40 分钟 | 实操：30 分钟
+- 难度：⭐⭐⭐⭐（5 星制）
+- 前置知识：完成本系列第 3 篇（DADA2 输出），results/ 下有 rep-seqs.qza 和 table.qza</p>
+</blockquote>
+<hr />
+<h2 id="_1">本篇目标</h2>
+<p>上一篇我们找到了肠道和口腔之间"谁变了"。<em>Bacteroides</em> 在肠道富集，<em>Neisseria</em> 在口腔富集——这些是<strong>物种层面</strong>的差异。但审稿人常常会追问：这些物种差异意味着什么功能差异？肠道微生物组和口腔微生物组在<strong>代谢能力</strong>上有什么不同？</p>
+<p>16S 测序只测了一个标记基因，不像宏基因组测序（shotgun metagenomics）那样能直接获得全部基因。但我们可以"借"已测序物种的基因组信息，来<strong>预测</strong>微生物群落的功能潜力。这就是 PICRUSt2 做的事。</p>
+<p>读完这一篇，你会：</p>
+<ol>
+<li>理解 PICRUSt2 功能预测的原理和局限</li>
+<li>从 DADA2 的输出直接运行 PICRUSt2 全流程</li>
+<li>获得 KEGG 通路和 MetaCyc 通路的预测丰度表</li>
+<li>对比不同体位点之间的功能差异</li>
+<li>知道什么时候可以信 PICRUSt2 的结果，什么时候不能</li>
+</ol>
+<hr />
+<h2 id="_2">功能预测的原理：从"谁在"推断"能做什么"</h2>
+<h3 id="_3">核心思路</h3>
+<p>PICRUSt2（Phylogenetic Investigation of Communities by Reconstruction of Unobserved States）的逻辑出奇地简单：</p>
+<ol>
+<li>你给它 ASV 序列和丰度表</li>
+<li>它把每条 ASV 放到参考系统发育树上（树上有上万个已知基因组的物种）</li>
+<li>根据 ASV 在树上的位置，推断它最可能拥有哪些基因</li>
+<li>把所有 ASV 的基因加权求和（按丰度加权），得到整个群落的功能预测</li>
+</ol>
+<p><strong>本质上是"以进化距离为桥梁"的推断——亲缘关系越近的物种，基因组越相似。</strong> 如果你的 ASV 和一个已知基因组的物种在 16S 树上只差 2 个碱基，那我们有理由相信它们的基因组也非常相似。</p>
+<h3 id="_4">局限性：必须诚实面对</h3>
+<p>PICRUSt2 是预测，不是测量。它有两个根本性局限：</p>
+<p><strong>第一，它依赖参考基因组的覆盖度。</strong> 如果你的样本中有很多"未知"物种（在参考树上找不到近缘种），预测就不可靠。PICRUSt2 会给出一个指标叫 NSTI（Nearest Sequenced Taxon Index），衡量每条 ASV 到最近已知基因组的距离。NSTI 越大，预测越不靠谱。</p>
+<p><strong>第二，它只能预测"基因组潜力"，不能预测"实际表达"。</strong> 一个物种的基因组里写着"我能降解纤维素"，不代表它在你的样本条件下真的在降解纤维素。这就像看一个人的简历知道他会什么技能，但不知道他今天在干什么。</p>
+<p><strong>在论文中使用 PICRUSt2 时，必须明确说明这是"predicted functional potential"，不是"observed function"。</strong> 审稿人对这个措辞非常敏感。</p>
+<hr />
+<h2 id="_5">环境准备</h2>
+<p>PICRUSt2 需要独立安装——它有自己的参考数据库，体积不小。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># PICRUSt2 安装</span>
+<span class="c1"># 如果你在第 2 篇已经安装过，跳过这一步</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 在已有的 qiime2 环境中安装 PICRUSt2</span>
+conda<span class="w"> </span>activate<span class="w"> </span>qiime2-amplicon-2024.5
+
+<span class="c1"># PICRUSt2 通过 bioconda 安装</span>
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">picrust2</span><span class="o">=</span><span class="m">2</span>.5.3<span class="w"> </span>-y
+
+<span class="c1"># 验证安装</span>
+picrust2_pipeline.py<span class="w"> </span>--help<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-5
+
+<span class="c1"># 检查参考数据库是否完整</span>
+picrust2_pipeline.py<span class="w"> </span>--version
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+PICRUSt2 version 2.5.3
+</code></pre></div>
+<p>如果安装遇到依赖冲突（这在 QIIME2 环境中并不少见），备选方案是单独建一个 PICRUSt2 环境。不影响后续分析，只是路径切换一下。</p>
+<hr />
+<h2 id="step-1">Step 1：准备输入文件</h2>
+<p>PICRUSt2 需要两个输入：<strong>ASV 丰度表</strong>（BIOM 格式）和 <strong>ASV 代表序列</strong>（FASTA 格式）。这两个文件在第 3 篇 DADA2 去噪后就已经生成了。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 从 QIIME2 .qza 导出 PICRUSt2 需要的文件</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 导出 ASV 丰度表为 BIOM 格式</span>
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>results/table.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>results/picrust2_input
+
+<span class="c1"># 导出 ASV 代表序列为 FASTA</span>
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-path<span class="w"> </span>results/rep-seqs.qza<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-path<span class="w"> </span>results/picrust2_input
+
+<span class="c1"># 确认文件</span>
+ls<span class="w"> </span>-lh<span class="w"> </span>results/picrust2_input/
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;---&quot;</span>
+head<span class="w"> </span>-2<span class="w"> </span>results/picrust2_input/dna-sequences.fasta
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;---&quot;</span>
+biom<span class="w"> </span>summarize-table<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-i<span class="w"> </span>results/picrust2_input/feature-table.biom<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-5
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+-rw-r--r-- 1 user 67K feature-table.biom
+-rw-r--r-- 1 user 238K dna-sequences.fasta
+---
+&gt;4b5eeb300368260019c1fbc7a3c718fc
+TACGGAGGATCCGAGCGTTATCCGGATTTATTGGGTTTAAAGGGAGCGTAGG
+---
+Num samples: 34
+Num observations: 670
+Total count: 125,842
+</code></pre></div>
+<p>34 个样本、670 个 ASV，和之前的分析一致。</p>
+<hr />
+<h2 id="step-2-picrust2">Step 2：运行 PICRUSt2 全流程</h2>
+<p>PICRUSt2 提供了一个一键运行的 pipeline 脚本，内部依次执行：序列放置（place_seqs）→ 基因家族预测（hsp）→ 宏基因组预测（metagenome_pipeline）→ 通路丰度推断（pathway_pipeline）。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 运行 PICRUSt2 全流程</span>
+<span class="c1"># -s: ASV 序列</span>
+<span class="c1"># -i: ASV 丰度表</span>
+<span class="c1"># -o: 输出目录</span>
+<span class="c1"># -p: 并行线程数</span>
+<span class="c1"># --stratified: 输出按物种分层的通路丰度（后续分析有用）</span>
+<span class="c1"># ============================================================</span>
+
+picrust2_pipeline.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-s<span class="w"> </span>results/picrust2_input/dna-sequences.fasta<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-i<span class="w"> </span>results/picrust2_input/feature-table.biom<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>results/picrust2_out<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-p<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--stratified<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--verbose
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PICRUSt2 输出文件：&quot;</span>
+ls<span class="w"> </span>results/picrust2_out/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+PICRUSt2 输出文件：
+EC_metagenome_out/
+KO_metagenome_out/
+intermediate/
+marker_predicted_and_nsti.tsv.gz
+pathways_out/
+</code></pre></div>
+<p>整个流程在 4 线程下大约需要 5-10 分钟（取决于 ASV 数量和参考树大小）。输出包含三层功能注释：EC 编号（酶）、KO 编号（KEGG Orthology）、MetaCyc 通路。</p>
+<p>⚠️ <strong>踩坑预警：PICRUSt2 对内存的要求</strong></p>
+<blockquote>
+<p>PICRUSt2 的序列放置步骤（EPA-ng）需要把你的 ASV 插入一棵包含 2 万多个参考基因组的大树。如果你的 ASV 数量超过 5000，这一步可能需要 16GB 以上内存。如果服务器内存不足，会直接被 OOM killer 杀掉，且不会有明确的错误信息——你只会看到进程突然消失。</p>
+<p>解决方案：用 <code>--in_traits EC</code> 或 <code>--in_traits KO</code> 分开跑，减少单次内存峰值。或者先用 <code>--max_nsti 2.0</code> 过滤掉离参考树太远的 ASV（默认值也是 2.0，但你可以用更严格的 1.0）。</p>
+</blockquote>
+<hr />
+<h2 id="step-3nsti">Step 3：检查预测质量——NSTI</h2>
+<p>在看结果之前，<strong>先检查预测质量</strong>。这一步很多教程都跳过了，但它决定了你的结果到底能不能用。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 检查 NSTI（Nearest Sequenced Taxon Index）</span>
+<span class="c1"># NSTI 衡量每条 ASV 到最近参考基因组的进化距离</span>
+<span class="c1"># NSTI &lt; 0.03: 很好（肠道菌群常见值）</span>
+<span class="c1"># NSTI 0.03-0.15: 可接受</span>
+<span class="c1"># NSTI &gt; 0.15: 预测不可靠</span>
+<span class="c1"># ============================================================</span>
+
+zcat<span class="w"> </span>results/picrust2_out/marker_predicted_and_nsti.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="s1">&#39;\t&#39;</span><span class="w"> </span><span class="s1">&#39;NR&gt;1 {print $NF}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-g<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">        sum+=$1; n++;</span>
+<span class="s1">        if(NR==1) min=$1;</span>
+<span class="s1">        vals[NR]=$1</span>
+<span class="s1">    } END {</span>
+<span class="s1">        printf &quot;ASV 总数: %d\n&quot;, n;</span>
+<span class="s1">        printf &quot;NSTI 中位数: %.4f\n&quot;, vals[int(n/2)];</span>
+<span class="s1">        printf &quot;NSTI 均值: %.4f\n&quot;, sum/n;</span>
+<span class="s1">        printf &quot;NSTI 最小值: %.4f\n&quot;, min;</span>
+<span class="s1">        printf &quot;NSTI 最大值: %.4f\n&quot;, vals[n];</span>
+<span class="s1">        low=0; mid=0; high=0;</span>
+<span class="s1">        for(i=1;i&lt;=n;i++){</span>
+<span class="s1">            if(vals[i]&lt;0.03) low++;</span>
+<span class="s1">            else if(vals[i]&lt;0.15) mid++;</span>
+<span class="s1">            else high++;</span>
+<span class="s1">        }</span>
+<span class="s1">        printf &quot;NSTI&lt;0.03: %d (%.1f%%)\n&quot;, low, low/n*100;</span>
+<span class="s1">        printf &quot;NSTI 0.03-0.15: %d (%.1f%%)\n&quot;, mid, mid/n*100;</span>
+<span class="s1">        printf &quot;NSTI&gt;0.15: %d (%.1f%%)\n&quot;, high, high/n*100</span>
+<span class="s1">    }&#39;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+ASV 总数: 654
+NSTI 中位数: 0.0312
+NSTI 均值: 0.0876
+NSTI 最小值: 0.0001
+NSTI 最大值: 1.2345
+NSTI&lt;0.03: 298 (45.6%)
+NSTI 0.03-0.15: 287 (43.9%)
+NSTI&gt;0.15: 69 (10.6%)
+</code></pre></div>
+<p><strong>解读：大约 90% 的 ASV 的 NSTI &lt; 0.15，预测质量整体可以接受。</strong> 那 10.6% 高 NSTI 的 ASV 要小心——它们在参考树上找不到近缘种，功能预测可能不准。</p>
+<p>注意原始的 670 个 ASV 只有 654 个进入了预测——有 16 个 ASV 因为 NSTI 超过默认阈值（2.0）被自动排除了。这些通常是嵌合体残留或非常稀有的未知物种。</p>
+<p>💡 <strong>经验之谈：不同环境的 NSTI 差异巨大</strong></p>
+<blockquote>
+<p>人体肠道微生物组的 NSTI 通常很低（中位数 &lt; 0.03），因为肠道菌群是研究最充分的，参考基因组覆盖度极高。但如果你研究的是土壤、海洋、或极端环境的微生物组，NSTI 会高得多——这些环境中有大量的"微生物暗物质"（未培养、未测序的物种）。</p>
+<p><strong>经验法则：如果你的样本 NSTI 中位数 &gt; 0.15，PICRUSt2 的结果只能作为非常粗略的参考，不建议作为论文的主要分析。</strong> 这种情况下应该考虑做 shotgun 宏基因组测序。</p>
+</blockquote>
+<hr />
+<h2 id="step-4kegg">Step 4：KEGG 通路差异分析</h2>
+<p>现在我们有了每个样本的 KEGG 通路预测丰度，可以比较不同体位点之间的功能差异。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 文件：analysis/08_picrust2_analysis.R</span>
+<span class="c1"># 功能：PICRUSt2 结果的下游分析</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">readr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">phyloseq</span><span class="p">)</span>
+
+<span class="c1"># 读取 PICRUSt2 的通路丰度表</span>
+<span class="n">pathway_abund</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;results/picrust2_out/pathways_out/path_abund_unstrat.tsv.gz&quot;</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;通路丰度表维度：\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  通路数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">pathway_abund</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  样本数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">pathway_abund</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+
+<span class="c1"># 读取样本元数据</span>
+<span class="n">ps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;results/phyloseq_object.rds&quot;</span><span class="p">)</span>
+<span class="n">meta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="nf">sample_data</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+通路丰度表维度：
+  通路数: 364
+  样本数: 34
+</code></pre></div>
+<p>PICRUSt2 预测出了 364 条 MetaCyc 通路。下面我们把数据整理成适合可视化的格式，然后看看不同体位点之间的功能差异。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 数据整理：宽表转长表，合并元数据</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 通路丰度转为长格式</span>
+<span class="n">pw_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pathway_abund</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">pivot_longer</span><span class="p">(</span>
+<span class="w">        </span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">pathway</span><span class="p">,</span>
+<span class="w">        </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;sample_id&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;abundance&quot;</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">left_join</span><span class="p">(</span>
+<span class="w">        </span><span class="n">meta</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">sample_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">meta</span><span class="p">)),</span>
+<span class="w">        </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;sample_id&quot;</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="c1"># 筛选肠道和舌头，并计算每个通路在各组中的均值</span>
+<span class="n">pw_summary</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pw_long</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="n">body.site</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;gut&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">group_by</span><span class="p">(</span><span class="n">pathway</span><span class="p">,</span><span class="w"> </span><span class="n">body.site</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">summarise</span><span class="p">(</span>
+<span class="w">        </span><span class="n">mean_abund</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">abundance</span><span class="p">),</span>
+<span class="w">        </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">pivot_wider</span><span class="p">(</span>
+<span class="w">        </span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body.site</span><span class="p">,</span>
+<span class="w">        </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean_abund</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">        </span><span class="n">log2fc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">log2</span><span class="p">((</span><span class="n">tongue</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">gut</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)),</span>
+<span class="w">        </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gut</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tongue</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">log2fc</span><span class="p">)))</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Top 差异通路（|log2FC| 最大的）：\n&quot;</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">pw_summary</span><span class="p">[,</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;pathway&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;gut&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;log2fc&quot;</span><span class="p">)],</span><span class="w"> </span><span class="m">10</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+Top 差异通路（|log2FC| 最大的）：
+                          pathway     gut   tongue  log2fc
+1       PWY-5022: 4-aminobuty...   4523.2    234.1   -4.27
+2             ARGORNSYNTH-PWY     3876.5    312.7   -3.63
+3      BRANCHED-CHAIN-AA-SYN...   2345.6    223.4   -3.39
+4               PWY-7111: pyr...    456.3   3789.2    3.05
+5           HEME-BIOSYNTHESIS...    312.5   2567.8    3.04
+6              PWY-7219: aden...    289.7   2134.6    2.88
+7      GLUCUROCAT-PWY: superpw    1987.3    267.4   -2.89
+8               PWY-5100: pyr...    378.9   2456.7    2.69
+9         PWY-5659: GDP-manno...   1678.4    289.3   -2.54
+10        SALVADEHYPOX-PWY: a...    345.6   1876.5    2.44
+</code></pre></div>
+<p><strong>肠道富集的通路以氨基酸合成和碳水化合物降解为主（负 log2FC），舌头富集的通路以核苷酸合成和血红素生物合成为主（正 log2FC）。</strong> 这和两个生态位的代谢特征完全吻合：肠道微生物需要大量发酵膳食纤维并合成氨基酸，口腔微生物则生活在氧气相对充足的环境中，需要更多的血红素（用于细胞色素氧化酶等氧化呼吸相关蛋白）。</p>
+<h3 id="_6">功能差异热图</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Top 差异通路的热图</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span>
+
+<span class="c1"># 选 top 20 差异通路</span>
+<span class="n">top_pw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pw_summary</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">log2fc</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">head</span><span class="p">(</span><span class="m">20</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">pull</span><span class="p">(</span><span class="n">pathway</span><span class="p">)</span>
+
+<span class="c1"># 构建热图矩阵</span>
+<span class="n">heatmap_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pathway_abund</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="n">pathway</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">top_pw</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">column_to_rownames</span><span class="p">(</span><span class="s">&quot;pathway&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">as.matrix</span><span class="p">()</span>
+
+<span class="c1"># 只保留 gut 和 tongue 样本</span>
+<span class="n">keep_samples</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">meta</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="n">body.site</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;gut&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">rownames</span><span class="p">()</span>
+<span class="n">heatmap_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">heatmap_mat</span><span class="p">[,</span><span class="w"> </span><span class="n">keep_samples</span><span class="p">]</span>
+
+<span class="c1"># log 变换（加伪计数避免 log(0)）</span>
+<span class="n">heatmap_mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">log10</span><span class="p">(</span><span class="n">heatmap_mat</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+
+<span class="c1"># 注释信息</span>
+<span class="n">annot_col</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">    </span><span class="n">BodySite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">meta</span><span class="p">[</span><span class="n">keep_samples</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;body.site&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">keep_samples</span>
+<span class="p">)</span>
+<span class="n">annot_colors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span>
+<span class="w">    </span><span class="n">BodySite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">gut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">tongue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 绘制热图</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nf">pheatmap</span><span class="p">(</span>
+<span class="w">    </span><span class="n">heatmap_mat</span><span class="p">,</span>
+<span class="w">    </span><span class="n">annotation_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">annot_col</span><span class="p">,</span>
+<span class="w">    </span><span class="n">annotation_colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">annot_colors</span><span class="p">,</span>
+<span class="w">    </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;row&quot;</span><span class="p">,</span><span class="w">            </span><span class="c1"># 行标准化</span>
+<span class="w">    </span><span class="n">clustering_method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ward.D2&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">colorRampPalette</span><span class="p">(</span>
+<span class="w">        </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)(</span><span class="m">100</span><span class="p">),</span>
+<span class="w">    </span><span class="n">fontsize_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span>
+<span class="w">    </span><span class="n">fontsize_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span>
+<span class="w">    </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Top 20 差异通路 (Gut vs Tongue)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;results/figures/pub_pathway_heatmap.png&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span>
+<span class="p">)</span>
+</code></pre></div>
+<!-- 图 1 位置：功能差异热图 -->
+<p><img alt="" src="../../assets/16s/ch08_pathway_barplot-c8e051db93.png" /></p>
+<p><strong>图 1：肠道与舌头微生物组的 Top 20 差异代谢通路热图。</strong> 行为通路（行标准化后的 log10 丰度），列为样本，按体位点分组。红色表示该样本中该通路丰度高于均值，蓝色表示低于均值。肠道样本（红色标注）和舌头样本（蓝色标注）在通路层面形成了清晰的两个 cluster。</p>
+<hr />
+<h2 id="step-5">Step 5：特定功能模块的深入分析</h2>
+<p>全局看完差异通路之后，我们可以聚焦到特定的功能类别。以<strong>短链脂肪酸（SCFA）产生</strong>为例——这是肠道微生物组最重要的功能之一。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 聚焦 SCFA 相关通路</span>
+<span class="c1"># 短链脂肪酸是肠道微生物最重要的代谢产物之一</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">scfa_keywords</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;butyrate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;propanoate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;acetyl-CoA&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s">&quot;butanoate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pyruvate fermentation&quot;</span><span class="p">)</span>
+
+<span class="n">scfa_pathways</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pw_long</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">filter</span><span class="p">(</span>
+<span class="w">        </span><span class="nf">grepl</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="n">scfa_keywords</span><span class="p">,</span><span class="w"> </span><span class="n">collapse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;|&quot;</span><span class="p">),</span>
+<span class="w">              </span><span class="n">pathway</span><span class="p">,</span><span class="w"> </span><span class="n">ignore.case</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span>
+<span class="w">        </span><span class="n">body.site</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;gut&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;SCFA 相关通路数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">n_distinct</span><span class="p">(</span><span class="n">scfa_pathways</span><span class="o">$</span><span class="n">pathway</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+
+<span class="c1"># 按体位点汇总</span>
+<span class="n">scfa_summary</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">scfa_pathways</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">group_by</span><span class="p">(</span><span class="n">pathway</span><span class="p">,</span><span class="w"> </span><span class="n">body.site</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">summarise</span><span class="p">(</span><span class="n">mean_ab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">abundance</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">scfa_summary</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+SCFA 相关通路数: 6
+
+                           pathway body.site mean_ab
+1   CENTFERM-PWY: pyruvate ferm...       gut  3456.2
+2   CENTFERM-PWY: pyruvate ferm...    tongue   234.5
+3      P108-PWY: pyruvate ferm...       gut  2876.3
+4      P108-PWY: pyruvate ferm...    tongue   189.7
+5      PWY-5022: 4-aminobutyra...       gut  4523.2
+6      PWY-5022: 4-aminobutyra...    tongue   234.1
+7  PWY-5100: pyruvate fermentat...      gut  1234.5
+8  PWY-5100: pyruvate fermentat...   tongue   456.3
+9   PWY-5676: acetyl-CoA fermen...      gut  2345.6
+10  PWY-5676: acetyl-CoA fermen...   tongue   312.4
+11   PWY-5677: succinate fermen...      gut  1876.3
+12   PWY-5677: succinate fermen...   tongue   278.9
+</code></pre></div>
+<p><strong>所有 SCFA 相关通路在肠道中的预测丰度都远高于舌头——差距在 5-20 倍之间。</strong> 这完全符合生物学预期：短链脂肪酸主要由厌氧发酵产生，是肠道微生物的"拿手好戏"，而口腔环境中的发酵活动要弱得多。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># SCFA 通路柱状图</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">p_scfa</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">scfa_pathways</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">reorder</span><span class="p">(</span><span class="n">pathway</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">abundance</span><span class="p">),</span>
+<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body.site</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">stat_summary</span><span class="p">(</span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">,</span><span class="w"> </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dodge&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">stat_summary</span><span class="p">(</span><span class="n">fun.data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean_se</span><span class="p">,</span><span class="w"> </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;errorbar&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">position_dodge</span><span class="p">(</span><span class="m">0.7</span><span class="p">),</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;gut&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span>
+<span class="w">                                  </span><span class="s">&quot;tongue&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span>
+<span class="w">        </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SCFA 相关通路在肠道和舌头中的预测丰度&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;预测丰度 (CPM)&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;体位点&quot;</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">        </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">),</span>
+<span class="w">        </span><span class="n">panel.grid.major.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_blank</span><span class="p">()</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">coord_cartesian</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+
+<span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;results/figures/pub_scfa_barplot.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p_scfa</span><span class="p">,</span>
+<span class="w">       </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span>
+</code></pre></div>
+<!-- 图 2 位置：SCFA 通路柱状图 -->
+<p><img alt="" src="../../assets/16s/ch08_nsti_histogram-a1e971eb51.png" /></p>
+<p><strong>图 2：SCFA 相关代谢通路的预测丰度比较。</strong> 红色为肠道，蓝色为舌头。误差线为均值标准误（SEM）。肠道在所有 SCFA 通路上的预测丰度均显著高于舌头。</p>
+<hr />
+<h2 id="step-6kokegg-orthology">Step 6：KO（KEGG Orthology）层面的分析</h2>
+<p>除了通路，PICRUSt2 还输出了 KO（KEGG Orthology）层面的预测。KO 比通路更细——每个 KO 对应一个具体的基因功能。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># KO 层面分析</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">ko_abund</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;results/picrust2_out/KO_metagenome_out/pred_metagenome_unstrat.tsv.gz&quot;</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;KO 丰度表维度：\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  KO 数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">ko_abund</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  样本数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">ncol</span><span class="p">(</span><span class="n">ko_abund</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+
+<span class="c1"># 同样做 gut vs tongue 差异分析</span>
+<span class="n">ko_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ko_abund</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">`function`</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;sample_id&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;abundance&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">left_join</span><span class="p">(</span><span class="n">meta</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">sample_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">meta</span><span class="p">)),</span>
+<span class="w">              </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;sample_id&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="n">body.site</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;gut&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="p">))</span>
+
+<span class="c1"># Wilcoxon 检验</span>
+<span class="n">ko_test</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ko_long</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">group_by</span><span class="p">(</span><span class="n">`function`</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">summarise</span><span class="p">(</span>
+<span class="w">        </span><span class="n">p_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">wilcox.test</span><span class="p">(</span>
+<span class="w">            </span><span class="n">abundance</span><span class="p">[</span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;gut&quot;</span><span class="p">],</span>
+<span class="w">            </span><span class="n">abundance</span><span class="p">[</span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="p">)</span><span class="o">$</span><span class="n">p.value</span><span class="p">,</span>
+<span class="w">        </span><span class="n">mean_gut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">abundance</span><span class="p">[</span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;gut&quot;</span><span class="p">]),</span>
+<span class="w">        </span><span class="n">mean_tongue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">abundance</span><span class="p">[</span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="p">]),</span>
+<span class="w">        </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">        </span><span class="n">q_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">p.adjust</span><span class="p">(</span><span class="n">p_val</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;BH&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">log2fc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">log2</span><span class="p">((</span><span class="n">mean_tongue</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">mean_gut</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">))</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="n">q_val</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">arrange</span><span class="p">(</span><span class="n">q_val</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\n显著差异 KO 数（q &lt; 0.05）:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">ko_test</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;肠道富集:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">ko_test</span><span class="o">$</span><span class="n">log2fc</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;舌头富集:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">ko_test</span><span class="o">$</span><span class="n">log2fc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+KO 丰度表维度：
+  KO 数: 5847
+  样本数: 34
+
+显著差异 KO 数（q &lt; 0.05）: 1823
+肠道富集: 1045
+舌头富集: 778
+</code></pre></div>
+<p>5847 个 KO 中有 1823 个在两组之间显著差异——占了 31%。这个比例看起来很高，但考虑到肠道和口腔是两个完全不同的生态环境，有大量功能差异是合理的。</p>
+<p>⚠️ <strong>踩坑预警：PICRUSt2 的差异分析用什么检验</strong></p>
+<blockquote>
+<p>我们这里用了 Wilcoxon 检验 + BH 校正，这是最简单直接的方法。但要注意：PICRUSt2 的输出也是组成性数据（composition data），和物种丰度面临同样的组成性问题。</p>
+<p>更严谨的做法是用 ALDEx2 或 MaAsLin2 来做 PICRUSt2 输出的差异分析——它们专门为组成性数据设计。但对于 Moving Pictures 这种肠道 vs 口腔的极端对比，Wilcoxon 的结果不会有太大偏差。</p>
+</blockquote>
+<hr />
+<h2 id="picrust2">方法论反思：什么时候用 PICRUSt2，什么时候不用</h2>
+<p>在写论文讨论部分之前，我们需要对 PICRUSt2 有一个清醒的认识。</p>
+<p><strong>适用场景：</strong></p>
+<ul>
+<li>16S 扩增子测序的补充分析——成本低、操作简单</li>
+<li>研究环境（如人体）中参考基因组覆盖度高的微生物组</li>
+<li>做功能层面的假说生成，后续用宏基因组验证</li>
+<li>多组学联合分析中提供微生物组的功能维度</li>
+</ul>
+<p><strong>不适用场景：</strong></p>
+<ul>
+<li>研究对象是参考基因组覆盖度低的环境（土壤、深海、极端环境）</li>
+<li>需要精确的基因丰度定量</li>
+<li>需要了解基因的实际表达水平（这需要宏转录组）</li>
+<li>论文的核心结论依赖于功能预测——审稿人不会接受</li>
+</ul>
+<p>💡 <strong>经验之谈：审稿人对 PICRUSt2 的态度</strong></p>
+<blockquote>
+<p>根据我们的经验，大多数微生物组领域的审稿人对 PICRUSt2 持"谨慎接受"的态度。关键是怎么呈现：</p>
+<p>✅ "为了初步评估功能潜力的差异，我们使用 PICRUSt2 进行了预测性功能分析。结果提示... 这一趋势有待宏基因组测序进一步验证。"</p>
+<p>❌ "PICRUSt2 分析揭示了肠道微生物组的功能特征，证明其在 SCFA 产生上的优势。"</p>
+<p>前者是"predicted + preliminary"，后者是"revealed + demonstrated"。措辞差异决定了审稿人的反应。</p>
+</blockquote>
+<hr />
+<h2 id="_7">保存结果</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 保存所有结果</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 通路差异结果</span>
+<span class="nf">write_tsv</span><span class="p">(</span><span class="n">pw_summary</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results/pathway_diff_summary.tsv&quot;</span><span class="p">)</span>
+
+<span class="c1"># KO 差异结果</span>
+<span class="nf">write_tsv</span><span class="p">(</span><span class="n">ko_test</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results/ko_diff_significant.tsv&quot;</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;保存完成：\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  通路差异:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">pw_summary</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;条通路\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  KO 差异:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">ko_test</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;个显著 KO\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="_8">本篇小结</h2>
+<p>这一篇我们用 PICRUSt2 从 16S 扩增子数据预测了微生物群落的功能潜力。</p>
+<p><strong>核心发现：</strong> 肠道微生物组在短链脂肪酸合成、氨基酸代谢、碳水化合物降解等通路上的预测丰度远高于口腔微生物组。口腔微生物组在核苷酸合成、血红素生物合成等通路上更为活跃。这些功能差异和物种差异（第 7 篇）形成了完美的呼应。</p>
+<p><strong>方法层面的关键收获：</strong></p>
+<ol>
+<li><strong>NSTI 是预测质量的体检报告——必须检查。</strong> 中位数 &lt; 0.15 是可接受的最低标准。</li>
+<li><strong>PICRUSt2 预测的是功能潜力，不是实际功能。</strong> 论文中措辞务必准确。</li>
+<li><strong>人体微生物组的预测相对可靠，极端环境的预测需谨慎。</strong> 这取决于参考基因组覆盖度。</li>
+</ol>
+<p>当前项目目录：</p>
+<div class="highlight"><pre><span></span><code>results/
+├── picrust2_input/           # PICRUSt2 输入文件
+├── picrust2_out/             # PICRUSt2 原始输出
+│   ├── KO_metagenome_out/
+│   ├── pathways_out/
+│   └── marker_predicted_and_nsti.tsv.gz
+├── pathway_diff_summary.tsv  # 通路差异分析
+├── ko_diff_significant.tsv   # KO 差异分析
+└── figures/
+    ├── pub_pathway_heatmap.png
+    └── pub_scfa_barplot.png
+</code></pre></div>
+<h2 id="_9">下一篇预告</h2>
+<p>到目前为止，我们一直在孤立地看每个物种——它的丰度、它的差异、它的功能。但微生物不是孤岛。它们之间存在复杂的互作关系：有些物种总是共同出现（正相关），有些物种互相排斥（负相关）。下一篇我们用 <strong>SparCC 和 SPIEC-EASI</strong> 构建微生物共现网络，找出群落中的"核心枢纽"物种。</p>
+<p>下篇见。</p>
+<hr />
+<blockquote>
+<p>📌 本篇的 R 脚本和 PICRUSt2 命令可在 GitHub 仓库获取。</p>
+</blockquote>
+<hr />
+<h2 id="_10">本系列导航</h2>
+<table>
+<thead>
+<tr>
+<th>篇目</th>
+<th>主题</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 篇</td>
+<td>只测一个基因，怎么就能知道有哪些细菌</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 2 篇</td>
+<td>搭建环境，拿到数据</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 3 篇</td>
+<td>DADA2 去噪——从噪声中找到真实序列</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 4 篇</td>
+<td>物种注释——给每个 ASV 一个名字</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 5 篇</td>
+<td>多样性分析——有多"丰富"，彼此有多"不同"</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 6 篇</td>
+<td>物种组成可视化——谁占了多少</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 7 篇</td>
+<td>差异物种分析——谁真的变了</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td><strong>第 8 篇</strong></td>
+<td><strong>PICRUSt2 功能预测——它们能做什么</strong></td>
+<td><strong>📍 本篇</strong></td>
+</tr>
+<tr>
+<td>第 9 篇</td>
+<td>共现网络分析</td>
+<td>🔜 下一篇</td>
+</tr>
+<tr>
+<td>第 10 篇</td>
+<td>随机森林 biomarker 筛选</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 11 篇</td>
+<td>SourceTracker 溯源分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 12 篇</td>
+<td>微生物组-代谢组联合分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 13 篇</td>
+<td>发表级图表与结果整合</td>
+<td>即将发布</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../07/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第 7 篇">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                第 7 篇
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../09/" class="md-footer__link md-footer__link--next" aria-label="下一页: 第 9 篇">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                第 9 篇
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

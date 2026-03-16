@@ -1,0 +1,1726 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到差异分析、功能预测、网络、机器学习与整合图表。">
+      
+      
+        <meta name="author" content="petemeng">
+      
+      
+      
+        <link rel="prev" href="../05/">
+      
+      
+        <link rel="next" href="../07/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>第 6 篇 - 16S 微生物组最佳实践系列</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#16s" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-header__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            16S 微生物组最佳实践系列
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 6 篇
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01/" class="md-tabs__link">
+          
+  
+  
+  正文
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../figures/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  图表总览
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-nav__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    16S 微生物组最佳实践系列
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    正文
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    正文
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 篇
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qiime2-r" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        从 QIIME2 到 R：导出数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        门水平堆叠柱状图
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        属水平堆叠柱状图
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#top" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top 物种热图
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#microeco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        用 microeco 做更丰富的可视化
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phyloseq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保存 phyloseq 对象供后续使用
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../figures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图表总览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qiime2-r" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        从 QIIME2 到 R：导出数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        门水平堆叠柱状图
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        属水平堆叠柱状图
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#top" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top 物种热图
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#microeco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        用 microeco 做更丰富的可视化
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phyloseq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保存 phyloseq 对象供后续使用
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="16s">16S 微生物组最佳实践系列（六）：物种组成可视化——谁占了多少</h1>
+<blockquote>
+<p>📋 教程信息
+- GitHub：[songlab-cal/16s-best-practices]（完整代码与环境文件）
+- 数据来源：Moving Pictures 数据集（34 个样本，670 个 ASV）
+- 预计阅读：30 分钟 | 实操：20 分钟
+- 难度：⭐⭐（5 星制）
+- 前置知识：完成本系列第 4-5 篇，results/ 下有 table-filtered.qza、taxonomy.qza</p>
+</blockquote>
+<hr />
+<h2 id="_1">本篇目标</h2>
+<p>上一篇的 PCoA 告诉我们"不同体位点的微生物组成整体上很不同"。但"不同在哪"还不清楚——肠道里是什么菌占优势？手掌上又是什么？</p>
+<p>物种组成可视化的目标就是把这些细节展示出来。</p>
+<p>读完这一篇，你会：</p>
+<ol>
+<li>把 QIIME2 的数据完整地导入 R（phyloseq 对象）</li>
+<li>画出发表级的门/属水平堆叠柱状图</li>
+<li>画出 top 丰度物种的热图</li>
+<li>理解"相对丰度"可视化中几个容易误导人的地方</li>
+<li>掌握从 QIIME2 到 R 的完整过渡——后续所有进阶分析都在 R 中完成</li>
+</ol>
+<p><strong>从这一篇开始，我们的主要工作环境从 QIIME2 命令行切换到 R。</strong></p>
+<hr />
+<h2 id="qiime2-r">从 QIIME2 到 R：导出数据</h2>
+<p>QIIME2 的 <code>.qza</code> 文件不能被 R 直接读取。我们需要导出为标准格式，然后用 R 包 <code>qiime2R</code> 或手动导入的方式构建 phyloseq 对象。</p>
+<p>最省事的方法是用 <code>qiime2R</code> 包——它可以直接读 <code>.qza</code> 文件。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 文件：analysis/06_composition_visualization.R</span>
+<span class="c1"># 功能：物种组成可视化（堆叠柱状图、热图）</span>
+<span class="c1"># 输入：QIIME2 的 .qza 文件</span>
+<span class="c1"># 输出：发表级物种组成图</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 安装 qiime2R（如果尚未安装）</span>
+<span class="c1"># install.packages(&quot;devtools&quot;)</span>
+<span class="c1"># devtools::install_github(&quot;jbisanz/qiime2R&quot;)</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">qiime2R</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">phyloseq</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">microeco</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">readr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">RColorBrewer</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Step 1: 用 qiime2R 直接读取 QIIME2 artifact</span>
+<span class="c1"># 一步构建 phyloseq 对象——后续所有 R 分析都基于它</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">ps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">qza_to_phyloseq</span><span class="p">(</span>
+<span class="w">    </span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;results/table-filtered.qza&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">tree</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;results/rooted-tree.qza&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">taxonomy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;results/taxonomy.qza&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">metadata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;data/sample-metadata.tsv&quot;</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;phyloseq 对象摘要：\n&quot;</span><span class="p">)</span>
+<span class="n">ps</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+phyloseq 对象摘要：
+phyloseq-class experiment-level object
+otu_table()   [ 670 taxa and 34 samples ]
+sample_data() [ 34 samples by 10 sample variables ]
+tax_table()   [ 670 taxa by 7 taxonomic ranks ]
+phy_tree()    [ 670 tips and 668 internal nodes ]
+</code></pre></div>
+<p>670 个 ASV、34 个样本、7 个分类学等级（域到种）、系统发育树——全部装在一个 phyloseq 对象里了。后续所有操作都围绕这个对象展开。</p>
+<p>💡 <strong>如果 qiime2R 装不上</strong></p>
+<blockquote>
+<p><code>qiime2R</code> 依赖一些编译型包，在某些服务器上可能安装失败。备选方案是手动导入：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 在 QIIME2 环境中先导出为标准格式</span>
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--input-path<span class="w"> </span>results/table-filtered.qza<span class="w"> </span>--output-path<span class="w"> </span>export/
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--input-path<span class="w"> </span>results/taxonomy.qza<span class="w"> </span>--output-path<span class="w"> </span>export/
+qiime<span class="w"> </span>tools<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--input-path<span class="w"> </span>results/rooted-tree.qza<span class="w"> </span>--output-path<span class="w"> </span>export/
+biom<span class="w"> </span>convert<span class="w"> </span>-i<span class="w"> </span>export/feature-table.biom<span class="w"> </span>-o<span class="w"> </span>export/feature-table.tsv<span class="w"> </span>--to-tsv
+</code></pre></div>
+<p>然后在 R 中用 <code>phyloseq::import_biom()</code> 或直接读 TSV 手动构建 phyloseq 对象。</p>
+</blockquote>
+<hr />
+<h2 id="_2">门水平堆叠柱状图</h2>
+<p>这是微生物组论文中出现频率最高的图。每个样本一根柱子，不同颜色代表不同的门（Phylum），高度代表相对丰度。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Step 2: 门水平堆叠柱状图</span>
+<span class="c1"># 思路：</span>
+<span class="c1">#   1. 把 ASV 水平的 counts 合并到门水平</span>
+<span class="c1">#   2. 转换为相对丰度</span>
+<span class="c1">#   3. 只保留丰度 top 的门，其余合并为 &quot;Others&quot;</span>
+<span class="c1">#   4. 按体位点分面展示</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 合并到门水平</span>
+<span class="n">ps_phylum</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tax_glom</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">taxrank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Phylum&quot;</span><span class="p">)</span>
+
+<span class="c1"># 转换为相对丰度</span>
+<span class="n">ps_phylum_rel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">transform_sample_counts</span><span class="p">(</span><span class="n">ps_phylum</span><span class="p">,</span>
+<span class="w">                                          </span><span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="c1"># 转换为长格式数据框</span>
+<span class="n">phylum_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">psmelt</span><span class="p">(</span><span class="n">ps_phylum_rel</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Phylum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="n">Phylum</span><span class="p">))</span>
+
+<span class="c1"># 找到 top 8 的门（按所有样本的平均丰度排序）</span>
+<span class="n">top_phyla</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">phylum_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">group_by</span><span class="p">(</span><span class="n">Phylum</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">summarize</span><span class="p">(</span><span class="n">mean_abund</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">Abundance</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">mean_abund</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">head</span><span class="p">(</span><span class="m">8</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">pull</span><span class="p">(</span><span class="n">Phylum</span><span class="p">)</span>
+
+<span class="c1"># 其余的门合并为 &quot;Others&quot;</span>
+<span class="n">phylum_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">phylum_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Phylum_plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span><span class="n">Phylum</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">top_phyla</span><span class="p">,</span>
+<span class="w">                                 </span><span class="n">Phylum</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Others&quot;</span><span class="p">))</span>
+
+<span class="c1"># 定义配色——用专门为微生物组设计的色板</span>
+<span class="n">phylum_colors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;Bacteroidota&quot;</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Firmicutes&quot;</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#4DBBD5&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Proteobacteria&quot;</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#00A087&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Actinobacteriota&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Fusobacteriota&quot;</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#F39B7F&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Verrucomicrobiota&quot;</span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#8491B4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Cyanobacteria&quot;</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#91D1C2&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Patescibacteria&quot;</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#DC9C26&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Others&quot;</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey75&quot;</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Top 8 门（按平均相对丰度）：\n&quot;</span><span class="p">)</span>
+<span class="n">phylum_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="n">Phylum_plot</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;Others&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">group_by</span><span class="p">(</span><span class="n">Phylum_plot</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">summarize</span><span class="p">(</span><span class="n">mean_pct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">mean</span><span class="p">(</span><span class="n">Abundance</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">mean_pct</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">print</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+Top 8 门（按平均相对丰度）：
+  Phylum_plot         mean_pct
+1 Bacteroidota           32.4
+2 Firmicutes             28.7
+3 Proteobacteria         21.3
+4 Actinobacteriota        8.2
+5 Fusobacteriota          3.1
+6 Verrucomicrobiota       1.8
+7 Cyanobacteria           1.2
+8 Patescibacteria         0.9
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 画图</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># Songlab 主题</span>
+<span class="n">theme_songlab</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_size</span><span class="p">)</span><span class="w"> </span><span class="o">%+replace%</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">        </span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_blank</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">axis.line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_line</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey20&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">),</span>
+<span class="w">        </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_line</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey20&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">),</span>
+<span class="w">        </span><span class="n">plot.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">),</span>
+<span class="w">        </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bold&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_size</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">p_phylum</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">phylum_df</span><span class="p">,</span>
+<span class="w">                    </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abundance</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Phylum_plot</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;identity&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">facet_grid</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">body.site</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;free_x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;free_x&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">phylum_colors</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">percent</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Relative Abundance&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Phylum&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_songlab</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">        </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;right&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">panel.spacing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unit</span><span class="p">(</span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lines&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;results/figures/pub_phylum_barplot.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p_phylum</span><span class="p">,</span>
+<span class="w">       </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span>
+<span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;results/figures/pub_phylum_barplot.pdf&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p_phylum</span><span class="p">,</span>
+<span class="w">       </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;门水平堆叠柱状图已保存\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<!-- 图 1 位置：门水平堆叠柱状图 -->
+<p><img alt="" src="../../assets/16s/ch06_phylum_barplot-7160292e6f.png" /></p>
+<p><strong>图 1：门水平物种组成堆叠柱状图。</strong> 样本按体位点分面展示。肠道（gut）以 Bacteroidota（红色）和 Firmicutes（蓝色）为主；手掌以 Proteobacteria（绿色）和 Firmicutes 为主；舌头呈现 Proteobacteria、Bacteroidota 和 Firmicutes 的三分格局。</p>
+<p><strong>从这张图能直接读出的生物学信息：</strong></p>
+<p><strong>肠道</strong>是"拟杆菌-厚壁菌双主导"模式——这是人类肠道微生物组最经典的特征，在全球不同人群中高度一致。Bacteroidota:Firmicutes 的比例（B/F ratio）曾被认为和肥胖有关，虽然这个观点现在有争议，但它的主导地位是无可争议的。</p>
+<p><strong>手掌</strong>以 Proteobacteria 为主——变形菌门中的很多物种是环境中常见的耐干燥细菌，适合皮肤表面这种暴露、干燥、不断受到扰动的环境。</p>
+<p><strong>同一体位点内部的组成很稳定</strong>——同一个面板内的柱子颜色比例大致相似。这和第 5 篇 PERMANOVA 的结论一致：组内变异远小于组间变异。</p>
+<p>⚠️ <strong>踩坑预警：堆叠柱状图展示的是相对丰度，不是绝对丰度</strong></p>
+<blockquote>
+<p>这张图的每根柱子都加到 100%。这意味着你看到的"Bacteroidota 在肠道中占 35%"是相对于该样本中所有细菌的比例——不是绝对菌量。</p>
+<p>一个常见的误读：如果某种菌在处理组中的相对丰度从 10% 升到 20%，你可能会说"这种菌增多了"。但也可能是<strong>其他菌减少了</strong>，导致这种菌的<strong>比例</strong>被动上升，而它的绝对数量其实没变甚至在减少。</p>
+<p><strong>在论文讨论中，用"相对丰度增加"而不是"丰度增加"来描述——除非你有绝对定量的数据（如 qPCR 或掺入标准品）。</strong></p>
+</blockquote>
+<hr />
+<h2 id="_3">属水平堆叠柱状图</h2>
+<p>门水平看的是大画面，属水平看的是细节。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Step 3: 属水平堆叠柱状图</span>
+<span class="c1"># 属水平的物种太多，只展示 top 15</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">ps_genus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tax_glom</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">taxrank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Genus&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">NArm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+<span class="n">ps_genus_rel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">transform_sample_counts</span><span class="p">(</span><span class="n">ps_genus</span><span class="p">,</span>
+<span class="w">                                         </span><span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="n">genus_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">psmelt</span><span class="p">(</span><span class="n">ps_genus_rel</span><span class="p">)</span>
+
+<span class="c1"># 处理未注释到属的 ASV</span>
+<span class="n">genus_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">genus_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span><span class="nf">is.na</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Genus</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">                           </span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;Unclassified_&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Family</span><span class="p">),</span>
+<span class="w">                           </span><span class="n">Genus</span><span class="p">))</span>
+
+<span class="c1"># Top 15 属</span>
+<span class="n">top_genera</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">genus_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">group_by</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">summarize</span><span class="p">(</span><span class="n">mean_abund</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">Abundance</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">mean_abund</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">head</span><span class="p">(</span><span class="m">15</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">pull</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span>
+
+<span class="n">genus_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">genus_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Genus_plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span><span class="n">Genus</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">top_genera</span><span class="p">,</span>
+<span class="w">                                </span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Others&quot;</span><span class="p">))</span>
+
+<span class="c1"># 用更多颜色的色板</span>
+<span class="n">genus_colors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">colorRampPalette</span><span class="p">(</span><span class="nf">brewer.pal</span><span class="p">(</span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Paired&quot;</span><span class="p">))(</span><span class="m">15</span><span class="p">),</span>
+<span class="w">    </span><span class="s">&quot;grey75&quot;</span><span class="w">  </span><span class="c1"># Others</span>
+<span class="p">)</span>
+<span class="nf">names</span><span class="p">(</span><span class="n">genus_colors</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">top_genera</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Others&quot;</span><span class="p">)</span>
+
+<span class="n">p_genus</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">genus_df</span><span class="p">,</span>
+<span class="w">                   </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abundance</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Genus_plot</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;identity&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">facet_grid</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">body.site</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;free_x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;free_x&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">genus_colors</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">percent</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Relative Abundance&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Genus&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_songlab</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">        </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;right&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;italic&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">),</span>
+<span class="w">        </span><span class="n">panel.spacing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unit</span><span class="p">(</span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lines&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;results/figures/pub_genus_barplot.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p_genus</span><span class="p">,</span>
+<span class="w">       </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span>
+</code></pre></div>
+<!-- 图 2 位置：属水平堆叠柱状图 -->
+<p><img alt="" src="../../assets/16s/ch06_genus_barplot-d539c6dde3.png" /></p>
+<p><strong>图 2：属水平物种组成堆叠柱状图（Top 15 属）。</strong> 属名用斜体（生物学规范）。肠道中 <em>Bacteroides</em>（拟杆菌属）占绝对优势，其次是 <em>Prevotella</em> 和 <em>Faecalibacterium</em>。手掌以 <em>Staphylococcus</em> 和 <em>Corynebacterium</em> 为主。舌头以 <em>Neisseria</em> 和 <em>Haemophilus</em> 为主。</p>
+<p>💡 <strong>属名为什么用斜体？</strong></p>
+<blockquote>
+<p>生物学命名规范要求：属名和种名在正文和图中必须用斜体（<em>Bacteroides</em>, <em>E. coli</em>）。门名和更高层级用正体（Firmicutes, Proteobacteria）。审稿人会检查这个。在 ggplot2 中用 <code>element_text(face = "italic")</code> 即可。</p>
+</blockquote>
+<hr />
+<h2 id="top">Top 物种热图</h2>
+<p>堆叠柱状图适合展示组成比例，热图适合展示"哪些物种在哪些样本中丰度高或低"的模式。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Step 4: Top 30 属的热图</span>
+<span class="c1"># 行 = 属，列 = 样本，颜色 = log 变换后的相对丰度</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 提取 top 30 属</span>
+<span class="n">top30</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">genus_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">group_by</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">summarize</span><span class="p">(</span><span class="n">mean_abund</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">Abundance</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">mean_abund</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">head</span><span class="p">(</span><span class="m">30</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">pull</span><span class="p">(</span><span class="n">Genus</span><span class="p">)</span>
+
+<span class="c1"># 构建矩阵</span>
+<span class="n">heatmap_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">genus_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="n">Genus</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">top30</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">select</span><span class="p">(</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="n">Abundance</span><span class="p">,</span><span class="w"> </span><span class="n">body.site</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">pivot_wider</span><span class="p">(</span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Abundance</span><span class="p">,</span>
+<span class="w">                </span><span class="n">values_fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
+
+<span class="c1"># 转为矩阵</span>
+<span class="n">mat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">heatmap_df</span><span class="p">[,</span><span class="w"> </span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">)])</span>
+<span class="nf">rownames</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">heatmap_df</span><span class="o">$</span><span class="n">Genus</span>
+
+<span class="c1"># log10 变换（加伪计数避免 log(0)）</span>
+<span class="n">mat_log</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">log10</span><span class="p">(</span><span class="n">mat</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1e-6</span><span class="p">)</span>
+
+<span class="c1"># 样本注释</span>
+<span class="n">sample_meta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">genus_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">select</span><span class="p">(</span><span class="n">Sample</span><span class="p">,</span><span class="w"> </span><span class="n">body.site</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">distinct</span><span class="p">()</span>
+<span class="n">ann_col</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Body_Site</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_meta</span><span class="o">$</span><span class="n">body.site</span><span class="p">,</span>
+<span class="w">    </span><span class="n">row.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample_meta</span><span class="o">$</span><span class="n">Sample</span>
+<span class="p">)</span>
+<span class="n">ann_colors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Body_Site</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;gut&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;left palm&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#4DBBD5&quot;</span><span class="p">,</span>
+<span class="w">                   </span><span class="s">&quot;right palm&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#00A087&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">pheatmap</span><span class="o">::</span><span class="nf">pheatmap</span><span class="p">(</span>
+<span class="w">    </span><span class="n">mat_log</span><span class="p">,</span>
+<span class="w">    </span><span class="n">annotation_col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ann_col</span><span class="p">,</span>
+<span class="w">    </span><span class="n">annotation_colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ann_colors</span><span class="p">,</span>
+<span class="w">    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">colorRampPalette</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;#F7FBFF&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#4292C6&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#08306B&quot;</span><span class="p">))(</span><span class="m">100</span><span class="p">),</span>
+<span class="w">    </span><span class="n">cluster_rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">cluster_cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">show_colnames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">fontsize_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span>
+<span class="w">    </span><span class="n">labels_row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;italic(&#39;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">mat_log</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;&#39;)&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;results/figures/pub_genus_heatmap.png&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;属水平热图已保存\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<!-- 图 3 位置：属水平热图 -->
+<p><img alt="" src="../../assets/16s/ch06_genus_heatmap-d792dd15aa.png" /></p>
+<p><strong>图 3：Top 30 属的丰度热图。</strong> 列按体位点聚类（顶部注释条），行为属。颜色深浅代表 log10 变换后的相对丰度。聚类结果清晰地将肠道与其他体位点分开，同时揭示了每个体位点的"特征菌属"模式。</p>
+<p><strong>怎么读这张热图：</strong></p>
+<p>列聚类自动把相似的样本归在了一起——注意顶部的颜色条，同一体位点的样本被完美聚合。这本身就是一个验证：说明微生物组成确实主要由体位点决定。</p>
+<p>行聚类揭示了几个"物种模块"：一组属在肠道中高丰度但在其他部位低（<em>Bacteroides</em>、<em>Prevotella</em>、<em>Faecalibacterium</em>），另一组在手掌高丰度（<em>Staphylococcus</em>、<em>Corynebacterium</em>），第三组在舌头高丰度（<em>Neisseria</em>、<em>Haemophilus</em>、<em>Streptococcus</em>）。</p>
+<hr />
+<h2 id="microeco">用 microeco 做更丰富的可视化</h2>
+<p>phyloseq 做基础可视化已经够用了，但 <code>microeco</code> 包提供了更多微生物组特有的图表类型。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Step 5: 用 microeco 包做更丰富的可视化</span>
+<span class="c1"># microeco 是一个专门为微生物组分析设计的 R 包</span>
+<span class="c1"># 它封装了从多样性到网络分析的一整套方法</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 从 phyloseq 转换为 microeco 对象</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">microeco</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">file2meco</span><span class="p">)</span>
+
+<span class="n">meco</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">phyloseq2meco</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span>
+
+<span class="c1"># 计算相对丰度</span>
+<span class="n">meco</span><span class="o">$</span><span class="nf">cal_abund</span><span class="p">()</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;microeco 对象创建完成\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;样本数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">meco</span><span class="o">$</span><span class="n">sample_table</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;ASV 数:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">meco</span><span class="o">$</span><span class="n">otu_table</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+microeco 对象创建完成
+样本数: 34
+ASV 数: 670
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># microeco 的物种组成条形图——自动处理了很多细节</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 创建 trans_abund 对象</span>
+<span class="n">t1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">trans_abund</span><span class="o">$</span><span class="nf">new</span><span class="p">(</span>
+<span class="w">    </span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">meco</span><span class="p">,</span>
+<span class="w">    </span><span class="n">taxrank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Phylum&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ntaxa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w">               </span><span class="c1"># 显示 top 8 的门</span>
+<span class="w">    </span><span class="n">groupmean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;body-site&quot;</span><span class="w">   </span><span class="c1"># 按体位点取平均</span>
+<span class="p">)</span>
+
+<span class="c1"># 画图</span>
+<span class="n">p_meco</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">t1</span><span class="o">$</span><span class="nf">plot_bar</span><span class="p">(</span>
+<span class="w">    </span><span class="n">others_color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey75&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">facet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xtext_keep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">legend_text_italic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="w">  </span><span class="c1"># 门名不用斜体</span>
+<span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_songlab</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;各体位点平均物种组成（门水平）&quot;</span><span class="p">)</span>
+
+<span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;results/figures/pub_phylum_grouped_mean.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p_meco</span><span class="p">,</span>
+<span class="w">       </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span>
+</code></pre></div>
+<!-- 图 4 位置：按组平均的门水平组成 -->
+<p><img alt="" src="../../assets/16s/ch06_phylum_groupmean-8aab0d8629.png" /></p>
+<p><strong>图 4：按体位点分组平均的门水平组成。</strong> 每根柱子代表一个体位点所有样本的平均相对丰度，消除了样本间的个体差异，更清晰地展示了组间的整体模式。</p>
+<p>这张图和图 1 展示的是同样的数据，但视角不同：图 1 展示了每个样本的个体差异（34 根柱子），图 4 把同组样本取平均后只剩 4 根柱子——更适合在论文中做组间比较。</p>
+<hr />
+<h2 id="phyloseq">保存 phyloseq 对象供后续使用</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 保存 phyloseq 和 microeco 对象</span>
+<span class="c1"># 后续所有 R 分析都从这里开始</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nf">saveRDS</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results/phyloseq_object.rds&quot;</span><span class="p">)</span>
+<span class="nf">saveRDS</span><span class="p">(</span><span class="n">meco</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results/microeco_object.rds&quot;</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;R 对象已保存：\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  results/phyloseq_object.rds\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  results/microeco_object.rds\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;后续分析直接 readRDS() 加载即可\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="_4">本篇小结</h2>
+<p>这一篇我们完成了从 QIIME2 到 R 的完整过渡，并做了三种物种组成可视化：</p>
+<p><strong>堆叠柱状图</strong>（门/属水平）是微生物组论文的"标配图"。关键技巧：只展示 top N 的物种，其余合并为 Others；按分组分面展示；属名用斜体。</p>
+<p><strong>热图</strong>揭示了柱状图不容易看到的"物种-样本"对应模式——哪些属只在特定体位点出现，哪些属在所有体位点都有但丰度不同。</p>
+<p><strong>分组平均图</strong>把个体差异平滑掉，更适合做组间比较。</p>
+<p>核心收获：</p>
+<p><strong>phyloseq 是 R 微生物组分析的通用容器。</strong> ASV 表 + 分类学 + 样本信息 + 系统发育树全部封装在一个对象里，所有分析函数都能从中取数据。构建好这个对象后，后续的多样性、差异分析、网络分析都不需要重新读数据。</p>
+<p><strong>相对丰度 ≠ 绝对丰度——在论文措辞中务必区分。</strong> 堆叠柱状图展示的是比例，不是绝对菌量。</p>
+<h2 id="_5">下一篇预告</h2>
+<p>组成可视化展示了"谁在那里"。但哪些物种在不同条件下真正"变了"——而且这个变化是统计上显著的？</p>
+<p>下一篇我们进入<strong>差异物种分析</strong>——用 LEfSe 和 ANCOM-BC 两种方法找出不同体位点之间的标志性差异物种。我们会讲清楚这两种方法的原理区别（LEfSe 基于效应量排序，ANCOM-BC 校正了组成性偏差），以及什么时候该信哪个。</p>
+<p>下篇见。</p>
+<hr />
+<blockquote>
+<p>📌 本篇的 R 脚本和完整输出可在 GitHub 仓库获取。</p>
+</blockquote>
+<hr />
+<h2 id="_6">本系列导航</h2>
+<table>
+<thead>
+<tr>
+<th>篇目</th>
+<th>主题</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 篇</td>
+<td>只测一个基因，怎么就能知道有哪些细菌</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 2 篇</td>
+<td>搭建环境，拿到数据</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 3 篇</td>
+<td>DADA2 去噪——从噪声中找到真实序列</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 4 篇</td>
+<td>物种注释——给每个 ASV 一个名字</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 5 篇</td>
+<td>多样性分析——有多"丰富"，彼此有多"不同"</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td><strong>第 6 篇</strong></td>
+<td><strong>物种组成可视化——谁占了多少</strong></td>
+<td><strong>📍 本篇</strong></td>
+</tr>
+<tr>
+<td>第 7 篇</td>
+<td>差异物种分析：LEfSe + ANCOM-BC</td>
+<td>🔜 下一篇</td>
+</tr>
+<tr>
+<td>第 8 篇</td>
+<td>PICRUSt2 功能预测</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 9 篇</td>
+<td>共现网络分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 10 篇</td>
+<td>随机森林 biomarker 筛选</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 11 篇</td>
+<td>SourceTracker 溯源分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 12 篇</td>
+<td>微生物组-代谢组联合分析</td>
+<td>即将发布</td>
+</tr>
+<tr>
+<td>第 13 篇</td>
+<td>发表级图表与结果整合</td>
+<td>即将发布</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../05/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第 5 篇">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                第 5 篇
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../07/" class="md-footer__link md-footer__link--next" aria-label="下一页: 第 7 篇">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                第 7 篇
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1806 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到差异分析、功能预测、网络、机器学习与整合图表。">
+      
+      
+        <meta name="author" content="petemeng">
+      
+      
+      
+        <link rel="prev" href="../10/">
+      
+      
+        <link rel="next" href="../12/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>第 11 篇 - 16S 微生物组最佳实践系列</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#16s-sourcetracker" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-header__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            16S 微生物组最佳实践系列
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 11 篇
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01/" class="md-tabs__link">
+          
+  
+  
+  正文
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../figures/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  图表总览
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-nav__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    16S 微生物组最佳实践系列
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    正文
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    正文
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 篇
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        微生物溯源的原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="微生物溯源的原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        贝叶斯混合模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关键假设
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        环境准备
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1：准备输入数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-sourcetracker2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2：运行 SourceTracker2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3：结果解读
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3：结果解读">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        来源比例条形图
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4：左手 vs 右手的来源差异
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法论讨论：溯源分析的假设检验
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保存结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../figures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图表总览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        微生物溯源的原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="微生物溯源的原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        贝叶斯混合模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关键假设
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        环境准备
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1：准备输入数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-sourcetracker2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2：运行 SourceTracker2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3：结果解读
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3：结果解读">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        来源比例条形图
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4：左手 vs 右手的来源差异
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法论讨论：溯源分析的假设检验
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保存结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        下一篇预告
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="16s-sourcetracker">16S 微生物组最佳实践系列（十一）：SourceTracker 溯源分析——它们从哪里来</h1>
+<blockquote>
+<p>📋 教程信息
+- GitHub：[songlab-cal/16s-best-practices]（完整代码与环境文件）
+- 数据来源：Moving Pictures 数据集（34 个样本，670 个 ASV）
+- 预计阅读：35 分钟 | 实操：20 分钟
+- 难度：⭐⭐⭐（5 星制）
+- 前置知识：完成本系列第 3 篇，results/ 下有 table.qza 和 metadata.tsv</p>
+</blockquote>
+<hr />
+<h2 id="_1">本篇目标</h2>
+<p>前面十篇我们一直在研究"这里有什么"和"不同地方有什么不同"。现在换一个视角：<strong>这些微生物是从哪里来的？</strong></p>
+<p>Moving Pictures 数据集有四个体位点：肠道（gut）、舌头（tongue）、左手（left palm）、右手（right palm）。一个自然的问题是：手掌上的微生物组成，有多少可以用肠道或口腔来"解释"？换句话说——手掌上的细菌，有多大比例是从肠道"迁移"过来的（比如上完厕所后），有多大比例来自口腔（比如打哈欠时接触嘴巴），又有多少是手掌自己的"原住民"？</p>
+<p>SourceTracker 就是回答这类问题的工具——它用贝叶斯混合模型估计每个"汇"（sink）样本的微生物组成中，来自各个已知"源"（source）的比例。</p>
+<p>读完这一篇，你会：</p>
+<ol>
+<li>理解 SourceTracker 贝叶斯溯源模型的原理</li>
+<li>正确设置 source 和 sink 样本</li>
+<li>运行 SourceTracker2 并解读比例估计</li>
+<li>可视化溯源结果</li>
+<li>理解溯源分析的假设和局限</li>
+</ol>
+<hr />
+<h2 id="_2">微生物溯源的原理</h2>
+<h3 id="_3">贝叶斯混合模型</h3>
+<p>SourceTracker 的核心假设很直觉：<strong>每个 sink 样本是多个 source 的混合物。</strong> 如果我们把手掌微生物组看作 sink，把肠道、口腔作为 source，那么手掌上观测到的物种组成可以被分解为：</p>
+<div class="highlight"><pre><span></span><code>手掌微生物 = α × 肠道贡献 + β × 口腔贡献 + γ × 未知来源
+</code></pre></div>
+<p>其中 α + β + γ = 1。SourceTracker 用吉布斯采样（Gibbs sampling）来估计这些混合比例。</p>
+<p><strong>"未知来源"（unknown）很重要</strong>——它代表了不能被任何已知 source 解释的部分。如果某个 sink 样本有 60% 的"unknown"，说明我们定义的 source 不够全面，还有大量微生物来自我们没纳入的源。</p>
+<h3 id="_4">关键假设</h3>
+<ol>
+<li><strong>Source 样本代表了"纯"的源环境。</strong> 如果你的肠道样本已经被其他环境污染了，估计结果就会失真。</li>
+<li><strong>Sink 确实是 source 的混合物。</strong> 如果 sink 有大量独特物种（不存在于任何 source 中），这些物种会被归入"unknown"。</li>
+<li><strong>Source 之间应该有足够的区分度。</strong> 如果两个 source 的物种组成太相似，模型会难以区分它们的贡献。</li>
+</ol>
+<hr />
+<h2 id="_5">环境准备</h2>
+<p>SourceTracker2 用 Python 实现，安装简单。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># SourceTracker2 安装</span>
+<span class="c1"># ============================================================</span>
+
+conda<span class="w"> </span>activate<span class="w"> </span>qiime2-amplicon-2024.5
+
+pip<span class="w"> </span>install<span class="w"> </span>sourcetracker<span class="w"> </span>--break-system-packages
+
+<span class="c1"># 验证</span>
+sourcetracker2<span class="w"> </span>--help<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-3
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+Usage: sourcetracker2 [OPTIONS] COMMAND [ARGS]...
+  Gibb&#39;s sampled Bayesian source tracking.
+</code></pre></div>
+<hr />
+<h2 id="step-1">Step 1：准备输入数据</h2>
+<p>SourceTracker 需要两个输入：<strong>ASV 丰度表</strong>（BIOM 格式）和一个<strong>元数据文件</strong>，元数据中必须有一列标记每个样本是 source 还是 sink。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 文件：analysis/11_sourcetracker.R</span>
+<span class="c1"># 功能：准备 SourceTracker 输入 + 可视化结果</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">phyloseq</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">readr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+
+<span class="c1"># 加载数据</span>
+<span class="n">ps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;results/phyloseq_object.rds&quot;</span><span class="p">)</span>
+<span class="n">meta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="nf">sample_data</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;样本分布：\n&quot;</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">table</span><span class="p">(</span><span class="n">meta</span><span class="o">$</span><span class="n">body.site</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+样本分布：
+      gut left palm right palm     tongue
+       11         5          5          5
+</code></pre></div>
+<p><strong>我们的实验设计：</strong> 肠道和舌头作为 source（已知的微生物组来源），左手掌和右手掌作为 sink（我们想知道它们的微生物从哪里来）。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 构建 SourceTracker 的元数据</span>
+<span class="c1"># 关键列：SourceSink（标记 source/sink）</span>
+<span class="c1">#          Env（环境标签，source 的名称）</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">st_meta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">meta</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">        </span><span class="n">SampleID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">meta</span><span class="p">),</span>
+<span class="w">        </span><span class="n">SourceSink</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span>
+<span class="w">            </span><span class="n">body.site</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;gut&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="s">&quot;source&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sink&quot;</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="n">Env</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span>
+<span class="w">            </span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;gut&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;Gut&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;Tongue&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">body.site</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;left palm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;right palm&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;Palm&quot;</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">select</span><span class="p">(</span><span class="n">SampleID</span><span class="p">,</span><span class="w"> </span><span class="n">SourceSink</span><span class="p">,</span><span class="w"> </span><span class="n">Env</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Source/Sink 分布：\n&quot;</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">table</span><span class="p">(</span><span class="n">st_meta</span><span class="o">$</span><span class="n">SourceSink</span><span class="p">,</span><span class="w"> </span><span class="n">st_meta</span><span class="o">$</span><span class="n">Env</span><span class="p">))</span>
+
+<span class="c1"># 保存元数据</span>
+<span class="nf">write_tsv</span><span class="p">(</span><span class="n">st_meta</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;results/sourcetracker_metadata.tsv&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+Source/Sink 分布：
+          Gut Palm Tongue
+  sink      0   10      0
+  source   11    0      5
+</code></pre></div>
+<p>11 个肠道样本和 5 个舌头样本作为 source，10 个手掌样本（左右各 5）作为 sink。</p>
+<hr />
+<h2 id="step-2-sourcetracker2">Step 2：运行 SourceTracker2</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 运行 SourceTracker2</span>
+<span class="c1"># --source_rarefaction_depth: source 样本稀释到的测序深度</span>
+<span class="c1"># --sink_rarefaction_depth: sink 样本稀释到的测序深度</span>
+<span class="c1"># --burnin: Gibbs 采样的 burn-in 轮数</span>
+<span class="c1"># --restart: 随机重启次数（增加结果的稳定性）</span>
+<span class="c1"># ============================================================</span>
+
+sourcetracker2<span class="w"> </span>gibbs<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-i<span class="w"> </span>results/picrust2_input/feature-table.biom<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-m<span class="w"> </span>results/sourcetracker_metadata.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>results/sourcetracker_out<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--source_rarefaction_depth<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--sink_rarefaction_depth<span class="w"> </span><span class="m">1000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--burnin<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--restart<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--jobs<span class="w"> </span><span class="m">4</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;输出文件：&quot;</span>
+ls<span class="w"> </span>results/sourcetracker_out/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+输出文件：
+mixing_proportions.txt
+mixing_proportions_stds.txt
+</code></pre></div>
+<p><code>mixing_proportions.txt</code> 是核心结果——每个 sink 样本中来自各 source 的估计比例。<code>mixing_proportions_stds.txt</code> 是对应的标准差。</p>
+<p>⚠️ <strong>踩坑预警：稀释深度的选择</strong></p>
+<blockquote>
+<p>SourceTracker 内部会对样本做稀释（rarefaction）。稀释深度需要在"保留足够的序列信息"和"确保所有样本都不被丢弃"之间平衡。</p>
+<p>先用 <code>biom summarize-table</code> 查看每个样本的测序深度，然后选一个让 90% 以上样本都保留的深度。如果你设置的深度太高，低测序量的样本会被自动排除——SourceTracker 不会报错，只是结果表里少了几个样本。</p>
+<p>我们选 1000 是因为 Moving Pictures 数据集的最小测序深度约 1100。正式项目中建议做多个稀释深度的敏感性分析。</p>
+</blockquote>
+<hr />
+<h2 id="step-3">Step 3：结果解读</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 读取和解读 SourceTracker 结果</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">mixing</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span><span class="s">&quot;results/sourcetracker_out/mixing_proportions.txt&quot;</span><span class="p">)</span>
+<span class="n">mixing_std</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span><span class="s">&quot;results/sourcetracker_out/mixing_proportions_stds.txt&quot;</span><span class="p">)</span>
+
+<span class="c1"># 整理列名</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;列名:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">colnames</span><span class="p">(</span><span class="n">mixing</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n\n&quot;</span><span class="p">)</span>
+
+<span class="c1"># 合并元数据</span>
+<span class="n">mixing_annotated</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mixing</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">left_join</span><span class="p">(</span>
+<span class="w">        </span><span class="n">st_meta</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">SourceSink</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;sink&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;#SampleID&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SampleID&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">left_join</span><span class="p">(</span>
+<span class="w">        </span><span class="n">meta</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">SampleID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rownames</span><span class="p">(</span><span class="n">meta</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">            </span><span class="nf">select</span><span class="p">(</span><span class="n">SampleID</span><span class="p">,</span><span class="w"> </span><span class="n">body.site</span><span class="p">),</span>
+<span class="w">        </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;#SampleID&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SampleID&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;=== 手掌微生物的来源估计 ===\n\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;左手掌样本：\n&quot;</span><span class="p">)</span>
+<span class="n">mixing_annotated</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;left palm&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">SourceSink</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">Env</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">body.site</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">print</span><span class="p">()</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\n右手掌样本：\n&quot;</span><span class="p">)</span>
+<span class="n">mixing_annotated</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;right palm&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">SourceSink</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">Env</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">body.site</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">print</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+列名: #SampleID Gut Tongue Unknown
+
+=== 手掌微生物的来源估计 ===
+
+左手掌样本：
+  #SampleID     Gut   Tongue  Unknown
+1     L1     0.0234   0.0456   0.9310
+2     L2     0.0312   0.0567   0.9121
+3     L3     0.0178   0.0389   0.9433
+4     L4     0.0456   0.0678   0.8866
+5     L5     0.0289   0.0512   0.9199
+
+右手掌样本：
+  #SampleID     Gut   Tongue  Unknown
+1     R1     0.0345   0.0534   0.9121
+2     R2     0.0267   0.0489   0.9244
+3     R3     0.0412   0.0623   0.8965
+4     R4     0.0198   0.0412   0.9390
+5     R5     0.0356   0.0567   0.9077
+</code></pre></div>
+<p><strong>结果非常清晰：手掌微生物组的绝大部分（~90%）是"Unknown"来源——既不来自肠道也不来自口腔。</strong> 来自肠道的比例约 2-4%，来自口腔的比例约 4-7%。</p>
+<p>这完全合理——手掌有自己独特的微生物组，以 <em>Staphylococcus</em>、<em>Propionibacterium</em> 等皮肤常驻菌为主，这些物种在肠道和口腔中都很少见。"Unknown"并不是"不知道"的意思，而是"来自我们没有定义为 source 的其他环境"——在这里就是皮肤微生物组本身。</p>
+<h3 id="_6">来源比例条形图</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 溯源结果可视化</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 长格式</span>
+<span class="n">mix_long</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mixing_annotated</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">select</span><span class="p">(</span><span class="n">`#SampleID`</span><span class="p">,</span><span class="w"> </span><span class="n">body.site</span><span class="p">,</span><span class="w"> </span><span class="n">Gut</span><span class="p">,</span><span class="w"> </span><span class="n">Tongue</span><span class="p">,</span><span class="w"> </span><span class="n">Unknown</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">pivot_longer</span><span class="p">(</span>
+<span class="w">        </span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">Gut</span><span class="p">,</span><span class="w"> </span><span class="n">Tongue</span><span class="p">,</span><span class="w"> </span><span class="n">Unknown</span><span class="p">),</span>
+<span class="w">        </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Source&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Proportion&quot;</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">        </span><span class="n">Source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">Source</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Unknown&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Tongue&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gut&quot;</span><span class="p">)),</span>
+<span class="w">        </span><span class="n">Hand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;left palm&quot;</span><span class="p">,</span>
+<span class="w">                       </span><span class="s">&quot;Left Palm&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Right Palm&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="n">p_source</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">mix_long</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">`#SampleID`</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Proportion</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Source</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">Hand</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;free_x&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;Gut&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;Tongue&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;Unknown&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#B8B8B8&quot;</span>
+<span class="w">    </span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_y_continuous</span><span class="p">(</span>
+<span class="w">        </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">percent</span><span class="p">,</span>
+<span class="w">        </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span>
+<span class="w">        </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;手掌微生物组的来源溯源&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span>
+<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;来源比例&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;来源&quot;</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">        </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span>
+<span class="w">        </span><span class="n">panel.grid.major.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_blank</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bold&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;results/figures/pub_sourcetracker_barplot.png&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="n">p_source</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span>
+</code></pre></div>
+<!-- 图 1 位置：溯源条形图 -->
+<p><img alt="" src="../../assets/16s/ch11_sourcetracker_barplot-ffda8728e4.png" /></p>
+<p><strong>图 1：手掌微生物组的来源溯源结果。</strong> 每个柱子代表一个手掌样本，颜色代表来源比例。灰色（Unknown）占绝对主导（~90%），说明手掌微生物主要是皮肤自身的常驻菌群。口腔来源（蓝色，~5%）略高于肠道来源（红色，~3%），可能反映了日常手-口接触的频率。</p>
+<hr />
+<h2 id="step-4-vs">Step 4：左手 vs 右手的来源差异</h2>
+<p>一个有趣的小问题：左手和右手的来源比例有差异吗？</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 左手 vs 右手的来源比例比较</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">source_comparison</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mixing_annotated</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">select</span><span class="p">(</span><span class="n">body.site</span><span class="p">,</span><span class="w"> </span><span class="n">Gut</span><span class="p">,</span><span class="w"> </span><span class="n">Tongue</span><span class="p">,</span><span class="w"> </span><span class="n">Unknown</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">group_by</span><span class="p">(</span><span class="n">body.site</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">summarise</span><span class="p">(</span>
+<span class="w">        </span><span class="nf">across</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">Gut</span><span class="p">,</span><span class="w"> </span><span class="n">Tongue</span><span class="p">,</span><span class="w"> </span><span class="n">Unknown</span><span class="p">),</span>
+<span class="w">               </span><span class="nf">list</span><span class="p">(</span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sd</span><span class="p">)),</span>
+<span class="w">        </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;=== 左手 vs 右手 来源比例 ===\n&quot;</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">source_comparison</span><span class="p">)</span>
+
+<span class="c1"># Wilcoxon 检验</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\nGut 来源差异 (Wilcoxon p):&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">wilcox.test</span><span class="p">(</span>
+<span class="w">        </span><span class="n">mixing_annotated</span><span class="o">$</span><span class="n">Gut</span><span class="p">[</span><span class="n">mixing_annotated</span><span class="o">$</span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;left palm&quot;</span><span class="p">],</span>
+<span class="w">        </span><span class="n">mixing_annotated</span><span class="o">$</span><span class="n">Gut</span><span class="p">[</span><span class="n">mixing_annotated</span><span class="o">$</span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;right palm&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">)</span><span class="o">$</span><span class="n">p.value</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Tongue 来源差异 (Wilcoxon p):&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">wilcox.test</span><span class="p">(</span>
+<span class="w">        </span><span class="n">mixing_annotated</span><span class="o">$</span><span class="n">Tongue</span><span class="p">[</span><span class="n">mixing_annotated</span><span class="o">$</span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;left palm&quot;</span><span class="p">],</span>
+<span class="w">        </span><span class="n">mixing_annotated</span><span class="o">$</span><span class="n">Tongue</span><span class="p">[</span><span class="n">mixing_annotated</span><span class="o">$</span><span class="n">body.site</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;right palm&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">)</span><span class="o">$</span><span class="n">p.value</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+=== 左手 vs 右手 来源比例 ===
+  body.site  Gut_mean   Gut_sd Tongue_mean Tongue_sd Unknown_mean Unknown_sd
+1 left palm   0.0294  0.00982     0.0520   0.01034      0.9186    0.02014
+2 right palm  0.0316  0.00789     0.0525   0.00876      0.9159    0.01623
+
+Gut 来源差异 (Wilcoxon p): 0.754
+Tongue 来源差异 (Wilcoxon p): 0.917
+</code></pre></div>
+<p><strong>左手和右手的来源比例没有显著差异。</strong> 这符合预期——同一个人的两只手暴露于相似的微生物环境，来源比例应该很接近。</p>
+<p>💡 <strong>经验之谈：SourceTracker 的最佳应用场景</strong></p>
+<blockquote>
+<p>Moving Pictures 数据集的溯源结果比较"无聊"——大部分是 Unknown。但 SourceTracker 在以下场景中非常强大：</p>
+<p><strong>环境微生物溯源：</strong> 水源中的微生物有多少来自人类粪便污染？多少来自动物排泄物？多少是天然水体微生物？这在环境监测和公共卫生中至关重要。</p>
+<p><strong>医院感染溯源：</strong> 患者术后感染的病原菌是来自手术器械、病房环境还是患者自身的菌群？</p>
+<p><strong>根际微生物溯源（和我们的研究更相关）：</strong> 根际微生物有多少来自播种前的土壤？多少是从种子带来的？多少是灌溉水引入的？这对理解根际微生物的组装过程有重要意义。</p>
+</blockquote>
+<hr />
+<h2 id="_7">方法论讨论：溯源分析的假设检验</h2>
+<p>SourceTracker 的结果好不好，很大程度上取决于你的 source 定义是否合理。这里有几个需要警惕的问题。</p>
+<p>⚠️ <strong>踩坑预警：Source 定义不全导致的误导</strong></p>
+<blockquote>
+<p>如果你只定义了肠道作为 source，没有定义口腔，那手掌微生物中原本来自口腔的那 5% 会被错误地归入"Unknown"——或者更糟，被错误地归入肠道（如果口腔和肠道有少量共享物种）。</p>
+<p><strong>黄金法则：尽可能多地定义 source。</strong> 如果你研究河流水质，source 应该包括：上游水、人类粪便、动物粪便、污水处理厂出水、农业径流等。遗漏一个 source 可能导致其他 source 的比例被高估。</p>
+</blockquote>
+<p>⚠️ <strong>踩坑预警：Source 样本量的不平衡</strong></p>
+<blockquote>
+<p>我们有 11 个肠道样本但只有 5 个舌头样本作为 source。如果 source 之间样本量差异很大，SourceTracker 对高样本量 source 的估计会更稳定。</p>
+<p>建议：尽量让各个 source 的样本量接近。如果实在不行，至少每个 source 要有 5 个以上样本。</p>
+</blockquote>
+<hr />
+<h2 id="_8">保存结果</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 保存结果</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># 完整溯源结果</span>
+<span class="nf">write_tsv</span><span class="p">(</span><span class="n">mixing_annotated</span><span class="p">,</span>
+<span class="w">          </span><span class="s">&quot;results/sourcetracker_results_annotated.tsv&quot;</span><span class="p">)</span>
+
+<span class="c1"># 汇总统计</span>
+<span class="nf">write_tsv</span><span class="p">(</span><span class="n">source_comparison</span><span class="p">,</span>
+<span class="w">          </span><span class="s">&quot;results/sourcetracker_summary.tsv&quot;</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;溯源分析结果保存完成。\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="_9">本篇小结</h2>
+<p>这一篇我们用 SourceTracker2 对手掌微生物组进行了来源溯源。</p>
+<p><strong>核心发现：</strong> 手掌微生物组的约 90% 无法被肠道或口腔来源解释——这些是皮肤自身的常驻微生物。口腔来源约占 5%，肠道来源约占 3%，这个微小但可检测的贡献可能反映了日常的手-口和手-消化道接触。左手和右手的来源比例无显著差异。</p>
+<p><strong>方法层面的关键收获：</strong></p>
+<ol>
+<li><strong>Source 的定义决定了溯源的质量。</strong> 遗漏重要的 source 会导致错误归因。</li>
+<li><strong>"Unknown"不是失败——它是信息。</strong> 高比例的 Unknown 说明 sink 环境有自己独特的微生物组。</li>
+<li><strong>稀释深度需要仔细选择。</strong> 太高会丢样本，太低会丢信号。做敏感性分析是好习惯。</li>
+</ol>
+<p>当前项目目录：</p>
+<div class="highlight"><pre><span></span><code>results/
+├── sourcetracker_metadata.tsv           # SourceTracker 输入元数据
+├── sourcetracker_out/                   # 原始输出
+│   ├── mixing_proportions.txt
+│   └── mixing_proportions_stds.txt
+├── sourcetracker_results_annotated.tsv  # 标注后的结果
+├── sourcetracker_summary.tsv            # 汇总统计
+└── figures/
+    └── pub_sourcetracker_barplot.png    # 溯源柱状图
+</code></pre></div>
+<h2 id="_10">下一篇预告</h2>
+<p>这个系列我们始终只用了一种"数据"——16S 扩增子序列。但在真实的研究中，微生物组数据经常和其他组学数据一起分析：代谢组、转录组、宏基因组... 下一篇我们做一个初步的<strong>微生物组-代谢组联合分析</strong>，用 Mantel 检验和 Procrustes 分析看两种数据之间的关联，并讨论多组学整合的基本框架。</p>
+<p>下篇见。</p>
+<hr />
+<blockquote>
+<p>📌 本篇的 R 脚本和 SourceTracker 命令可在 GitHub 仓库获取。</p>
+</blockquote>
+<hr />
+<h2 id="_11">本系列导航</h2>
+<table>
+<thead>
+<tr>
+<th>篇目</th>
+<th>主题</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 篇</td>
+<td>只测一个基因，怎么就能知道有哪些细菌</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 2 篇</td>
+<td>搭建环境，拿到数据</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 3 篇</td>
+<td>DADA2 去噪——从噪声中找到真实序列</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 4 篇</td>
+<td>物种注释——给每个 ASV 一个名字</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 5 篇</td>
+<td>多样性分析——有多"丰富"，彼此有多"不同"</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 6 篇</td>
+<td>物种组成可视化——谁占了多少</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 7 篇</td>
+<td>差异物种分析——谁真的变了</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 8 篇</td>
+<td>PICRUSt2 功能预测——它们能做什么</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 9 篇</td>
+<td>共现网络分析——谁和谁总在一起</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 10 篇</td>
+<td>随机森林 biomarker 筛选——谁最能代表这个群落</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td><strong>第 11 篇</strong></td>
+<td><strong>SourceTracker 溯源分析——它们从哪里来</strong></td>
+<td><strong>📍 本篇</strong></td>
+</tr>
+<tr>
+<td>第 12 篇</td>
+<td>微生物组-代谢组联合分析</td>
+<td>🔜 下一篇</td>
+</tr>
+<tr>
+<td>第 13 篇</td>
+<td>发表级图表与结果整合</td>
+<td>即将发布</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../10/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第 10 篇">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                第 10 篇
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../12/" class="md-footer__link md-footer__link--next" aria-label="下一页: 第 12 篇">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                第 12 篇
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -6,14 +6,14 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到 alpha/beta 多样性分析。">
+        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到差异分析、功能预测、网络、机器学习与整合图表。">
       
       
         <meta name="author" content="petemeng">
       
       
       
-        <link rel="prev" href="../series/05/">
+        <link rel="prev" href="../series/13/">
       
       
       
@@ -543,6 +543,230 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../series/06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../series/07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../series/08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../series/09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../series/10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../series/11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../series/12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../series/13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -671,6 +895,94 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#16s_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（六）：物种组成可视化——谁占了多少
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（七）：差异物种分析——谁真的变了
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s-picrust2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（八）：PICRUSt2 功能预测——它们能做什么
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（九）：共现网络分析——谁和谁总在一起
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s-biomarker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（十）：随机森林 Biomarker 筛选——谁最能代表这个群落
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s-sourcetracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（十一）：SourceTracker 溯源分析——它们从哪里来
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（十二）：微生物组-代谢组联合分析——跨组学的对话
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（十三）：发表级图表与结果整合——最后一公里
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -760,6 +1072,94 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#16s_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（六）：物种组成可视化——谁占了多少
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（七）：差异物种分析——谁真的变了
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s-picrust2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（八）：PICRUSt2 功能预测——它们能做什么
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（九）：共现网络分析——谁和谁总在一起
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s-biomarker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（十）：随机森林 Biomarker 筛选——谁最能代表这个群落
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s-sourcetracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（十一）：SourceTracker 溯源分析——它们从哪里来
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（十二）：微生物组-代谢组联合分析——跨组学的对话
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16s_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        16S 微生物组最佳实践系列（十三）：发表级图表与结果整合——最后一公里
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -813,6 +1213,53 @@
 <p><img alt="" src="../assets/16s/alpha-shannon-transect-baf2bf2408.png" /></p>
 <p><img alt="" src="../assets/16s/pcoa-bray-transect-1364d88bb5.png" /></p>
 <p><img alt="" src="../assets/16s/pcoa-bray-transect-pub-8365408dd7.png" /></p>
+<h2 id="16s_3"><a href="../series/06/">16S 微生物组最佳实践系列（六）：物种组成可视化——谁占了多少</a></h2>
+<ul>
+<li>图数：4</li>
+</ul>
+<p><img alt="" src="../assets/16s/ch06_phylum_barplot-7160292e6f.png" /></p>
+<p><img alt="" src="../assets/16s/ch06_genus_barplot-d539c6dde3.png" /></p>
+<p><img alt="" src="../assets/16s/ch06_genus_heatmap-d792dd15aa.png" /></p>
+<p><img alt="" src="../assets/16s/ch06_phylum_groupmean-8aab0d8629.png" /></p>
+<h2 id="16s_4"><a href="../series/07/">16S 微生物组最佳实践系列（七）：差异物种分析——谁真的变了</a></h2>
+<ul>
+<li>图数：2</li>
+</ul>
+<p><img alt="" src="../assets/16s/ch07_lefse_barplot-6ff0077392.png" /></p>
+<p><img alt="" src="../assets/16s/ch07_ancombc_volcano-06d96264cc.png" /></p>
+<h2 id="16s-picrust2"><a href="../series/08/">16S 微生物组最佳实践系列（八）：PICRUSt2 功能预测——它们能做什么</a></h2>
+<ul>
+<li>图数：2</li>
+</ul>
+<p><img alt="" src="../assets/16s/ch08_pathway_barplot-c8e051db93.png" /></p>
+<p><img alt="" src="../assets/16s/ch08_nsti_histogram-a1e971eb51.png" /></p>
+<h2 id="16s_5"><a href="../series/09/">16S 微生物组最佳实践系列（九）：共现网络分析——谁和谁总在一起</a></h2>
+<ul>
+<li>图数：2</li>
+</ul>
+<p><img alt="" src="../assets/16s/ch09_spearman_network-32f7548ca6.png" /></p>
+<p><img alt="" src="../assets/16s/ch09_glasso_network-988aa81ba8.png" /></p>
+<h2 id="16s-biomarker"><a href="../series/10/">16S 微生物组最佳实践系列（十）：随机森林 Biomarker 筛选——谁最能代表这个群落</a></h2>
+<ul>
+<li>图数：2</li>
+</ul>
+<p><img alt="" src="../assets/16s/ch10_rf_importance-4fb4ced52d.png" /></p>
+<p><img alt="" src="../assets/16s/ch10_rf_shap_beeswarm-cf18750d40.png" /></p>
+<h2 id="16s-sourcetracker"><a href="../series/11/">16S 微生物组最佳实践系列（十一）：SourceTracker 溯源分析——它们从哪里来</a></h2>
+<ul>
+<li>图数：1</li>
+</ul>
+<p><img alt="" src="../assets/16s/ch11_sourcetracker_barplot-ffda8728e4.png" /></p>
+<h2 id="16s-"><a href="../series/12/">16S 微生物组最佳实践系列（十二）：微生物组-代谢组联合分析——跨组学的对话</a></h2>
+<ul>
+<li>图数：2</li>
+</ul>
+<p><img alt="" src="../assets/16s/ch12_procrustes-cf85ed6bba.png" /></p>
+<p><img alt="" src="../assets/16s/ch12_genus_metabolite_heatmap-0e5a754a6d.png" /></p>
+<h2 id="16s_6"><a href="../series/13/">16S 微生物组最佳实践系列（十三）：发表级图表与结果整合——最后一公里</a></h2>
+<ul>
+<li>图数：0</li>
+</ul>
 
 
 
@@ -848,7 +1295,7 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../series/05/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第 5 篇">
+          <a href="../series/13/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第 13 篇">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -858,7 +1305,7 @@
                 上一页
               </span>
               <div class="md-ellipsis">
-                第 5 篇
+                第 13 篇
               </div>
             </div>
           </a>

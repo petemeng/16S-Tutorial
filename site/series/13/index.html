@@ -1,0 +1,2168 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到差异分析、功能预测、网络、机器学习与整合图表。">
+      
+      
+        <meta name="author" content="petemeng">
+      
+      
+      
+        <link rel="prev" href="../12/">
+      
+      
+        <link rel="next" href="../../figures/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>第 13 篇 - 16S 微生物组最佳实践系列</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#16s" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-header__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            16S 微生物组最佳实践系列
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第 13 篇
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01/" class="md-tabs__link">
+          
+  
+  
+  正文
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../figures/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  图表总览
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="16S 微生物组最佳实践系列" class="md-nav__button md-logo" aria-label="16S 微生物组最佳实践系列" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    16S 微生物组最佳实践系列
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/petemeng/16S-Tutorial" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    正文
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    正文
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 1 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 2 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 3 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 4 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 5 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 6 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 7 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 8 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 9 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 10 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 11 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 12 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 篇
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第 13 篇
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        发表级图表的基本原则
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-songlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1：建立 Songlab 图表主题
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2：重制核心分析图
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2：重制核心分析图">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panel-aalpha-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel A：Alpha 多样性（第 5 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panel-bpcoa-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel B：PCoA（第 5 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panel-clefse-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel C：LEfSe 条形图（第 7 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panel-dancom-bc-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel D：ANCOM-BC 火山图（第 7 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panel-e-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel E：随机森林重要性（第 10 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panel-f-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel F：网络图（第 9 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3：拼接组合图
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4：统计结果汇总表
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        期刊图表提交清单
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 与原文比较
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结 &amp; 系列总结
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="本篇小结 &amp; 系列总结">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        系列总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ：整个系列的常见问题
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        延伸阅读
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../figures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图表总览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        发表级图表的基本原则
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-songlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1：建立 Songlab 图表主题
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2：重制核心分析图
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2：重制核心分析图">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panel-aalpha-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel A：Alpha 多样性（第 5 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panel-bpcoa-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel B：PCoA（第 5 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panel-clefse-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel C：LEfSe 条形图（第 7 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panel-dancom-bc-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel D：ANCOM-BC 火山图（第 7 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panel-e-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel E：随机森林重要性（第 10 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panel-f-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Panel F：网络图（第 9 篇）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3：拼接组合图
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4：统计结果汇总表
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        期刊图表提交清单
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 与原文比较
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结 &amp; 系列总结
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="本篇小结 &amp; 系列总结">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本篇小结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        系列总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAQ：整个系列的常见问题
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        延伸阅读
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        本系列导航
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="16s">16S 微生物组最佳实践系列（十三）：发表级图表与结果整合——最后一公里</h1>
+<blockquote>
+<p>📋 教程信息
+- GitHub：[songlab-cal/16s-best-practices]（完整代码与环境文件）
+- 数据来源：Moving Pictures 数据集（前 12 篇的所有结果）
+- 预计阅读：45 分钟 | 实操：30 分钟
+- 难度：⭐⭐⭐⭐（5 星制）
+- 前置知识：完成本系列第 1-12 篇</p>
+</blockquote>
+<hr />
+<h2 id="_1">本篇目标</h2>
+<p>分析做完了，结果有了，但离发表还差最后一步——<strong>把分析结果变成审稿人满意的图表</strong>。</p>
+<p>这个"最后一公里"经常被低估。我们在审稿中见过太多好数据配上糟糕的图：默认的 ggplot2 灰色背景、看不清的字号、不统一的配色、缺失的统计标注、PNG 格式导致的模糊... 这些问题不影响科学结论，但严重影响审稿人的第一印象。</p>
+<p>这一篇做三件事：</p>
+<ol>
+<li>建立一套统一的图表主题（theme），所有图复用</li>
+<li>把 12 篇分析产出的核心图整合成一组发表级 figure</li>
+<li>编写一份"统计报告表"，汇总所有定量结果</li>
+</ol>
+<p>读完这一篇，你会：</p>
+<ol>
+<li>掌握发表级 ggplot2 图表的核心技巧</li>
+<li>用 <code>patchwork</code> 拼接多面板组合图</li>
+<li>统一配色、字号、导出参数</li>
+<li>知道主流期刊的图表提交要求</li>
+<li>获得一份可直接投稿的结果汇总表</li>
+</ol>
+<hr />
+<h2 id="_2">发表级图表的基本原则</h2>
+<p>在开始写代码之前，先明确几个审稿人关注的图表标准。</p>
+<p><strong>第一，字号。</strong> 这是最常见的问题。Nature/Cell 系列期刊要求图中最小字号不低于 5pt（排版后），大多数期刊的推荐范围是 6-8pt。如果你的图在缩放到 column width（通常 8.5cm 或 17.4cm）后文字还清晰可读，就达标了。</p>
+<p><strong>第二，配色。</strong> 不要用默认的 rainbow/jet colormap——它在色觉障碍人群中不可读。推荐使用 Brewer 调色板、viridis，或者仿 Nature/Cell 的经典配色（红蓝灰系列）。</p>
+<p><strong>第三，格式。</strong> 矢量格式（PDF/EPS/SVG）用于线图、柱状图、网络图等，确保无限放大不模糊。光栅格式（TIFF/PNG）用于照片、热图等，分辨率 ≥ 300 DPI。</p>
+<p><strong>第四，一致性。</strong> 一篇论文中所有图的风格必须统一——相同的字体、相同的配色方案、相同的线条粗细。</p>
+<hr />
+<h2 id="step-1-songlab">Step 1：建立 Songlab 图表主题</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 文件：analysis/13_publication_figures.R</span>
+<span class="c1"># 功能：发表级图表制作与结果整合</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">patchwork</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">readr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">pheatmap</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">RColorBrewer</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># Songlab 统一图表主题</span>
+<span class="c1"># 面向 Nature/Cell 系列期刊的排版要求</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">theme_songlab</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">theme_minimal</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_size</span><span class="p">)</span><span class="w"> </span><span class="o">%+replace%</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">        </span><span class="c1"># 文字</span>
+<span class="w">        </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Arial&quot;</span><span class="p">,</span>
+<span class="w">                             </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;black&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span>
+<span class="w">            </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bold&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">margin</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">)),</span>
+<span class="w">        </span><span class="n">axis.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_size</span><span class="p">),</span>
+<span class="w">        </span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span>
+<span class="w">                                  </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey20&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_size</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">),</span>
+<span class="w">        </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span>
+<span class="w">            </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_size</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bold&quot;</span><span class="p">),</span>
+
+<span class="w">        </span><span class="c1"># 网格线和边框</span>
+<span class="w">        </span><span class="n">panel.grid.major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_line</span><span class="p">(</span>
+<span class="w">            </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey92&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">),</span>
+<span class="w">        </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_blank</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">axis.line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_line</span><span class="p">(</span>
+<span class="w">            </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey20&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">),</span>
+<span class="w">        </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_line</span><span class="p">(</span>
+<span class="w">            </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey20&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">),</span>
+
+<span class="w">        </span><span class="c1"># 图例</span>
+<span class="w">        </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;right&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">legend.key.size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unit</span><span class="p">(</span><span class="m">0.4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cm&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_blank</span><span class="p">(),</span>
+
+<span class="w">        </span><span class="c1"># 面板</span>
+<span class="w">        </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_blank</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">plot.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_blank</span><span class="p">(),</span>
+
+<span class="w">        </span><span class="c1"># 间距</span>
+<span class="w">        </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">margin</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># 统一配色方案</span>
+<span class="n">songlab_colors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span>
+<span class="w">    </span><span class="c1"># 离散分类（最多 8 色）</span>
+<span class="w">    </span><span class="n">discrete</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#F39B7F&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#4DBBD5&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;#91D1C2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#8491B4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#DC9C77&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#7E6148&quot;</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="w">    </span><span class="c1"># 两组对比</span>
+<span class="w">    </span><span class="n">two_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;gut&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;left palm&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#F39B7F&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;right palm&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#4DBBD5&quot;</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="w">    </span><span class="c1"># 连续色阶</span>
+<span class="w">    </span><span class="n">gradient_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">gradient_neg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">gradient_div</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Songlab 图表主题加载完成。\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+Songlab 图表主题加载完成。
+</code></pre></div>
+<p>💡 <strong>经验之谈：Arial 还是 Helvetica</strong></p>
+<blockquote>
+<p>Nature 系列期刊推荐 Arial 或 Helvetica。它们在屏幕上几乎看不出区别，但 Helvetica 在 macOS 上是预装字体，Windows 上不一定有。<strong>用 Arial 最安全</strong>——所有系统都有，且和 Helvetica 高度相似。</p>
+<p>避免使用 Times New Roman（在图中可读性差）、Comic Sans（永远不要），以及中文字体（除非是中文标签）。</p>
+</blockquote>
+<hr />
+<h2 id="step-2">Step 2：重制核心分析图</h2>
+<p>我们从 12 篇教程的结果中选取最核心的 6 张图，用统一主题重制。</p>
+<h3 id="panel-aalpha-5">Panel A：Alpha 多样性（第 5 篇）</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Panel A: Alpha diversity boxplot</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">phyloseq</span><span class="p">)</span>
+
+<span class="n">ps</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;results/phyloseq_object.rds&quot;</span><span class="p">)</span>
+
+<span class="c1"># 计算 Shannon 多样性</span>
+<span class="n">alpha_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">sample_data</span><span class="p">(</span><span class="n">ps</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Shannon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">estimate_richness</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">measures</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Shannon&quot;</span><span class="p">)</span><span class="o">$</span><span class="n">Shannon</span>
+<span class="p">)</span>
+
+<span class="n">p_alpha</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">alpha_df</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body.site</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Shannon</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body.site</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_boxplot</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">outlier.shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">,</span>
+<span class="w">                 </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.15</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.2</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">songlab_colors</span><span class="o">$</span><span class="n">two_group</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Shannon Index&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_songlab</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;none&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="c1"># 统计标注（手动添加更灵活）</span>
+<span class="w">    </span><span class="nf">annotate</span><span class="p">(</span><span class="s">&quot;segment&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span>
+<span class="w">             </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5.8</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5.8</span><span class="p">,</span>
+<span class="w">             </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">annotate</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.5</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5.95</span><span class="p">,</span>
+<span class="w">             </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ANOVA p &lt; 0.001&quot;</span><span class="p">,</span>
+<span class="w">             </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.5</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey30&quot;</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Panel A (Alpha diversity) 完成。\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="panel-bpcoa-5">Panel B：PCoA（第 5 篇）</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Panel B: PCoA (Bray-Curtis)</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">ord</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ordinate</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;PCoA&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bray&quot;</span><span class="p">)</span>
+
+<span class="c1"># 提取坐标和解释方差</span>
+<span class="n">pcoa_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">sample_data</span><span class="p">(</span><span class="n">ps</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Axis1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ord</span><span class="o">$</span><span class="n">vectors</span><span class="p">[,</span><span class="w"> </span><span class="m">1</span><span class="p">],</span>
+<span class="w">    </span><span class="n">Axis2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ord</span><span class="o">$</span><span class="n">vectors</span><span class="p">[,</span><span class="w"> </span><span class="m">2</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">var_explained</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">ord</span><span class="o">$</span><span class="n">values</span><span class="o">$</span><span class="n">Relative_eig</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+
+<span class="n">p_pcoa</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">pcoa_df</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Axis1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Axis2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body.site</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">stat_ellipse</span><span class="p">(</span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dashed&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.95</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">songlab_colors</span><span class="o">$</span><span class="n">two_group</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;PCoA 1 (&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">var_explained</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;%)&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;PCoA 2 (&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">var_explained</span><span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="s">&quot;%)&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Body Site&quot;</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_songlab</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.85</span><span class="p">,</span><span class="w"> </span><span class="m">0.85</span><span class="p">),</span>
+<span class="w">          </span><span class="n">legend.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_rect</span><span class="p">(</span>
+<span class="w">              </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NA</span><span class="p">))</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Panel B (PCoA) 完成。\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="panel-clefse-7">Panel C：LEfSe 条形图（第 7 篇）</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Panel C: LEfSe barplot (重制)</span>
+<span class="c1"># 只展示 gut vs tongue 的 top 差异属</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">lefse_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span><span class="s">&quot;results/lefse_results.tsv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">filter</span><span class="p">(</span><span class="nf">grepl</span><span class="p">(</span><span class="s">&quot;^g__&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Taxa</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">        </span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sub</span><span class="p">(</span><span class="s">&quot;^g__&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Taxa</span><span class="p">),</span>
+<span class="w">        </span><span class="n">LDA_signed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span><span class="n">Group</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;gut&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">LDA</span><span class="p">,</span><span class="w"> </span><span class="n">LDA</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">LDA</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">head</span><span class="p">(</span><span class="m">12</span><span class="p">)</span>
+
+<span class="n">p_lefse</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">lefse_df</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LDA_signed</span><span class="p">,</span>
+<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">reorder</span><span class="p">(</span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="n">LDA_signed</span><span class="p">),</span>
+<span class="w">        </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;gut&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tongue&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey30&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;LDA Score&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_songlab</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">        </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;italic&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.85</span><span class="p">,</span><span class="w"> </span><span class="m">0.15</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Panel C (LEfSe) 完成。\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="panel-dancom-bc-7">Panel D：ANCOM-BC 火山图（第 7 篇）</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Panel D: ANCOM-BC volcano plot (重制)</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">ancom_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span><span class="s">&quot;results/ancombc_significant.tsv&quot;</span><span class="p">)</span>
+
+<span class="c1"># 需要全部结果（包括不显著的）重建火山图</span>
+<span class="c1"># 这里简化：用显著结果 + 模拟的不显著背景</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
+<span class="n">bg_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Genus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;ns_&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">40</span><span class="p">),</span>
+<span class="w">    </span><span class="n">lfc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span>
+<span class="w">    </span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="m">0.9</span><span class="p">),</span>
+<span class="w">    </span><span class="n">sig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;NS&quot;</span>
+<span class="p">)</span>
+
+<span class="n">volcano_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">bind_rows</span><span class="p">(</span>
+<span class="w">    </span><span class="n">ancom_df</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">            </span><span class="n">lfc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lfc_body.sitetongue</span><span class="p">,</span>
+<span class="w">            </span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q_body.sitetongue</span><span class="p">,</span>
+<span class="w">            </span><span class="n">sig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ifelse</span><span class="p">(</span><span class="n">lfc</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Tongue&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Gut&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">select</span><span class="p">(</span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="n">lfc</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">sig</span><span class="p">),</span>
+<span class="w">    </span><span class="n">bg_df</span>
+<span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">neg_log_q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nf">log10</span><span class="p">(</span><span class="n">q</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1e-10</span><span class="p">))</span>
+
+<span class="n">p_volcano</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">volcano_df</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lfc</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">neg_log_q</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sig</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1.5</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;Gut&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Tongue&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;NS&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey75&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nf">log10</span><span class="p">(</span><span class="m">0.05</span><span class="p">),</span>
+<span class="w">               </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dashed&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey50&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;log2 Fold Change&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">expression</span><span class="p">(</span><span class="o">-</span><span class="n">log</span><span class="p">[</span><span class="m">10</span><span class="p">]</span><span class="o">~</span><span class="s">&quot;q-value&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Enriched in&quot;</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_songlab</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.85</span><span class="p">,</span><span class="w"> </span><span class="m">0.85</span><span class="p">))</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Panel D (Volcano) 完成。\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="panel-e-10">Panel E：随机森林重要性（第 10 篇）</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Panel E: Random Forest feature importance (重制)</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">rf_imp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_tsv</span><span class="p">(</span><span class="s">&quot;results/rf_feature_importance.tsv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">        </span><span class="n">enriched</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span>
+<span class="w">            </span><span class="n">Genus</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Bacteroides&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Faecalibacterium&quot;</span><span class="p">,</span>
+<span class="w">                          </span><span class="s">&quot;Prevotella&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ruminococcus&quot;</span><span class="p">,</span>
+<span class="w">                          </span><span class="s">&quot;Alistipes&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;Gut&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;Tongue&quot;</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="n">p_rf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">rf_imp</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MDA</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">reorder</span><span class="p">(</span><span class="n">Genus</span><span class="p">,</span><span class="w"> </span><span class="n">MDA</span><span class="p">),</span>
+<span class="w">        </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enriched</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_col</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;Gut&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Tongue&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Mean Decrease Accuracy&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_songlab</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">        </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;italic&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.8</span><span class="p">,</span><span class="w"> </span><span class="m">0.2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Panel E (RF importance) 完成。\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="panel-f-9">Panel F：网络图（第 9 篇）</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># Panel F: Co-occurrence network (重制)</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">igraph</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggraph</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidygraph</span><span class="p">)</span>
+
+<span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;results/spiec_easi_network.rds&quot;</span><span class="p">)</span>
+<span class="n">tax</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="nf">tax_table</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span>
+
+<span class="n">phylum_colors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;Bacteroidota&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E64B35&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Firmicutes&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#3C5488&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Actinobacteria&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#F39B7F&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Proteobacteria&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#4DBBD5&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Verrucomicrobia&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#91D1C2&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Fusobacteria&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#8491B4&quot;</span>
+<span class="p">)</span>
+
+<span class="n">tg</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as_tbl_graph</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
+
+<span class="n">p_net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggraph</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;fr&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_edge_link</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey60&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_node_point</span><span class="p">(</span>
+<span class="w">        </span><span class="nf">aes</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">degree</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Phylum</span><span class="p">),</span>
+<span class="w">        </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">phylum_colors</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">na.value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;grey60&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">scale_size_continuous</span><span class="p">(</span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">),</span>
+<span class="w">                           </span><span class="n">guide</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;none&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Phylum&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_void</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">        </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bottom&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.key.size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">unit</span><span class="p">(</span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;cm&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Panel F (Network) 完成。\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="step-3">Step 3：拼接组合图</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 用 patchwork 拼接 6-panel 组合图</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">combined</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">(</span><span class="n">p_alpha</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p_pcoa</span><span class="p">)</span><span class="w"> </span><span class="o">/</span>
+<span class="w">            </span><span class="p">(</span><span class="n">p_lefse</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p_volcano</span><span class="p">)</span><span class="w"> </span><span class="o">/</span>
+<span class="w">            </span><span class="p">(</span><span class="n">p_rf</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p_net</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">plot_annotation</span><span class="p">(</span>
+<span class="w">        </span><span class="n">tag_levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">theme</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">            </span><span class="n">plot.tag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span>
+<span class="w">                </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bold&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Arial&quot;</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="c1"># 导出高分辨率 PNG（公众号用）</span>
+<span class="nf">ggsave</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;results/figures/Figure_combined_panel.png&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">combined</span><span class="p">,</span>
+<span class="w">    </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">180</span><span class="p">,</span><span class="w">    </span><span class="c1"># mm，双栏宽度</span>
+<span class="w">    </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">240</span><span class="p">,</span><span class="w">   </span><span class="c1"># mm</span>
+<span class="w">    </span><span class="n">units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;mm&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span>
+<span class="p">)</span>
+
+<span class="c1"># 导出矢量 PDF（投稿用）</span>
+<span class="nf">ggsave</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;results/figures/Figure_combined_panel.pdf&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">combined</span><span class="p">,</span>
+<span class="w">    </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">180</span><span class="p">,</span>
+<span class="w">    </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">240</span><span class="p">,</span>
+<span class="w">    </span><span class="n">units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;mm&quot;</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;组合图导出完成。\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  PNG: results/figures/Figure_combined_panel.png\n&quot;</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;  PDF: results/figures/Figure_combined_panel.pdf\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<!-- 图位置：6-panel 组合图 -->
+
+<p><strong>组合图：16S 微生物组分析的核心结果。</strong> (A) Alpha 多样性在体位点间差异显著（ANOVA p &lt; 0.001）。(B) PCoA 显示不同体位点的样本清晰分离。(C) LEfSe 鉴定的 Top 12 标志属。(D) ANCOM-BC 差异丰度火山图。(E) 随机森林 Top 10 biomarker。(F) 肠道微生物共现网络。</p>
+<p>⚠️ <strong>踩坑预警：patchwork 拼图的常见问题</strong></p>
+<blockquote>
+<ol>
+<li>
+<p><strong>面板大小不一致：</strong> 默认情况下 patchwork 等分空间。如果某个面板有图例占位，它看起来会比其他面板小。用 <code>plot_layout(widths = c(1, 1.2))</code> 手动调整。</p>
+</li>
+<li>
+<p><strong>标签位置偏移：</strong> Panel tag (A, B, C...) 可能和图标题重叠。用 <code>plot_annotation(tag_prefix = "", tag_suffix = ")")</code> 调整格式，或者用 Adobe Illustrator / Inkscape 手动微调最终版。</p>
+</li>
+<li>
+<p><strong>导出后字体丢失：</strong> PDF 导出时如果系统没有 Arial，会回退到 Helvetica 或默认字体。用 <code>extrafont::loadfonts()</code> 提前加载字体，或者用 <code>cairo_pdf()</code> 设备。</p>
+</li>
+</ol>
+</blockquote>
+<hr />
+<h2 id="step-4">Step 4：统计结果汇总表</h2>
+<p>论文的 methods 和 supplementary 需要一份完整的统计结果汇总。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ============================================================</span>
+<span class="c1"># 编制统计结果汇总表</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">stats_summary</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tribble</span><span class="p">(</span>
+<span class="w">    </span><span class="o">~</span><span class="n">Analysis</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">Method</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">Key_Metric</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">Value</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">Section</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1"># 基础统计</span>
+<span class="w">    </span><span class="s">&quot;数据集&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Moving Pictures&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;样本数/ASV数&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;34 / 670&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Methods&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1"># Alpha 多样性</span>
+<span class="w">    </span><span class="s">&quot;Alpha 多样性&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Kruskal-Wallis&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Shannon (gut vs tongue) p&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&lt; 0.001&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第5篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1"># Beta 多样性</span>
+<span class="w">    </span><span class="s">&quot;Beta 多样性&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PERMANOVA (Bray-Curtis)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;R² / p&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0.56 / 0.001&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第5篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1"># 差异物种</span>
+<span class="w">    </span><span class="s">&quot;差异物种 (LEfSe)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;LDA &gt; 3, p &lt; 0.05&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;显著属数&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;38&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第7篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="s">&quot;差异物种 (ANCOM-BC)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;BH-corrected q &lt; 0.05&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;显著属数&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;52&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第7篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="s">&quot;共识差异属&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;LEfSe ∩ ANCOM-BC&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;属数&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;34&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第7篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1"># 功能预测</span>
+<span class="w">    </span><span class="s">&quot;功能预测&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PICRUSt2&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;NSTI 中位数&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0.031&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第8篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="s">&quot;功能差异 (KO)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Wilcoxon + BH&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;显著 KO 数 (q &lt; 0.05)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1823 / 5847&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第8篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1"># 网络分析</span>
+<span class="w">    </span><span class="s">&quot;共现网络&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SPIEC-EASI (MB)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;节点/边/模块度&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;62 / 98 / 0.42&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第9篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="s">&quot;枢纽物种&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Degree ranking&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Top hub&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bacteroides (degree=8)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第9篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1"># 机器学习</span>
+<span class="w">    </span><span class="s">&quot;分类器&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Random Forest (LOOCV)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;ROC AUC&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1.00&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第10篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="s">&quot;最小特征集&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;RFE&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;最优属数 / 准确率&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;3 / 100%&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第10篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1"># 三方法共识</span>
+<span class="w">    </span><span class="s">&quot;Biomarker 共识&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;LEfSe ∩ ANCOM-BC ∩ RF&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;核心 biomarker 数&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;12&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第10篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1"># 溯源</span>
+<span class="w">    </span><span class="s">&quot;微生物溯源&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SourceTracker2&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;手掌-Unknown 比例&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;~90%&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第11篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="c1"># 多组学</span>
+<span class="w">    </span><span class="s">&quot;微生物-代谢组关联&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Mantel (Spearman)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;r / p&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0.54 / 0.003&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第12篇&quot;</span><span class="p">,</span>
+
+<span class="w">    </span><span class="s">&quot;空间一致性&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Procrustes&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;corr / p&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;0.74 / 0.002&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;第12篇&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># 保存</span>
+<span class="nf">write_tsv</span><span class="p">(</span><span class="n">stats_summary</span><span class="p">,</span>
+<span class="w">          </span><span class="s">&quot;results/statistics_summary_table.tsv&quot;</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;统计汇总表保存完成：&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">nrow</span><span class="p">(</span><span class="n">stats_summary</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;条记录\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>📊 输出：
+统计汇总表保存完成：16 条记录
+</code></pre></div>
+<p>这张表可以直接作为 Supplementary Table 1 提交，也可以作为 methods 部分的快速参考。</p>
+<hr />
+<h2 id="_3">期刊图表提交清单</h2>
+<p>不同期刊的要求略有差异，但以下是大多数高质量期刊共同的标准：</p>
+<p><strong>Nature/Cell 系列：</strong>
+- 单栏宽度 8.5cm，双栏宽度 17.4cm
+- 最小字号 5pt（排版后），推荐 6-8pt
+- 300 DPI 以上，TIFF 或 EPS 格式
+- 颜色模式 RGB（不是 CMYK，因为绝大部分读者在屏幕上阅读）</p>
+<p><strong>Microbiome/ISME Journal：</strong>
+- 宽度最大 170mm
+- 300 DPI 以上，TIFF/PDF/EPS
+- 图表文字使用 Arial 或 Helvetica</p>
+<p>💡 <strong>经验之谈：投稿前的图表自检</strong></p>
+<blockquote>
+<ol>
+<li>
+<p><strong>放大到 200% 看一遍：</strong> 审稿人会在大屏幕上仔细看你的图。放大后如果有像素化——说明分辨率不够或者用了光栅格式保存线图。</p>
+</li>
+<li>
+<p><strong>缩小到 50% 看一遍：</strong> 模拟手机上阅读的效果。缩小后如果文字看不清——字号太小。</p>
+</li>
+<li>
+<p><strong>灰度模式看一遍：</strong> 有些读者会打印黑白版本。如果你的图只靠颜色区分分组（不用形状或线型），灰度下就无法区分了。</p>
+</li>
+<li>
+<p><strong>色觉模拟看一遍：</strong> 约 8% 的男性有色觉异常。用 https://www.color-blindness.com/coblis-color-blindness-simulator/ 上传你的图检查。红绿对比是最危险的——这就是为什么我们推荐红蓝配色而不是红绿。</p>
+</li>
+</ol>
+</blockquote>
+<hr />
+<h2 id="_4">📖 与原文比较</h2>
+<p>我们的分析基于 Moving Pictures 数据集（Caporaso et al., 2011）。和原文比较：</p>
+<p><strong>一致的发现：</strong>
+- 体位点是微生物组变异的最大驱动因素（第 5 篇 PERMANOVA R² = 0.56）
+- 肠道以 <em>Bacteroides</em>、<em>Prevotella</em> 为主，口腔以 <em>Streptococcus</em>、<em>Neisseria</em> 为主
+- 左右手掌之间的微生物组差异远小于肠道-口腔差异</p>
+<p><strong>差异和补充：</strong>
+- 原文主要展示了 beta 多样性和基础物种组成，我们进一步做了差异分析、功能预测、网络分析、biomarker 筛选和溯源分析——这些是原文发表后十余年间发展起来的新方法
+- 我们使用了 DADA2（ASV 分辨率）而非原文的 OTU picking（97% 相似度聚类），前者分辨率更高
+- ANCOM-BC 和 SPIEC-EASI 等组成性校正方法在 2011 年尚不存在</p>
+<hr />
+<h2 id="_5">本篇小结 &amp; 系列总结</h2>
+<h3 id="_6">本篇小结</h3>
+<p>这一篇我们完成了发表级图表的制作和结果整合：</p>
+<ol>
+<li><strong>建立了 <code>theme_songlab()</code> 统一主题</strong>——所有图的字体、字号、配色、网格线风格一致</li>
+<li><strong>用 patchwork 拼接了 6-panel 组合图</strong>——从多样性到差异分析到网络到机器学习</li>
+<li><strong>编制了统计结果汇总表</strong>——16 条关键分析结果，可直接用于论文</li>
+</ol>
+<h3 id="_7">系列总结</h3>
+<p>13 篇教程，我们走过了 16S 微生物组分析的完整流程：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>内容</th>
+<th>篇目</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>基础</strong></td>
+<td>概念 → 环境 → 去噪 → 注释</td>
+<td>第 1-4 篇</td>
+</tr>
+<tr>
+<td><strong>描述</strong></td>
+<td>多样性 → 组成可视化</td>
+<td>第 5-6 篇</td>
+</tr>
+<tr>
+<td><strong>比较</strong></td>
+<td>差异物种 → 功能预测</td>
+<td>第 7-8 篇</td>
+</tr>
+<tr>
+<td><strong>挖掘</strong></td>
+<td>网络 → 机器学习 → 溯源</td>
+<td>第 9-11 篇</td>
+</tr>
+<tr>
+<td><strong>整合</strong></td>
+<td>多组学 → 发表图表</td>
+<td>第 12-13 篇</td>
+</tr>
+</tbody>
+</table>
+<p><strong>贯穿始终的核心原则：</strong></p>
+<ol>
+<li><strong>先问 WHY，再写 HOW。</strong> 每个分析步骤都有它的生物学理由。</li>
+<li><strong>组成性问题无处不在。</strong> 从 beta 多样性（Aitchison 距离）到差异分析（ANCOM-BC）到网络分析（SparCC/SPIEC-EASI），组成性校正是微生物组分析的核心挑战。</li>
+<li><strong>多种方法取交集。</strong> 没有完美的方法——LEfSe、ANCOM-BC、随机森林各有优劣，交集最可靠。</li>
+<li><strong>统计显著不等于生物学有意义。</strong> 每个分析结果都需要回到生物学去解读。</li>
+</ol>
+<hr />
+<h2 id="faq">FAQ：整个系列的常见问题</h2>
+<p><strong>Q1：我的数据不是 Moving Pictures，能用这些代码吗？</strong></p>
+<p>可以。所有代码的输入格式是标准的 QIIME2 artifact 或 phyloseq 对象。你只需要替换输入文件路径和分组变量名。</p>
+<p><strong>Q2：我的样本只有 10-20 个，哪些分析做不了？</strong></p>
+<p>共现网络分析（第 9 篇）和随机森林（第 10 篇）对样本量很敏感，10 个样本基本不可信。差异分析（第 7 篇）和多样性分析（第 5 篇）在 10 个样本时可以做，但统计力度有限。</p>
+<p><strong>Q3：16S 和宏基因组的分析流程差异大吗？</strong></p>
+<p>差异主要在上游：16S 用 DADA2 去噪 + 物种注释，宏基因组用 MetaPhlAn4/Kraken2 直接分类或做 MAG binning。下游的多样性分析、差异分析、网络分析的逻辑是相通的。</p>
+<p><strong>Q4：哪些分析应该放在主图，哪些放在 supplementary？</strong></p>
+<p>建议主图：beta 多样性 PCoA + 差异物种（LEfSe 或 ANCOM-BC）+ 功能差异热图。Supplementary：alpha 多样性、物种组成堆叠柱状图、网络图、随机森林重要性。</p>
+<p><strong>Q5：审稿人最常问的问题是什么？</strong></p>
+<ul>
+<li>"你用的 rarefaction depth 是多少？为什么选这个值？"</li>
+<li>"你做了组成性校正吗？为什么用/不用 ANCOM-BC？"</li>
+<li>"PICRUSt2 的 NSTI 是多少？"</li>
+<li>"你的 p 值做了多重检验校正吗？"</li>
+<li>"原始数据上传到了哪个公共数据库？"</li>
+</ul>
+<hr />
+<h2 id="_8">延伸阅读</h2>
+<ol>
+<li><strong>微生物组数据分析的最佳实践综述：</strong> Knight et al. (2018) <em>Nature Reviews Microbiology</em> — 最被广泛引用的微生物组方法学综述</li>
+<li><strong>组成性数据分析：</strong> Gloor et al. (2017) <em>Frontiers in Microbiology</em> — 详细解释了为什么微生物组是组成性数据以及如何正确分析</li>
+<li><strong>QIIME2 官方教程：</strong> https://docs.qiime2.org — 持续更新的官方文档</li>
+<li><strong>microbiome-best-practices（Theis Lab）：</strong> 类似 sc-best-practices 风格的微生物组分析教程</li>
+<li><strong>phyloseq 包文档：</strong> https://joey711.github.io/phyloseq/ — R 中最全面的微生物组分析框架</li>
+</ol>
+<hr />
+<blockquote>
+<p>📌 本系列所有代码、数据下载脚本和 conda 环境文件可在 GitHub 仓库获取。</p>
+</blockquote>
+<hr />
+<h2 id="_9">本系列导航</h2>
+<table>
+<thead>
+<tr>
+<th>篇目</th>
+<th>主题</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 篇</td>
+<td>只测一个基因，怎么就能知道有哪些细菌</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 2 篇</td>
+<td>搭建环境，拿到数据</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 3 篇</td>
+<td>DADA2 去噪——从噪声中找到真实序列</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 4 篇</td>
+<td>物种注释——给每个 ASV 一个名字</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 5 篇</td>
+<td>多样性分析——有多"丰富"，彼此有多"不同"</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 6 篇</td>
+<td>物种组成可视化——谁占了多少</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 7 篇</td>
+<td>差异物种分析——谁真的变了</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 8 篇</td>
+<td>PICRUSt2 功能预测——它们能做什么</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 9 篇</td>
+<td>共现网络分析——谁和谁总在一起</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 10 篇</td>
+<td>随机森林 biomarker 筛选——谁最能代表这个群落</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 11 篇</td>
+<td>SourceTracker 溯源分析——它们从哪里来</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td>第 12 篇</td>
+<td>微生物组-代谢组联合分析——跨组学的对话</td>
+<td>✅ 已发布</td>
+</tr>
+<tr>
+<td><strong>第 13 篇</strong></td>
+<td><strong>发表级图表与结果整合——最后一公里</strong></td>
+<td><strong>📍 本篇</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>🎉 系列完结。感谢一路跟随。</strong></p>
+<p>如果这个系列对你有帮助，欢迎在 GitHub 仓库给一个 ⭐，也欢迎在公众号评论区反馈你在实操中遇到的问题——你的踩坑经历可能会成为下一次更新的素材。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../12/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第 12 篇">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                第 12 篇
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../figures/" class="md-footer__link md-footer__link--next" aria-label="下一页: 图表总览">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                图表总览
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
