@@ -1,0 +1,53 @@
+site_name: '16S 微生物组最佳实践系列'
+site_description: 'QIIME2 Atacama soils 双端 16S 教程，从原始 EMP 数据到 alpha/beta 多样性分析。'
+site_author: 'petemeng'
+repo_url: https://github.com/petemeng/16S-Tutorial
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: green
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: 切换到深色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: green
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: 切换到浅色模式
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables
+  - attr_list
+  - md_in_html
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+nav:
+  - 首页: index.md
+  - 正文:
+      - 第 1 篇: series/01.md
+      - 第 2 篇: series/02.md
+      - 第 3 篇: series/03.md
+      - 第 4 篇: series/04.md
+      - 第 5 篇: series/05.md
+  - 图表总览: figures.md
